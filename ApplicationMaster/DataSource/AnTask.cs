@@ -13,10 +13,25 @@ namespace Casamia.DataSource
 		private DateTime startTime;
 		private CommandStatus status;
 		private List<Command> commandList = new List<Command>();
+		private TimeSpan timeCost;
 
 		#endregion VARIABLE
 
 		#region PROPERTIES
+
+		public TimeSpan TimeCost
+		{
+			get { return timeCost; }
+			private set
+			{
+				if (!TimeSpan.Equals(timeCost, value))
+				{
+					timeCost = value;
+					OnPropertyChanged("TimeCost");
+				}
+			}
+		}
+
 		public string Description
 		{
 			get { return description; }
@@ -39,7 +54,7 @@ namespace Casamia.DataSource
 		public DateTime StartTime
 		{
 			get { return startTime; }
-			set
+			private set
 			{
 				if (!DateTime.Equals(startTime, value))
 				{
@@ -100,19 +115,25 @@ namespace Casamia.DataSource
 
 		public object Clone()
 		{
-			Command[] cloneCommands = new Command[this.commandList.Count];
-			for (int length = commandList.Count, i = 0; i < length; i++)
-			{
-				cloneCommands[i] = commandList[i].Clone() as Command;
-			}
 			AnTask anotherTask = new AnTask()
 			{
 				description = this.description,
 				name = this.name,
 				status = CommandStatus.Waiting,
 			};
-			anotherTask.commandList.Clear();
-			anotherTask.commandList.AddRange(cloneCommands);
+
+			Command[] existCommands = this.Commands;
+			int commandCount = existCommands.Length;
+			Command[] cloneCommands = new Command[commandCount];
+			for (int i = 0; i < commandCount; i++)
+			{
+				Command command = existCommands[i].Clone() as Command;
+				if (null != command)
+				{
+					cloneCommands[i] = command;
+				}
+			}
+			anotherTask.AddChildren(cloneCommands);
 			return anotherTask;
 		}
 
@@ -122,16 +143,30 @@ namespace Casamia.DataSource
 
 		void command_StatusChanged(object sender, Model.EventArgs.CommandStatusEventArgs e)
 		{
+			if (e.NewStatus == CommandStatus.Completed || e.NewStatus == CommandStatus.Error)
+			{
+				OnPropertyChanged("Commands");
+			}
 			CommandStatus newStatus = GetStatus();
-			if(newStatus != status)
+
+			if(status == CommandStatus.Waiting && newStatus == CommandStatus.Running)
+			{
+				StartTime = DateTime.Now;
+			}
+
+			if (newStatus != status)
 			{
 				status = newStatus;
 				OnPropertyChanged("Status");
 			}
+			if (status != CommandStatus.Waiting)
+			{
+				TimeCost = (DateTime.Now - startTime);
+			}
 		}
 
 		CommandStatus GetStatus()
-		{	
+		{
 			if (null == Commands || Commands.Length == 0)
 			{
 				return CommandStatus.Error;

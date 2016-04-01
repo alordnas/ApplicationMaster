@@ -35,7 +35,7 @@ namespace Casamia.Menu
 				title = "Projects";
 			}
 
-			OutputData.Current.Title = title + (MyUser.OnSvn ? Constants.title_s : Constants.title_l);
+			//OutputData.Current.Title = title + (MyUser.OnSvn ? Constants.title_s : Constants.title_l);
         }
 
         public static string OpenFileDlg() 

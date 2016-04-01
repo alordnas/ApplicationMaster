@@ -25,10 +25,9 @@ namespace Casamia.DataSource
 		private string _executor;
 		private string argument = string.Empty;
 		private DateTime startTime;
-		private long timecost = 0;
-		private int timeout = -1;
+		private TimeSpan timeCost;
+		private TimeSpan timeout;
 		private CommandStatus status = CommandStatus.Waiting;
-
 
 		#endregion
 
@@ -89,13 +88,20 @@ namespace Casamia.DataSource
 		{
 			get
 			{
-				return logBuilder.ToString();
+				lock (logBuilder)
+				{
+					return logBuilder.ToString();
+				}
 			}
 			set
 			{
 				if (!string.IsNullOrEmpty(value))
 				{
-					logBuilder.Append(value);
+					lock (logBuilder)
+					{
+						logBuilder.AppendLine(value);
+					}
+					OnPropertyChanged("TimeCost");
 					if (null != CommandFeedbackReceived)
 					{
 						CommandFeedbackReceived(this, new CommandEventArgs(value, CommandStatus.Running));
@@ -109,13 +115,19 @@ namespace Casamia.DataSource
 		{
 			get
 			{
-				return errorBuilder.ToString();
+				lock (errorBuilder)
+				{
+					return errorBuilder.ToString();
+				}
 			}
 			set
 			{
 				if (!string.IsNullOrEmpty(value))
 				{
-					errorBuilder.Append(value);
+					lock (errorBuilder)
+					{
+						errorBuilder.Append(value);
+					}
 					if (null != ErrorOccur)
 					{
 						ErrorOccur(this, new CommandEventArgs(value, Status));
@@ -136,6 +148,10 @@ namespace Casamia.DataSource
 				{
 					CommandStatus oldStatus = status;
 					status = value;
+					if(oldStatus == CommandStatus.Waiting && status!= CommandStatus.Running)
+					{
+						StartTime = DateTime.Now;
+					}
 					if (null != StatusChanged)
 					{
 						StatusChanged(this, new CommandStatusEventArgs(oldStatus, status));
@@ -158,10 +174,11 @@ namespace Casamia.DataSource
 			}
 		}
 
-		public int Timeout
+		public TimeSpan Timeout
 		{
 			get { return timeout; }
-			set {
+			set
+			{
 				if (timeout != value)
 				{
 					timeout = value;
@@ -171,14 +188,15 @@ namespace Casamia.DataSource
 		}
 
 
-		public long Timecost
+		public TimeSpan TimeCost
 		{
-			get { return timecost; }
-			set {
-				if (timecost != value)
+			get { return timeCost; }
+			set
+			{
+				if (timeCost != value)
 				{
-					timecost = value;
-					OnPropertyChanged("Timecost");
+					timeCost = value;
+					OnPropertyChanged("TimeCost");
 				}
 			}
 		}
@@ -186,7 +204,8 @@ namespace Casamia.DataSource
 		public DateTime StartTime
 		{
 			get { return startTime; }
-			set {
+			private set
+			{
 				if (!DateTime.Equals(startTime, value))
 				{
 					startTime = value;
@@ -202,10 +221,16 @@ namespace Casamia.DataSource
 		public void Reset()
 		{
 			Status = CommandStatus.Waiting;
-			timecost = 0;
+			timeCost = TimeSpan.MinValue;
 			startTime = DateTime.MinValue;
-			logBuilder.Clear();
-			errorBuilder.Clear();
+			lock (logBuilder)
+			{
+				logBuilder.Clear();
+			}
+			lock (errorBuilder)
+			{
+				errorBuilder.Clear();
+			}
 		}
 
 		public object Clone()

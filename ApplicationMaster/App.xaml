@@ -11,7 +11,7 @@
 							<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                               Content="" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
 							<Border Background="WhiteSmoke">
-								<Image x:Name="imageExchange" Source="/ProRunner;component/Images/Exchange.png" Stretch="Fill" RenderTransformOrigin="0.5,0.5"/>
+								<Image x:Name="imageExchange" Source="Images/Exchange.png" Stretch="Fill" RenderTransformOrigin="0.5,0.5"/>
 							</Border>
 						</Grid>
 						<ControlTemplate.Triggers>
@@ -35,7 +35,7 @@
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                               Content="" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                             <Border x:Name="borderClose" BorderBrush="WhiteSmoke" BorderThickness="1,0,0,1" CornerRadius="2">
-                                <Image x:Name="imageClose" Source="/ProRunner;component/Images/Close.png" Stretch="Fill" RenderTransformOrigin="0.5,0.5"/>
+                                <Image x:Name="imageClose" Source="Images/Close.png" Stretch="Fill" RenderTransformOrigin="0.5,0.5"/>
                             </Border>
                         </Grid>
                         <ControlTemplate.Triggers>
@@ -64,7 +64,7 @@
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                               Content="" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                             <Border x:Name="borderMin" BorderBrush="WhiteSmoke" BorderThickness="1,0,0,1" CornerRadius="2">
-                                <Image x:Name="imageMin" Source="/ProRunner;component/Images/Minimize.png" Stretch="Fill" RenderTransformOrigin="0.5,0.5"/>
+                                <Image x:Name="imageMin" Source="Images/Minimize.png" Stretch="Fill" RenderTransformOrigin="0.5,0.5"/>
                             </Border>
                         </Grid>
                         <ControlTemplate.Triggers>
@@ -93,7 +93,7 @@
 							<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                               Content="" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
 							<Border x:Name="borderMax" BorderBrush="WhiteSmoke" BorderThickness="1,0,0,1" CornerRadius="2">
-								<Image x:Name="imageMax" Source="/ProRunner;component/Images/Maximize01.png" Stretch="Fill" RenderTransformOrigin="0.5,0.5"/>
+								<Image x:Name="imageMax" Source="Images/Maximize01.png" Stretch="Fill" RenderTransformOrigin="0.5,0.5"/>
 							</Border>
 						</Grid>
 						<ControlTemplate.Triggers>
@@ -122,7 +122,7 @@
 							<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                               Content="" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
 							<Border x:Name="borderMax" BorderBrush="WhiteSmoke" BorderThickness="1,0,0,1" CornerRadius="2">
-								<Image x:Name="imageMax" Source="/ProRunner;component/Images/Maximize02.png" Stretch="Fill" RenderTransformOrigin="0.5,0.5"/>
+								<Image x:Name="imageMax" Source="Images/Maximize02.png" Stretch="Fill" RenderTransformOrigin="0.5,0.5"/>
 							</Border>
 						</Grid>
 						<ControlTemplate.Triggers>

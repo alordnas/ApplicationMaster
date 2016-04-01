@@ -58,6 +58,8 @@ namespace Casamia.Core
 			}
 		}
 
+		AnTask activeTask;
+
 		public void AddTask(AnTask anTask)
 		{
 			if (anTask != null)
@@ -140,31 +142,27 @@ namespace Casamia.Core
 		{
 			while (0 < groupTasks.Count)
 			{
-				AnTask anTask = groupTasks.Dequeue();
+				activeTask = groupTasks.Dequeue();
 
-				if (disabled.Contains(anTask))
+				if (disabled.Contains(activeTask))
 					continue;
 
-				for (int i = 0, length = anTask.Commands.Length; i < length; i++)
+				for (int i = 0, length = activeTask.Commands.Length; i < length; i++)
 				{
-					Command command = anTask.Commands[i];
+					int commandIdx = i;
+					Command command = activeTask.Commands[commandIdx];
 					if (command.Status == CommandStatus.Waiting)
 					{
-						command.StartTime = DateTime.Now;
-
-						if (anTask.StartTime == DateTime.MinValue)
-						{
-							anTask.StartTime = DateTime.Now;
-						}
 						command.StatusChanged +=
 							(object sender, Model.EventArgs.CommandStatusEventArgs e) =>
 							{
 								LogManager.Instance.LogInfomation(
-									"{0} #{1} changed .{2}->{3}", 
-									anTask.Name, 
-									i,
+									"#{4}{0} #{1} changed .{2}->{3}", 
+									activeTask.Name,
+									commandIdx,
 									e.OldStatus,
-									e.NewStatus
+									e.NewStatus,
+									activeTask.ID
 									);
 							};
 						command.CommandFeedbackReceived+=
@@ -172,8 +170,8 @@ namespace Casamia.Core
 							{
 								LogManager.Instance.LogDebug(
 									"{0} #{1}[{3}] : {2}",
-									anTask.Name,
-									i,
+									activeTask.Name,
+									commandIdx,
 									e.Message,
 									e.Status
 									);
@@ -183,8 +181,8 @@ namespace Casamia.Core
 							{
 								LogManager.Instance.LogError(
 									"{0} #{1}[{3}] : {2}",
-									anTask.Name,
-									i,
+									activeTask.Name,
+									commandIdx,
 									e.Message,
 									e.Status
 									);
@@ -245,27 +243,26 @@ namespace Casamia.Core
 			process.BeginOutputReadLine();
 
 			bool isTimeout = false;
-			int actualTimeout = int.MaxValue;
-
+			double actualTimeout = double.MaxValue;
 			//强制等待结束
-			if (subTask.Timeout < 0)
+			if (subTask.Timeout.TotalMilliseconds < double.Epsilon)
 			{
 				process.WaitForExit();
 			}
 			else
 			{
 				int _systemTimeout = MyFacility.MyWorker.timeout < 0 ? int.MaxValue : MyFacility.MyWorker.timeout;
-				actualTimeout = Math.Min(subTask.Timeout, _systemTimeout);
-				isTimeout = !process.WaitForExit(actualTimeout);
+				actualTimeout = Math.Min(subTask.Timeout.TotalMilliseconds, _systemTimeout);
+				isTimeout = !process.WaitForExit((int)actualTimeout);
 				if (!isTimeout)
 				{
-					subTask.Timecost = stopWatch.ElapsedMilliseconds;
+					subTask.TimeCost = TimeSpan.FromMilliseconds(stopWatch.ElapsedMilliseconds);
 				}
 			}
 
 			stopWatch.Stop();
 
-			subTask.Timecost = Math.Min(stopWatch.ElapsedMilliseconds, actualTimeout);
+			subTask.TimeCost = TimeSpan.FromMilliseconds(Math.Min(stopWatch.ElapsedMilliseconds, actualTimeout));
 
 			return isTimeout;
 		}

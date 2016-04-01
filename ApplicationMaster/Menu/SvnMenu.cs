@@ -295,7 +295,7 @@ namespace Casamia.Menu
 
 		private static Command[] GenerateCheckOutCommand(string[] svnProjectPaths) 
 		{
-			Command[] tasks = new Command[svnProjectPaths.Length * 2];
+			Command[] tasks = new Command[svnProjectPaths.Length];
 
 			int timeout = int.Parse(XMLManage.GetString(Util.MAXIMUM_EXECUTE_TIME));
 
@@ -306,34 +306,34 @@ namespace Casamia.Menu
 
 				string localProjectPaths = CommonMethod.SvnToLocalPath(svnProjectPath);
 
-				Command cleanupCmd = new Command();
-				cleanupCmd.Executor = Util.SVN;
-				cleanupCmd.Argument = string.Format("cleanup \"{0}\"", localProjectPaths);
-				cleanupCmd.Timeout = timeout;
-				tasks[i++] = cleanupCmd;
-				cleanupCmd.CommandFeedbackReceived +=
-					(object sender, CommandEventArgs e) =>
-					{
-						LogManager.Instance.LogDebug(e.Message);
-					};
-				cleanupCmd.ErrorOccur +=
-					(object sender, CommandEventArgs e) =>
-					{
-						LogManager.Instance.LogError(e.Message);
-					};
-				cleanupCmd.StatusChanged +=
-					(object sender, CommandStatusEventArgs e) =>
-					{
-						if (e.NewStatus == CommandStatus.Completed)
-						{
-							LogManager.Instance.LogInfomation("cleanup {0} completed.", svnProjectPath);
-						}
-					};
+				//Command cleanupCmd = new Command();
+				//cleanupCmd.Executor = Util.SVN;
+				//cleanupCmd.Argument = string.Format("cleanup \"{0}\"", localProjectPaths);
+				//cleanupCmd.Timeout = TimeSpan.FromSeconds(timeout);
+				//tasks[i++] = cleanupCmd;
+				//cleanupCmd.CommandFeedbackReceived +=
+				//	(object sender, CommandEventArgs e) =>
+				//	{
+				//		LogManager.Instance.LogDebug(e.Message);
+				//	};
+				//cleanupCmd.ErrorOccur +=
+				//	(object sender, CommandEventArgs e) =>
+				//	{
+				//		LogManager.Instance.LogError(e.Message);
+				//	};
+				//cleanupCmd.StatusChanged +=
+				//	(object sender, CommandStatusEventArgs e) =>
+				//	{
+				//		if (e.NewStatus == CommandStatus.Completed)
+				//		{
+				//			LogManager.Instance.LogInfomation("cleanup {0} completed.", svnProjectPath);
+				//		}
+				//	};
 
 				Command coCmd = new Command();
 				coCmd.Executor = Util.SVN;
 				coCmd.Argument = string.Format("checkout {0} \"{1}\"", svnProjectPath, localProjectPaths);
-				coCmd.Timeout = timeout;
+				coCmd.Timeout = TimeSpan.FromSeconds(timeout);
 				tasks[i++] = coCmd;
 				coCmd.CommandFeedbackReceived +=
 					(object sender, CommandEventArgs e) =>

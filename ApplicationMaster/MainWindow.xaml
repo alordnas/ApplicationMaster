@@ -8,7 +8,7 @@
 		
         Height="900" Width="1360" WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" BorderBrush="Gray"
 		BorderThickness="1" Background="#2d2d30"
-        Foreground ="Black"  KeyDown="Window_KeyDown" KeyUp="Window_KeyUp" Closing="Window_Closing" Loaded="Window_Loaded" Icon="/ProRunner;component/Images/Logo.ico">
+        Foreground ="Black"  KeyDown="Window_KeyDown" KeyUp="Window_KeyUp" Closing="Window_Closing" Loaded="Window_Loaded" Icon="Images/Logo.ico">
 
 	<Window.Resources>
 		<MenuItem x:Key="createProject_MenuItem" Header="创建新项目"  x:Name="creatProject_MenuItem" Click="createUnity_MenuItem_Click" Background="Beige">
@@ -18,12 +18,12 @@
 		</MenuItem>
 		<MenuItem x:Key="svnUpdata_MenuItem" Header="Svn 更新"  Background="Beige">
 			<MenuItem.Icon>
-				<Image Width="20" Height="20" Source="/ProRunner;component/Images/ParentFolder.png" />
+				<Image Width="20" Height="20" Source="Images/ParentFolder.png" />
 			</MenuItem.Icon>
 		</MenuItem>
 		<MenuItem x:Key="openExplorer_MenuItem" x:Name ="openExplorer_MenuItem"  Header="在浏览器中打开" Click="openExplorer_MenuItem_Click" Background="Beige">
 			<MenuItem.Icon>
-				<Image Width="20" Height="20" Source="/ProRunner;component/Images/folder.jpg" />
+				<Image Width="20" Height="20" Source="Images/folder.jpg" />
 			</MenuItem.Icon>
 		</MenuItem>
 		<MenuItem x:Key="expand_MenuItem" Header="展开" Click="expand_MenuItem_Click" Background="Beige">
@@ -43,29 +43,45 @@
 		<MenuItem x:Key="preference_MenuItem" x:Name="preference_MenuItem" Header="设定" Foreground="Black" Click="preference_MenuItem_Click"/>
 		<MenuItem x:Key="taskManager_MenuItem" x:Name="taskManager_MenuItem" Header="管理..." Foreground="Black" Click="taskManager_MenuItem_Click"/>
 
-		<data:OutputData x:Key="outputData"/>
 		<data:InputData  x:Key="inputData"/>
 
 		<Style TargetType="DataGridRow">
 			<Style.Triggers>
+				<!--Trigger for Log dataGrid.-->
 				<DataTrigger Binding="{Binding Level}" Value="Error">
 					<Setter Property="Foreground" Value="Red" />
 				</DataTrigger>
 				<DataTrigger Binding="{Binding Level}" Value="Warning">
 					<Setter Property="Foreground" Value="Yellow" />
 				</DataTrigger>
-
 				<DataTrigger Binding="{Binding Level}" Value="Infomation">
 					<Setter Property="Foreground" Value="Black" />
 				</DataTrigger>
-
 				<DataTrigger Binding="{Binding Level}" Value="Verbos">
-					<Setter Property="Foreground" Value="Gray" />
+					<Setter Property="Foreground" Value="LightGray" />
+				</DataTrigger>
+
+				<!--Trigger for TaskStatus-->
+				<DataTrigger Binding="{Binding Status}" Value="Running">
+					<Setter Property="Foreground" Value="Orange" />
+				</DataTrigger>
+				<DataTrigger Binding="{Binding Status}" Value="Error">
+					<Setter Property="Foreground" Value="Red" />
+				</DataTrigger>
+				<DataTrigger Binding="{Binding Status}" Value="Timeout">
+					<Setter Property="Foreground" Value="Yellow" />
+				</DataTrigger>
+				<DataTrigger Binding="{Binding Status}" Value="Completed">
+					<Setter Property="Foreground" Value="Green" />
+				</DataTrigger>
+				<DataTrigger Binding="{Binding Status}" Value="Cancel">
+					<Setter Property="Foreground" Value="LightGray" />
 				</DataTrigger>
 			</Style.Triggers>
 		</Style>
 
 		<casamiaConvert:EnumDescriptionConverter x:Key="enumDescriptionConverter" />
+		<casamiaConvert:ProgressConverter x:Key="progressConverter" />
 
 	</Window.Resources>
 	<Grid>
@@ -84,7 +100,7 @@
 			</Grid.ColumnDefinitions>
 			<!--title-->
 			<TextBlock HorizontalAlignment="Left" Height="30"  Width="500" FontSize="15" Foreground="Gray" Margin="12,2,0,0">
-                    <Run Language="zh-cn" DataContext="{StaticResource outputData}" Text="{Binding Title}"/>
+                    <Run Language="zh-cn" Text="{Binding Title}"/>
 			</TextBlock>
 		</Grid>
 
@@ -109,7 +125,7 @@
 					<Separator/>
 					<MenuItem x:Name="advanced_MenuItem" Header="高级模式" Foreground="Black" Click="advanced_MenuItem_Click">
 						<MenuItem.Icon>
-							<Image x:Name="advancedSelectedImage" Visibility="Hidden" Width="20" Height="20" Source="/ProRunner;component/Images/Selected.jpg"/>
+							<Image x:Name="advancedSelectedImage" Visibility="Hidden" Width="20" Height="20" Source="Images/Selected.jpg"/>
 						</MenuItem.Icon>
 					</MenuItem>
 				</MenuItem>
@@ -200,7 +216,7 @@
 					<GridSplitter Grid.Column="1" Width="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 					</GridSplitter>
 
-					<Border Grid.Column="2" BorderBrush="WhiteSmoke" BorderThickness="5" DataContext ="{StaticResource outputData}">
+					<Border Grid.Column="2" BorderBrush="WhiteSmoke" BorderThickness="5" >
 						<Grid>
 							<Grid.RowDefinitions>
 								<RowDefinition Height="0.75*"/>
@@ -222,27 +238,14 @@
 
 										<GroupBox Header="任务" Background="WhiteSmoke" BorderBrush="Gray" BorderThickness="2">
 											<DataGrid x:Name="task_DataGrid" Margin="5" ItemsSource="{Binding}" AutoGenerateColumns="False" 
-												  CanUserAddRows="False" IsReadOnly="True" SelectedCellsChanged="task_DataGrid_SelectedCellsChanged">
+												  CanUserAddRows="False" IsReadOnly="True" SelectedCellsChanged="taskDataGrid_SelectedCellsChanged">
 												<DataGrid.Columns>
 													<DataGridTextColumn Header="序号" Width="50" Binding="{Binding ID}"/>
 													<DataGridTextColumn Header="任务名" Width="100" Binding="{Binding Name}"/>
-													<DataGridTextColumn Header="完成度" Width="50" Binding="{Binding Schedule}"/>
-													<DataGridTextColumn Header="开始时间" Width="70" Binding="{Binding StartTime}"/>
-													<DataGridTextColumn Header="耗时（ms）" Width="70" Binding="{Binding TimeCost}"/>
-													<DataGridTemplateColumn Width="80" >
-														<DataGridTemplateColumn.HeaderTemplate>
-															<DataTemplate>
-																<TextBlock Text="状态" />
-															</DataTemplate>
-														</DataGridTemplateColumn.HeaderTemplate>
-														<DataGridTemplateColumn.CellTemplate>
-															<DataTemplate>
-																<TextBlock Text="{Binding Status}" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                               Foreground="{Binding Color}"/>
-															</DataTemplate>
-														</DataGridTemplateColumn.CellTemplate>
-													</DataGridTemplateColumn>
-
+													<DataGridTextColumn Header="完成度" Width="50" Binding="{Binding  Path=Commands, Converter={StaticResource progressConverter }}"/>
+													<DataGridTextColumn Header="开始时间" Width="70" Binding="{Binding StartTime ,Mode=OneWay,  StringFormat=\{0:HH:mm:ss\}}"/>
+													<DataGridTextColumn Header="耗时" Width="70" Binding="{Binding TimeCost ,Mode=OneWay,  StringFormat=\{0:hh\\:mm\\:ss\}}"/>
+													<DataGridTextColumn Header="状态" Width="70" Binding="{Binding Status}"/>
 													<DataGridTextColumn Header="描述" Width="*" Binding="{Binding Description}"/>
 												</DataGrid.Columns>
 											</DataGrid>
@@ -265,10 +268,9 @@
 													<DataGridTextColumn Header="序号" Width="50" Binding="{Binding ID}"/>
 													<DataGridTextColumn Header="程序" Width="50" Binding="{Binding Exe}"/>
 													<DataGridTextColumn Header="参数" Width="100" Binding="{Binding Argument}"/>
-													<DataGridTextColumn Header="开始时间" Width="70" Binding="{Binding StartTime}"/>
-													<DataGridTextColumn Header="耗时（ms）" Width="70" Binding="{Binding TimeCost}"/>
-													<DataGridTextColumn Header="限制（ms）" Width="70" Binding="{Binding Timeout}"/>
-
+													<DataGridTextColumn Header="开始时间" Width="70" Binding="{Binding StartTime ,Mode=OneWay, StringFormat=\{0:HH:mm:ss\}}"/>
+													<DataGridTextColumn Header="耗时" Width="70" Binding="{Binding TimeCost, Mode=OneWay, StringFormat=\{0:hh\\:mm\\:ss\}}"/>
+													<DataGridTextColumn Header="限制" Width="70" Binding="{Binding Timeout,Mode=OneWay, StringFormat=\{0:hh\\:mm\\:ss\}}"/>
 													<DataGridTemplateColumn Width="80" >
 														<DataGridTemplateColumn.HeaderTemplate>
 															<DataTemplate>
@@ -277,10 +279,7 @@
 														</DataGridTemplateColumn.HeaderTemplate>
 														<DataGridTemplateColumn.CellTemplate>
 															<DataTemplate>
-
-																<TextBlock Text="{Binding Status}" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                               Foreground="{Binding Color}"/>
-
+																<TextBlock Text="{Binding Status}" VerticalAlignment="Center"/>
 															</DataTemplate>
 														</DataGridTemplateColumn.CellTemplate>
 													</DataGridTemplateColumn>
@@ -292,8 +291,11 @@
 														</DataGridTemplateColumn.HeaderTemplate>
 														<DataGridTemplateColumn.CellTemplate>
 															<DataTemplate>
-																<TextBlock x:Name="checkOutput_TextBlock" Height="15" Text="{Binding Output}" Visibility="{Binding OutputButtonVisible}" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                               Foreground="Blue" MouseLeftButtonDown="checkOutput_TextBlock_MouseLeftButtonDown"/>
+																<TextBlock Text="{Binding Output}">
+																	<TextBlock.ToolTip>
+																		<TextBlock Text="{Binding Output}"></TextBlock>
+																	</TextBlock.ToolTip>
+																</TextBlock>
 															</DataTemplate>
 														</DataGridTemplateColumn.CellTemplate>
 													</DataGridTemplateColumn>
@@ -305,8 +307,11 @@
 														</DataGridTemplateColumn.HeaderTemplate>
 														<DataGridTemplateColumn.CellTemplate>
 															<DataTemplate>
-																<TextBlock x:Name="checkError_TextBlock" Height="15" Text="{Binding Error}" Visibility="{Binding ErrorButtonVisible}" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                               Foreground="Blue" MouseLeftButtonDown="checkError_TextBlock_MouseLeftButtonDown"/>
+																<TextBlock Text="{Binding Error}">
+																	<TextBlock.ToolTip>
+																		<TextBlock Text="{Binding Error}"></TextBlock>
+																	</TextBlock.ToolTip>
+																</TextBlock>
 															</DataTemplate>
 														</DataGridTemplateColumn.CellTemplate>
 													</DataGridTemplateColumn>
@@ -345,10 +350,7 @@
 														</DataGridTemplateColumn.HeaderTemplate>
 														<DataGridTemplateColumn.CellTemplate>
 															<DataTemplate>
-
-																<TextBlock Text="{Binding Status}" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                               Foreground="{Binding Color}"/>
-
+																<TextBlock Text="{Binding Status}" />
 															</DataTemplate>
 														</DataGridTemplateColumn.CellTemplate>
 													</DataGridTemplateColumn>
@@ -381,10 +383,7 @@
 														</DataGridTemplateColumn.HeaderTemplate>
 														<DataGridTemplateColumn.CellTemplate>
 															<DataTemplate>
-
-																<TextBlock Text="{Binding Status}" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                               Foreground="{Binding Color}"/>
-
+																<TextBlock Text="{Binding Status}"/>
 															</DataTemplate>
 														</DataGridTemplateColumn.CellTemplate>
 													</DataGridTemplateColumn>
@@ -396,8 +395,7 @@
 														</DataGridTemplateColumn.HeaderTemplate>
 														<DataGridTemplateColumn.CellTemplate>
 															<DataTemplate>
-																<TextBlock x:Name="checkOutput_TextBlock" Height="15" Text="{Binding Output}" Visibility="{Binding OutputButtonVisible}" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                               Foreground="Blue" MouseLeftButtonDown="checkOutput_TextBlock_MouseLeftButtonDown"/>
+																<TextBlock Text="{Binding Output}" />
 															</DataTemplate>
 														</DataGridTemplateColumn.CellTemplate>
 													</DataGridTemplateColumn>
@@ -409,8 +407,7 @@
 														</DataGridTemplateColumn.HeaderTemplate>
 														<DataGridTemplateColumn.CellTemplate>
 															<DataTemplate>
-																<TextBlock x:Name="checkError_TextBlock" Height="15" Text="{Binding Error}" Visibility="{Binding ErrorButtonVisible}" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                               Foreground="Blue" MouseLeftButtonDown="checkError_TextBlock_MouseLeftButtonDown"/>
+																<TextBlock Text="{Binding Error}" />
 															</DataTemplate>
 														</DataGridTemplateColumn.CellTemplate>
 													</DataGridTemplateColumn>
@@ -441,7 +438,22 @@
 											<DataGrid x:Name="LogGrid"  ItemsSource="{Binding}" AutoGenerateColumns="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" AlternationCount="2" AlternatingRowBackground="#FFFBE7E7" >
 												<DataGrid.Columns>
 													<DataGridTextColumn Binding="{Binding Date, StringFormat=\{0:HH:mm:ss\}}"  Header="时间" IsReadOnly="True"/>
-													<DataGridTextColumn Binding="{Binding Message}" Header="消息" IsReadOnly="True" Width="*" />
+													<DataGridTemplateColumn>
+														<DataGridTemplateColumn.HeaderTemplate>
+															<DataTemplate>
+																<TextBlock Text="消息" />
+															</DataTemplate>
+														</DataGridTemplateColumn.HeaderTemplate>
+														<DataGridTemplateColumn.CellTemplate>
+															<DataTemplate>
+																<TextBlock Text="{Binding Message}">
+																	<TextBlock.ToolTip>
+																		<TextBlock Text="{Binding Message}"></TextBlock>
+																	</TextBlock.ToolTip>
+																</TextBlock>
+															</DataTemplate>
+														</DataGridTemplateColumn.CellTemplate>
+													</DataGridTemplateColumn>
 													<DataGridTextColumn Binding="{Binding Level}" Header="级别" IsReadOnly="True" Visibility="Hidden"/>
 												</DataGrid.Columns>
 											</DataGrid>

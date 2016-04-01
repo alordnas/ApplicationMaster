@@ -168,7 +168,7 @@ namespace Casamia
 				Command subTask = new Command();
 				subTask.Executor = string.Format("{0}", exe_ComboBox.Text.ToLower());
 				subTask.Argument = arg_Combox.Text;
-				subTask.Timeout = int.Parse(timeout_TextBox.Text);
+				subTask.Timeout = TimeSpan.FromSeconds(int.Parse(timeout_TextBox.Text));
 				currentSubTasks.Add(subTask);
 				RefreshSubTaskListBox();
 			}
@@ -216,7 +216,7 @@ namespace Casamia
 					Command subTask = new Command();
 					subTask.Executor = string.Format("{0}", exe_ComboBox.Text.ToLower());
 					subTask.Argument = arg_Combox.Text;
-					subTask.Timeout = int.Parse(timeout_TextBox.Text);
+					subTask.Timeout = TimeSpan.FromSeconds(int.Parse(timeout_TextBox.Text));
 					currentSubTasks[index] = subTask;
 					RefreshSubTaskListBox();
 
@@ -350,7 +350,7 @@ namespace Casamia
 
 				exe_ComboBox.Text = anTask.Executor;
 				arg_Combox.Text = anTask.Argument;
-				timeout_TextBox.Text = anTask.Timeout.ToString();
+				timeout_TextBox.Text = ((int)anTask.Timeout.TotalSeconds).ToString();
 
 				deleteSubTask_Button.IsEnabled = true;
 				coverSubTask_Button.IsEnabled = true;

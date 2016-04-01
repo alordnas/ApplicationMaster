@@ -58,7 +58,7 @@ namespace Casamia.Core
 
 								subTask.Argument = reader.ReadString();
 
-								subTask.Timeout = reader.ReadInt32();
+								subTask.Timeout = TimeSpan.FromSeconds(reader.ReadInt32());
 
 								subTasks[j] = subTask;
 							}
@@ -104,7 +104,7 @@ namespace Casamia.Core
 
 								writer.Write(task.Argument);
 
-								writer.Write(task.Timeout);
+								writer.Write((int)task.Timeout.TotalSeconds);
 							}
 							writer.Write(tasks.Value.Description);
 						}
@@ -264,7 +264,7 @@ namespace Casamia.Core
 							string _argment = argment.Substring(0, spaceIndex);
 							task.Executor = executor;
 							task.Argument = _argment;
-							task.Timeout = _timeout;
+							task.Timeout = TimeSpan.FromSeconds(_timeout);
 						}
 						else
 						{
@@ -280,7 +280,7 @@ namespace Casamia.Core
 							task.Executor = executor;
 							task.Argument = null;
 							LogManager.Instance.LogWarning("没有参数的命令：{0}", command);
-							task.Timeout = _timeout;
+							task.Timeout = TimeSpan.FromSeconds(_timeout);
 						}
 						else
 						{

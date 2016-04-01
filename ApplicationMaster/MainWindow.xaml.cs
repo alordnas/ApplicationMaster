@@ -49,7 +49,7 @@ namespace Casamia
 				if (!File.Exists(Util.RUNNER_CONFIG_FILE))
 					XMLManage.WriteDafaultConfigText(Util.RUNNER_CONFIG_FILE);
 
-				OutputData.Current = (OutputData)FindResource(OUTPUT_DATA);
+				//OutputData.Current = (OutputData)FindResource(OUTPUT_DATA);
 				InputData.Current = (InputData)FindResource(INPUT_DATA);
 
 				this.SourceInitialized += MainWindow_SourceInitialized;
@@ -908,7 +908,7 @@ namespace Casamia
 		}
 
 
-		private void task_DataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+		private void taskDataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
 		{
 			DataGrid taskDataGrid = sender as DataGrid;
 

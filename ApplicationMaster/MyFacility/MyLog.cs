@@ -110,9 +110,9 @@ namespace Casamia.MyFacility
 								// used to be system timeout.
 								writer.Write(0);
 
-								writer.Write(subTask.Timecost);
+								writer.Write((long)subTask.TimeCost.TotalMilliseconds);
 
-								writer.Write(subTask.Timeout);
+								writer.Write((int)subTask.Timeout.TotalSeconds);
 							}
 						}
 						writer.Flush();
@@ -168,10 +168,9 @@ namespace Casamia.MyFacility
 
 								// ignore system timeout.
 								reader.ReadInt32();
+								reader.ReadInt64();
 
-								subTask.Timecost = reader.ReadInt64();
-
-								subTask.Timeout = reader.ReadInt32();
+								subTask.Timeout = TimeSpan.FromSeconds(reader.ReadInt32());
 
 								anTask.AddChild(subTask);
 							}
