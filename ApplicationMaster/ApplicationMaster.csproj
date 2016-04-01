@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BEEEEAD1-57D8-46DA-A48E-BA512406C2CD}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Casamia</RootNamespace>
+    <AssemblyName>ApplicationMaster</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Converter\CasamiaConverter.cs" />
+    <Compile Include="Core\SilentWorker.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Core\SvnWatcher.cs" />
+    <Compile Include="Core\CommonTask.cs" />
+    <Compile Include="Core\TaskHandler.cs" />
+    <Compile Include="DataSource\AnTask.cs" />
+    <Compile Include="Log\ILogger.cs" />
+    <Compile Include="Log\Log.cs" />
+    <Compile Include="Log\LogManager.cs" />
+    <Compile Include="Model\Enumerate\LogLevel.cs" />
+    <Compile Include="Model\EventArgs\CommandEventArgs.cs" />
+    <Compile Include="Model\EventArgs\CommandStatusEventArgs.cs" />
+    <Compile Include="Model\Executor.cs" />
+    <Compile Include="DataSource\Command.cs" />
+    <Compile Include="DataSource\CommandStatus.cs" />
+    <Compile Include="MyFacility\MyConsole.cs" />
+    <Compile Include="MyFacility\MyHotkeys.cs" />
+    <Compile Include="MyFacility\MyLog.cs" />
+    <Compile Include="Core\Creator.cs" />
+    <Compile Include="Core\TaskWorker.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MyFacility\MyWorker.cs" />
+    <Compile Include="DataSource\Constants.cs" />
+    <Compile Include="DataSource\CreateCaseData.cs" />
+    <Compile Include="DataSource\InputData.cs" />
+    <Compile Include="Job.cs" />
+    <Compile Include="Menu\CommandMenu.cs" />
+    <Compile Include="Menu\CommonMethod.cs" />
+    <Compile Include="Menu\EditMenu.cs" />
+    <Compile Include="Menu\FileMenu.cs" />
+    <Compile Include="Menu\HelpMenu.cs" />
+    <Compile Include="Menu\SvnMenu.cs" />
+    <Compile Include="Menu\UnityMenu.cs" />
+    <Compile Include="DataSource\OutputData.cs" />
+    <Compile Include="ReferenceWindow.xaml.cs">
+      <DependentUpon>ReferenceWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TaskManageWindow.xaml.cs">
+      <DependentUpon>TaskManageWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TreeHelper.cs" />
+    <Compile Include="CommandParse.cs" />
+    <Compile Include="CreateProjectWindow.xaml.cs">
+      <DependentUpon>CreateProjectWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Parameter.cs" />
+    <Compile Include="DataSource\TreeNode.cs" />
+    <Compile Include="TreeType.cs" />
+    <Compile Include="User.xaml.cs">
+      <DependentUpon>User.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MyFacility\MyUser.cs" />
+    <Compile Include="Util.cs" />
+    <Compile Include="Watcher.cs" />
+    <Compile Include="Win32.cs" />
+    <Compile Include="XMLManage.cs" />
+    <Page Include="CreateProjectWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="ReferenceWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TaskManageWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="User.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="app.manifest" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Close.png" />
+    <Resource Include="Images\Minimize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Logo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Maximize01.png" />
+    <Resource Include="Images\Maximize02.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BrokenFolder.png" />
+    <Resource Include="Images\ProjectFolder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ParentFolder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CheckOuted.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\SVN\added.png" />
+    <Resource Include="Images\SVN\conficted.png" />
+    <Resource Include="Images\SVN\deleted.png" />
+    <Resource Include="Images\SVN\ignored.png" />
+    <Resource Include="Images\SVN\locked.png" />
+    <Resource Include="Images\SVN\modified.png" />
+    <Resource Include="Images\SVN\non-versioned.png" />
+    <Resource Include="Images\SVN\normal.png" />
+    <Resource Include="Images\SVN\readonly.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\folder.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Selected.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Exchange.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Modelling.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Designing.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CheckOuted.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\checkouted.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\NewProject.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
