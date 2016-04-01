@@ -1,20 +1,19 @@
-﻿using Casamia.Core;
-using Casamia.DataSource;
-using Casamia.Menu;
-using Casamia.MyFacility;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+
+using Casamia.Core;
+using Casamia.DataSource;
 using Casamia.Logging;
+using Casamia.Menu;
+using Casamia.MyFacility;
 
 namespace Casamia
 {
@@ -1019,7 +1018,28 @@ namespace Casamia
 
 			if (cells != null && 0 < cells.Count)
 			{
-				TaskHandler.StopSelectedTasks(cells);
+
+				for (int i = 0, length = cells.Count; i < length; i = i + 7)
+				{
+					DataGridCellInfo cell = cells[i];
+
+					AnTask anTask = cell.Item as AnTask;
+					if (anTask != null)
+					{
+						List<Command> subTasks = new List<Command>(anTask.Commands);
+
+						if (subTasks != null)
+						{
+							foreach (var subTask in subTasks)
+							{
+								if (CommandStatus.Waiting == CommandStatus.Waiting)
+								{
+									subTask.Status = CommandStatus.Cancel;
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 
