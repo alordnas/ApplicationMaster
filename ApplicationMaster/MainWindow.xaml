@@ -11,7 +11,7 @@
         Foreground ="Black"  KeyDown="Window_KeyDown" KeyUp="Window_KeyUp" Closing="Window_Closing" Loaded="Window_Loaded" Icon="Images/Logo.ico">
 
 	<Window.Resources>
-		<MenuItem x:Key="createProject_MenuItem" Header="创建新项目"  x:Name="creatProject_MenuItem" Click="createUnity_MenuItem_Click" Background="Beige">
+		<!--<MenuItem x:Key="createProject_MenuItem" Header="创建新项目"  x:Name="creatProject_MenuItem" Click="createUnity_MenuItem_Click" Background="Beige">
 			<MenuItem.Icon>
 				<Image Width="20" Height="20"/>
 			</MenuItem.Icon>
@@ -37,11 +37,7 @@
 			</MenuItem.Icon>
 		</MenuItem>
 		<MenuItem x:Key="checkout_MenuItem"  x:Name="checkoutSelected_MenuItem" Click="checkoutSelected_MenuItem_Click" Background="Beige">
-		</MenuItem>
-
-		<MenuItem x:Key="openDir_MenuItem" x:Name="openDir_MenuItem" Header ="更改..." Foreground="Black"  Click="openDir_MenuItem_Click"/>
-		<MenuItem x:Key="preference_MenuItem" x:Name="preference_MenuItem" Header="设定" Foreground="Black" Click="preference_MenuItem_Click"/>
-		<MenuItem x:Key="taskManager_MenuItem" x:Name="taskManager_MenuItem" Header="管理..." Foreground="Black" Click="taskManager_MenuItem_Click"/>
+		</MenuItem>-->
 
 		<data:InputData  x:Key="inputData"/>
 
@@ -116,7 +112,7 @@
 		<StackPanel Grid.Row="1" Orientation="Horizontal" FlowDirection="LeftToRight">
 			<!--Menu-->
 			<Menu Margin="5,0" Background="Transparent" Foreground="Orange">
-				<MenuItem x:Name="dir_MenuItem" Header="目录">
+				<MenuItem x:Name="dir_MenuItem" Header="workspace">
 					<MenuItem.ItemsSource>
 						<CompositeCollection>
 							<CollectionContainer Collection="{Binding Source={x:Static core:WorkSpaceManager.Instance }, Mode=OneWay, Path=WorkSpaces}"></CollectionContainer>
@@ -126,39 +122,38 @@
 						<Style TargetType="MenuItem">
 							<Setter Property="MenuItem.Header" Value="{Binding Name}"/>
 							<EventSetter Event="Click" Handler="OnWorkspaceClick"></EventSetter>
+							<Setter Property="Background" Value="#2d2d30"></Setter>
 						</Style>
 					</MenuItem.ItemContainerStyle>
 				</MenuItem>
 				<MenuItem x:Name="edit_MenuItem" Header="编辑">
-					<MenuItem x:Name="selectAll_MenuItem" Header="全选(Ctrl + A)" Foreground="Black"  Click="selectAll_MenuItem_Click"/>
-					<MenuItem x:Name="selectNone_MenuItem" Header="撤选(Ctrl + N)" Foreground="Black"  Click="selectNone_MenuItem_Click"/>
-					<Separator/>
-					<MenuItem x:Name="exportDir_MenuItem" Header="导出列表" Foreground="Black"  Click="exportDir_MenuItem_Click"/>
-					<MenuItem x:Name="importDir_MenuItem" Header="导入列表" Foreground="Black"  Click="importDir_MenuItem_Click"/>
-					<Separator/>
-					<MenuItem x:Name="expand_MenuItem" Header="展开(Ctrl + E)" Foreground="Black"  Click="expand_MenuItem_Click"/>
-					<MenuItem x:Name="shrink_MenuItem" Header="收起(Ctrl + S)" Foreground="Black"  Click="shrink_MenuItem_Click"/>
-					<Separator/>
-					<MenuItem x:Name="advanced_MenuItem" Header="高级模式" Foreground="Black" Click="advanced_MenuItem_Click">
-						<MenuItem.Icon>
-							<Image x:Name="advancedSelectedImage" Visibility="Hidden" Width="20" Height="20" Source="Images/Selected.jpg"/>
-						</MenuItem.Icon>
-					</MenuItem>
+					<MenuItem  x:Name="openDir_MenuItem" Header ="更改..."  Click="openDir_MenuItem_Click"/>
+					<MenuItem x:Name="preference_MenuItem" Header="设定"  Click="preference_MenuItem_Click"/>
+					<MenuItem x:Name="selectAll_MenuItem" Header="全选(Ctrl + A)"  Click="selectAll_MenuItem_Click"/>
+					<MenuItem x:Name="selectNone_MenuItem" Header="撤选(Ctrl + N)"  Click="selectNone_MenuItem_Click"/>
+					<Separator Background="Transparent" />
+					<MenuItem x:Name="exportDir_MenuItem" Header="导出列表"  Click="exportDir_MenuItem_Click"/>
+					<MenuItem x:Name="importDir_MenuItem" Header="导入列表"  Click="importDir_MenuItem_Click"/>
+					<Separator Background="Transparent"/>
+					<MenuItem x:Name="expand_MenuItem" Header="展开(Ctrl + E)" Click="expand_MenuItem_Click"/>
+					<MenuItem x:Name="shrink_MenuItem" Header="收起(Ctrl + S)"  Click="shrink_MenuItem_Click"/>
+
 				</MenuItem>
 				<MenuItem Header="Unity">
-					<MenuItem x:Name="createUnity_MenuItem" Header="新建项目" Foreground="Black"  Click="createUnity_MenuItem_Click"/>
+					<MenuItem x:Name="createUnity_MenuItem" Header="新建项目" Click="createUnity_MenuItem_Click"/>
 				</MenuItem>
 
 				<MenuItem Header="Svn">
-					<MenuItem x:Name="openSvn_MenuItem" Header="打开Svn" Foreground="Black" Click="openSvn_MenuItem_Click"/>
-					<MenuItem x:Name="closeSvn_MenuItem" Header="退出Svn" Foreground="Black" Click="closeSvn_MenuItem_Click"/>
-					<Separator/>
-					<MenuItem x:Name="checkout_MenuItem" Header="检出选中" Foreground="Black" Click="checkout_MenuItem_Click"/>
+					<MenuItem x:Name="openSvn_MenuItem" Header="打开Svn"  Click="openSvn_MenuItem_Click"/>
+					<MenuItem x:Name="closeSvn_MenuItem" Header="退出Svn" Click="closeSvn_MenuItem_Click"/>
+					<Separator Background="Transparent"/>
+					<MenuItem x:Name="checkout_MenuItem" Header="检出选中"  Click="checkout_MenuItem_Click"/>
 				</MenuItem>
 				<MenuItem x:Name="task_MenuItem" Header="任务">
+					<MenuItem x:Name="taskManager_MenuItem" Header="管理..." Click="taskManager_MenuItem_Click"/>
 				</MenuItem>
 				<MenuItem Header="帮助">
-					<MenuItem Header="帮助手册" Foreground="Black" />
+					<MenuItem Header="帮助手册"  />
 				</MenuItem>
 			</Menu>
 		</StackPanel>

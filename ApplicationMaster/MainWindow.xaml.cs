@@ -992,41 +992,6 @@ namespace Casamia
 			}
 		}
 
-		private void advanced_MenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			if (advancedSelectedImage.IsVisible)
-			{
-				dir_MenuItem.Items.RemoveAt(0);
-
-				edit_MenuItem.Items.RemoveAt(edit_MenuItem.Items.Count - 1);
-
-				task_MenuItem.Items.RemoveAt(0);
-
-				task_MenuItem.Items.RemoveAt(0);
-
-				advancedSelectedImage.Visibility = System.Windows.Visibility.Hidden;
-			}
-			else
-			{
-
-				MenuItem openDir = FindResource("openDir_MenuItem") as MenuItem;
-
-				MenuItem preference = FindResource("preference_MenuItem") as MenuItem;
-
-				MenuItem taskManager = FindResource("taskManager_MenuItem") as MenuItem;
-
-				dir_MenuItem.Items.Insert(0, openDir);
-
-				edit_MenuItem.Items.Add(preference);
-
-				task_MenuItem.Items.Insert(0, taskManager);
-
-				task_MenuItem.Items.Insert(1, new Separator());
-
-				advancedSelectedImage.Visibility = System.Windows.Visibility.Visible;
-			}
-		}
-
 		private void checkOutput_TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
 		}
