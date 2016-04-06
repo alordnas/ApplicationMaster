@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Casamia.Core;
 
 namespace Casamia.DataSource
 {
@@ -125,7 +126,7 @@ namespace Casamia.DataSource
 
 		public bool IsGoodFolder()
 		{
-			string subPath = ParentPath.Substring(InputData.Current.Path.Length - 1);
+			string subPath = ParentPath.Substring(WorkSpaceManager.Instance.WorkingPath.Length - 1);
 			int deep = 0;
 			for (int i = 0, length = subPath.Length; i < length; i++)
 			{
@@ -206,7 +207,10 @@ namespace Casamia.DataSource
 			}
 
 
-            string subPath = CreateCaseData.Current.ParentPath.Replace(TreeHelper.RectifyPath(InputData.Current.Path), "");
+			string subPath = CreateCaseData.Current.ParentPath.Replace(
+				TreeHelper.RectifyPath(WorkSpaceManager.Instance.WorkingPath),
+				""
+				);
             if (subPath.Length < CreateCaseData.Current.ParentPath.Length)
             {
                 url = string.Format("{0}{1}", url, subPath);

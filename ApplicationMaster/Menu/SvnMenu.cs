@@ -19,78 +19,29 @@ namespace Casamia.Menu
         {
             CommonMethod.SetTitle();
 
-			string url = InputData.Current.Path;
-			if (url != null)
-			{
-				switch (MyUser.UserJob)
+			TreeNode.SvnRoot = new TreeNode(null);
+			TreeNode.SvnRoot.isRoot = true;
+			TreeNode.SvnRoot.IsSvnNode = true;
+			TreeNode.SvnRoot.filePath = WorkSpaceManager.Instance.WorkingPath;
+			mianWindow.selectedNode = TreeNode.SvnRoot;
+			mianWindow.dir_TreeView.ItemsSource = null;
+			mianWindow.dir_TreeView.ItemsSource = TreeNode.SvnRoot.children;
+			LogManager.Instance.LogInfomation("正在加载：{0}...", WorkSpaceManager.Instance.WorkingPath);
+
+			InputData.Current.Percent = 0;
+
+			Build(
+				TreeNode.SvnRoot,
+				() =>
 				{
-					case Job.Designer:
-
-						TreeNode.SvnRoot = new TreeNode(null);
-						TreeNode.SvnRoot.isRoot = true;
-						TreeNode.SvnRoot.IsSvnNode = true;
-						TreeNode.SvnRoot.filePath = url;
-						mianWindow.selectedNode = TreeNode.SvnRoot;
-						mianWindow.dir_TreeView.ItemsSource = null;
-						LogManager.Instance.LogInfomation("正在加载：{0}...", url);
-
-						InputData.Current.Percent = 0;
-						
-						Build(TreeNode.SvnRoot,
-							() =>
-							{
-								if (MyUser.UserJob == Job.Designer)
-								{
-									StartChecking();
-
-									mianWindow.dir_TreeView.ItemsSource = TreeNode.SvnRoot.children;
-
-									InputData.Current.Percent = 100;
-
-									InputData.Current.Percent = 0;
-
-									LogManager.Instance.LogInfomation("完成加载：{0}", url);
-								}
-							},
-							3);
-						break;
-					case Job.Modeler:
-
-						TreeNode.SvnRoot = new TreeNode(null);
-						TreeNode.SvnRoot.isRoot = true;
-						TreeNode.SvnRoot.IsSvnNode = true;
-						TreeNode.SvnRoot.filePath = url;
-						mianWindow.dir_TreeView.ItemsSource = TreeNode.SvnRoot.children;
-						mianWindow.selectedNode = TreeNode.SvnRoot;
-						LogManager.Instance.LogInfomation("正在加载：{0}...", url);
-
-						InputData.Current.Percent = 0;
-
-						Build(TreeNode.SvnRoot,
-							() =>
-							{
-								StartChecking();
-
-								if (MyUser.UserJob == Job.Modeler)
-								{
-									InputData.Current.Percent = 100;
-
-									InputData.Current.Percent = 0;
-								}
-
-								LogManager.Instance.LogInfomation("完成加载：{0}", url);
-							},
-							1);
-						break;
-					case Job.UnKnow:
-
-						break;
-					default:
-						break;
-				}	
-			}
-
-        }
+					StartChecking();
+					InputData.Current.Percent = 100;
+					InputData.Current.Percent = 0;
+					LogManager.Instance.LogInfomation("完成加载：{0}", WorkSpaceManager.Instance.WorkingPath);
+				},
+				WorkSpaceManager.Instance.WorkingDepth
+			);
+		}
 
         public static void CloseSvn() 
         {
@@ -161,13 +112,7 @@ namespace Casamia.Menu
 										HandleTask(worker, child, deep, curDeep);
 									}
 								}
-
-								if ((MyUser.UserJob == Job.Designer
-									&& deep == Casamia.Properties.Settings.Default.DESIGN_SVN_DEPTH)
-									||
-									(MyUser.UserJob == Job.Modeler
-									&& deep == Casamia.Properties.Settings.Default.FURNITURE_SVN_DEPTH)
-									)
+								if (curDeep == deep)
 								{
 									InputData.Current.Percent += InputData.Current.Percent < 90 ? 2 : 0;
 								}
@@ -251,8 +196,7 @@ namespace Casamia.Menu
 						}
 						else
 						{
-
-							children[i].icon = new BitmapImage(new Uri("/ProRunner;component/Images/NewProject.png", UriKind.Relative));
+							children[i].icon = new BitmapImage(new Uri("Images/NewProject.png", UriKind.Relative));
 						}
 					}
 				});

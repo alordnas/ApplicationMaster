@@ -68,7 +68,7 @@ namespace Casamia.DataSource
 
 		//private SvnWatcher svnWatcher = null;
 
-		private ImageSource _icon = new BitmapImage(new Uri("/ProRunner;component/Images/folder.jpg", UriKind.Relative));
+		private ImageSource _icon = new BitmapImage(new Uri("Images/folder.jpg", UriKind.Relative));
 
 		public ImageSource icon 
 		{

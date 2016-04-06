@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Height="342" Width="620" WindowStyle="None" AllowsTransparency ="True" WindowStartupLocation="CenterScreen" BorderBrush="Gray"
 		BorderThickness="1" Background="#2d2d30" Topmost="True"
-        MouseLeftButtonDown="Window_MouseLeftButtonDown" Icon="/ProRunner;component/Images/Logo.ico">
+        MouseLeftButtonDown="Window_MouseLeftButtonDown" Icon="Images/Logo.ico">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.1*"/>

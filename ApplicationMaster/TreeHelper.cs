@@ -20,7 +20,7 @@ namespace Casamia
 	class TreeHelper
 	{
 
-		public static bool IsOnControl(string dir) 
+		public static bool IsOnControl(string dir)
 		{
 			//if (File.Exists(XMLManage.GetString(Util.SVN)))
 			//{
@@ -70,30 +70,30 @@ namespace Casamia
 			return null;
 		}
 
-        public static bool IsChildPath(string path)
-        {
-			string dir = WorkSpaceManager.Instance.Current.LocalUrl;
+		public static bool IsChildPath(string path)
+		{
+			string dir = WorkSpaceManager.Instance.WorkingPath;
 
-            if (!string.IsNullOrEmpty(dir) && path.StartsWith(TreeHelper.RectifyPath(dir)))
-                return true;
-            return false;
-        }
+			if (!string.IsNullOrEmpty(dir) && path.StartsWith(TreeHelper.RectifyPath(dir)))
+				return true;
+			return false;
+		}
 
 
-        public static List<TreeNode> GetSelectedProjects(TreeNode root)
-        {
-            List<TreeNode> selectedProjects = new List<TreeNode>();
+		public static List<TreeNode> GetSelectedProjects(TreeNode root)
+		{
+			List<TreeNode> selectedProjects = new List<TreeNode>();
 
 			foreach (var project in GetALLProjects(root))
-            {
-                if (project.isChecked)
-                {
-                    selectedProjects.Add(project);
-                }
-            }
+			{
+				if (project.isChecked)
+				{
+					selectedProjects.Add(project);
+				}
+			}
 
-            return selectedProjects;
-        }
+			return selectedProjects;
+		}
 
 		public static List<TreeNode> GetSelectedLeaves(TreeNode root)
 		{
@@ -110,7 +110,7 @@ namespace Casamia
 			return selectedProjects;
 		}
 
-		public static string[] GetTreeNodePaths(List<TreeNode> nodes) 
+		public static string[] GetTreeNodePaths(List<TreeNode> nodes)
 		{
 
 			string[] projectPaths = new string[nodes.Count];
@@ -125,16 +125,16 @@ namespace Casamia
 
 
 
-        public static List<TreeNode> GetALLProjects(TreeNode root)
-        {
-            List<TreeNode> projects = new List<TreeNode>();
+		public static List<TreeNode> GetALLProjects(TreeNode root)
+		{
+			List<TreeNode> projects = new List<TreeNode>();
 
 			SearchLeaves(root, projects, true);
 
-            return projects;
-        }
+			return projects;
+		}
 
-		public static void GetAllNodes(List<TreeNode> nodes, TreeNode root) 
+		public static void GetAllNodes(List<TreeNode> nodes, TreeNode root)
 		{
 			var children = root.children;
 
@@ -156,13 +156,13 @@ namespace Casamia
 			return projects;
 		}
 
-        private static void SearchLeaves(TreeNode root, List<TreeNode> projects,bool onlyProject)
-        {
-            if (root != null)
-            {
+		private static void SearchLeaves(TreeNode root, List<TreeNode> projects, bool onlyProject)
+		{
+			if (root != null)
+			{
 
-                foreach (var child in root.children)
-                {
+				foreach (var child in root.children)
+				{
 					if (child.isLeaf)
 					{
 						if (onlyProject)
@@ -179,92 +179,92 @@ namespace Casamia
 					}
 
 					SearchLeaves(child, projects, onlyProject);
-                }
-            }
-        }
-
-		
+				}
+			}
+		}
 
 
 
-        /// <summary>
-        /// 设置字节点选中
-        /// </summary>
-        /// <param name="isChecked"></param>
-        public static void SetChildrenChecked(TreeNode parent, bool isChecked)
-        {
-            foreach (TreeNode child in parent.children)
-            {
-                child.isChecked = isChecked;
-
-                SetChildrenChecked(child,isChecked);
-            }
-        }
 
 
-        public static void InvertSelection(TreeNode parent)
-        {
-            foreach (TreeNode child in parent.children)
-            {
-                child.isChecked = !child.isChecked;
+		/// <summary>
+		/// 设置字节点选中
+		/// </summary>
+		/// <param name="isChecked"></param>
+		public static void SetChildrenChecked(TreeNode parent, bool isChecked)
+		{
+			foreach (TreeNode child in parent.children)
+			{
+				child.isChecked = isChecked;
 
-                InvertSelection(child);
-            }
-        }
+				SetChildrenChecked(child, isChecked);
+			}
+		}
 
-        public static void SetChildrenExpanded(TreeNode parent, bool expanded)
-        {
-            //foreach (TreeNode child in parent.children)
-            //{
-            //    child.is = isChecked;
-            //    SetChildrenChecked(child, isChecked);
-            //}
-        }
 
-        public static TreeNode FindChild(TreeNode parent, string dir)
-        {
-            foreach (TreeNode child in parent.children)
-            {
-                if (child.filePath.Equals(dir, StringComparison.OrdinalIgnoreCase))
-                {
-                    return child;
-                }
-            }
-            return null;
-        }
+		public static void InvertSelection(TreeNode parent)
+		{
+			foreach (TreeNode child in parent.children)
+			{
+				child.isChecked = !child.isChecked;
 
-        /// <summary>
-        /// 执行这个函数之前，需要执行：RectifyPath(dir) ,IsChildPath(dir)
-        /// </summary>
-        /// <param name="root"></param>
-        /// <param name="dir"></param>
-        /// <returns></returns>
-        public static TreeNode FindChildIgnoreDeep(TreeNode root, string dir) 
-        {
-            string filePath = root.filePath;
-            if (filePath.Equals(dir,System.StringComparison.OrdinalIgnoreCase))
-            {
-                return root;
-            }
+				InvertSelection(child);
+			}
+		}
 
-            if (filePath.Length < dir.Length)
-            {
-                int index = dir.IndexOf("/", filePath.Length + 1);
+		public static void SetChildrenExpanded(TreeNode parent, bool expanded)
+		{
+			//foreach (TreeNode child in parent.children)
+			//{
+			//    child.is = isChecked;
+			//    SetChildrenChecked(child, isChecked);
+			//}
+		}
 
-                string path = dir;
-                if (index > 0)
-                {
-                    path = dir.Substring(0, index);
-                }
-                TreeNode node = FindChild(root, path);
-                if (node != null)
-                {
-                    return FindChildIgnoreDeep(node, dir);
-                }
-            }
-            return null;
-            
-        }
+		public static TreeNode FindChild(TreeNode parent, string dir)
+		{
+			foreach (TreeNode child in parent.children)
+			{
+				if (child.filePath.Equals(dir, StringComparison.OrdinalIgnoreCase))
+				{
+					return child;
+				}
+			}
+			return null;
+		}
+
+		/// <summary>
+		/// 执行这个函数之前，需要执行：RectifyPath(dir) ,IsChildPath(dir)
+		/// </summary>
+		/// <param name="root"></param>
+		/// <param name="dir"></param>
+		/// <returns></returns>
+		public static TreeNode FindChildIgnoreDeep(TreeNode root, string dir)
+		{
+			string filePath = root.filePath;
+			if (filePath.Equals(dir, System.StringComparison.OrdinalIgnoreCase))
+			{
+				return root;
+			}
+
+			if (filePath.Length < dir.Length)
+			{
+				int index = dir.IndexOf("/", filePath.Length + 1);
+
+				string path = dir;
+				if (index > 0)
+				{
+					path = dir.Substring(0, index);
+				}
+				TreeNode node = FindChild(root, path);
+				if (node != null)
+				{
+					return FindChildIgnoreDeep(node, dir);
+				}
+			}
+			return null;
+
+		}
 
 		/// <summary>
 		/// 向上搜寻类型为<T>的ViualTree节点
@@ -281,6 +281,6 @@ namespace Casamia
 		}
 
 
-   
+
 	}
 }

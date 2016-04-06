@@ -51,7 +51,7 @@ namespace Casamia.Core
 				return;
 			}
 
-			TaskWorker worker = new TaskWorker(Constants.TASK_NAME_CREATEPROJECT);
+            TaskWorker worker = new TaskWorker(Constants.TASK_NAME_CREATEPROJECT);
 
 			worker.OnCompleteAll = () =>
 			{
@@ -61,8 +61,8 @@ namespace Casamia.Core
 			TaskWorker svnChecker = new TaskWorker(null);
 
 			CommonTask.SvnCheckDiff(svnChecker, Path.GetDirectoryName(projectPath),
-				   () =>
-				   {
+                   () =>
+                   {
 					   if (IsDesignMode(WorkSpaceManager.Instance.Current.Ext))
 					   {
 						   worker.AddTask(GetCreateDesignUnityTask(projectPath));
@@ -72,9 +72,9 @@ namespace Casamia.Core
 						   worker.AddTask(GetCreateFurnitureUnityTask(projectPath));
 					   }
 
-					   worker.Run();
-				   },
-				   () =>
+                       worker.Run();
+                   },
+                   () =>
 				   {
 					   if (IsDesignMode(WorkSpaceManager.Instance.Current.Ext))
 					   {
@@ -84,8 +84,8 @@ namespace Casamia.Core
 					   {
 						   worker.AddTask(GetImportFurnitureUnityTask(projectPath));
 					   }
-					   worker.Run();
-				   });
+                       worker.Run();
+                   });
 
 			svnChecker.Run();
 		}
@@ -108,7 +108,7 @@ namespace Casamia.Core
 			TaskManager.NormalizeTask(anTask, projectPath);
 			return anTask;
 		}
-
+		
 		private AnTask GetCreateFurnitureUnityTask(string projectPath)
 		{
 			AnTask anTask = Newtonsoft.Json.JsonConvert.DeserializeObject<AnTask>(

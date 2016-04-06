@@ -5,7 +5,7 @@
         xmlns:data ="clr-namespace:Casamia.DataSource"
         xmlns:core ="clr-namespace:Casamia.Core"
 		xmlns:casamiaConvert="clr-namespace:Casamia.Converter"
-		
+		Title="{Binding Source={x:Static core:WorkSpaceManager.Instance} , Mode=OneWay, Path=WorkSpace, StringFormat=WorkSpace - \{0\}}"
         Height="900" Width="1360" WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" BorderBrush="Gray"
 		BorderThickness="1" Background="#2d2d30"
         Foreground ="Black"  KeyDown="Window_KeyDown" KeyUp="Window_KeyUp" Closing="Window_Closing" Loaded="Window_Loaded" Icon="Images/Logo.ico">
@@ -44,6 +44,15 @@
 		<MenuItem x:Key="taskManager_MenuItem" x:Name="taskManager_MenuItem" Header="管理..." Foreground="Black" Click="taskManager_MenuItem_Click"/>
 
 		<data:InputData  x:Key="inputData"/>
+
+		<Style TargetType="MenuItem">
+			<Style.Setters>
+				<Setter Property="Background" Value="#2d2d30"></Setter>
+				<Setter Property="BorderThickness" Value="0"></Setter>
+				<!--<Setter Property="" Value=""></Setter>-->
+			</Style.Setters>
+		</Style>
+
 
 		<Style TargetType="DataGridRow">
 			<Style.Triggers>
@@ -106,12 +115,19 @@
 
 		<StackPanel Grid.Row="1" Orientation="Horizontal" FlowDirection="LeftToRight">
 			<!--Menu-->
-			<Menu Margin="5,0" Background="Transparent" Foreground="Beige">
+			<Menu Margin="5,0" Background="Transparent" Foreground="Orange">
 				<MenuItem x:Name="dir_MenuItem" Header="目录">
-					<MenuItem x:Name="openDesign_MenuItem" Header ="切换到设计" Foreground="Black"  Click="openDesign_MenuItem_Click"/>
-					<MenuItem x:Name="openModel_MenuItem" Header ="切换到产品" Foreground="Black"  Click="openModel_MenuItem_Click"/>
-					<Separator/>
-					<MenuItem  Header ="退出" Foreground="Black"  Click="closeButton_Click"/>
+					<MenuItem.ItemsSource>
+						<CompositeCollection>
+							<CollectionContainer Collection="{Binding Source={x:Static core:WorkSpaceManager.Instance }, Mode=OneWay, Path=WorkSpaces}"></CollectionContainer>
+						</CompositeCollection>
+					</MenuItem.ItemsSource>
+					<MenuItem.ItemContainerStyle>
+						<Style TargetType="MenuItem">
+							<Setter Property="MenuItem.Header" Value="{Binding Name}"/>
+							<EventSetter Event="Click" Handler="OnWorkspaceClick"></EventSetter>
+						</Style>
+					</MenuItem.ItemContainerStyle>
 				</MenuItem>
 				<MenuItem x:Name="edit_MenuItem" Header="编辑">
 					<MenuItem x:Name="selectAll_MenuItem" Header="全选(Ctrl + A)" Foreground="Black"  Click="selectAll_MenuItem_Click"/>
@@ -169,27 +185,18 @@
 							<RowDefinition />
 						</Grid.RowDefinitions>
 						<Border BorderBrush="White" BorderThickness ="5,5,5,0">
-							<Grid DataContext="{StaticResource inputData}">
+							<Grid>
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="50"/>
 									<ColumnDefinition/>
 									<ColumnDefinition Width="18"/>
 								</Grid.ColumnDefinitions>
-								<TextBox Text="{Binding UserJob}" FontSize="15" Background="WhiteSmoke"
-								  IsEnabled="False" BorderThickness="0" 
-                                  FontFamily="Trebuchet MS" />
-
-								<TextBox x:Name = "dir_TextBox"  Grid.Column="1" Text="{Binding Path}"  FontSize="15" Background="Transparent"
-								  IsEnabled="False" BorderThickness="0" 
-                                  FontFamily="Trebuchet MS" 
-                                  />
-
+								<TextBox Text="{Binding Source={x:Static core:WorkSpaceManager.Instance} , Mode=OneWay, Path=WorkSpace}" FontSize="15" Background="WhiteSmoke"
+								  IsEnabled="False" />
+								<TextBox x:Name = "dir_TextBox"  Grid.Column="1" Text="{Binding Source={x:Static core:WorkSpaceManager.Instance} , Mode=OneWay, Path=WorkingPath}"  FontSize="15" Background="Transparent"
+								  IsEnabled="False"/>
 								<ProgressBar Grid.Column="1" Value="{Binding Percent}" Foreground="#20FF66F3" Orientation="Horizontal" IsIndeterminate="False"  Background="Transparent" BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-
-
-
 								<Button x:Name="exchangeUser_Button" Grid.Column="2" Style="{DynamicResource ResourceKey=ExchangeButtonStyle}"  Click="exchangeUser_Button_Click" ToolTip="切换">
-
 								</Button>
 							</Grid>
 						</Border>

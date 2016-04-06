@@ -1,37 +1,53 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 
-using Newtonsoft.Json;
-
 using Casamia.Model;
-using System;
 
 namespace Casamia.Core
 {
-	public class WorkSpaceManager
+	public class WorkSpaceManager : INotifyPropertyChanged
 	{
 		#region VARIABLE
 
 		private static WorkSpaceManager instance;
 
-		private List<WorkSpace> workSpaces;
-		private WorkSpace current;
+		private ObservableCollection<WorkSpace> workSpaces;
+		private static WorkSpace current;
 		private string configPath;
-		private bool isLocal;
+		private bool isLocal = true;
+
 
 		#endregion VARIABLE
 
 		#region PROPERTIES
 
+		public event PropertyChangedEventHandler PropertyChanged;
+
 		public static WorkSpaceManager Instance
 		{
 			get
 			{
-				if(null == instance)
+				if (null == instance)
 				{
 					instance = new WorkSpaceManager();
 				}
 				return instance;
+			}
+		}
+		public bool IsLocal
+		{
+			get { return isLocal; }
+			set
+			{
+				if (isLocal != value)
+				{
+					isLocal = value;
+					FireChanged("WorkingPath");
+					FireChanged("WorkSpace");
+				}
 			}
 		}
 
@@ -39,7 +55,23 @@ namespace Casamia.Core
 		{
 			get
 			{
-				return isLocal ? Current.LocalUrl : Current.Url;
+				return IsLocal ? Current.LocalUrl : Current.Url;
+			}
+		}
+
+		public string WorkSpace
+		{
+			get
+			{
+				return string.Format("{0} - {1}", Current.Name, isLocal ? "Local" : "SVN");
+			}
+		}
+
+		public int WorkingDepth
+		{
+			get
+			{
+				return Current.UrlDepth;
 			}
 		}
 
@@ -53,14 +85,22 @@ namespace Casamia.Core
 				}
 				return current;
 			}
-			set { current = value; }
+			private set
+			{
+				if (current != value)
+				{
+					current = value;
+					FireChanged("WorkSpace");
+					FireChanged("WorkingPath");
+				}
+			}
 		}
 
-		public WorkSpace[] WorkSpaces
+		public ObservableCollection<WorkSpace> WorkSpaces
 		{
 			get
 			{
-				return workSpaces.ToArray();
+				return workSpaces;
 			}
 		}
 
@@ -84,17 +124,28 @@ namespace Casamia.Core
 			File.WriteAllText(configPath, jsonStr);
 		}
 
+		public void SetCurrent(string name)
+		{
+			for (int length = workSpaces.Count, i = 0; i < length; i++)
+			{
+				if (string.Equals(name, workSpaces[i].Name))
+				{
+					Current = workSpaces[i];
+					break;
+				}
+			}
+		}
+
 		public void Add(WorkSpace workSpace)
 		{
-			if(null != workSpace && !workSpaces.Contains(workSpace))
+			if (null != workSpace && !workSpaces.Contains(workSpace))
 			{
 				workSpaces.Add(workSpace);
 			}
 		}
 
-
 		#endregion PUBLIC
-		
+
 		#region FUNCTION
 
 		void Init()
@@ -106,7 +157,7 @@ namespace Casamia.Core
 					string jsonStr = File.ReadAllText(configPath);
 					if (!string.IsNullOrEmpty(jsonStr))
 					{
-						workSpaces = Newtonsoft.Json.JsonConvert.DeserializeObject<List<WorkSpace>>(jsonStr);
+						workSpaces = Newtonsoft.Json.JsonConvert.DeserializeObject<ObservableCollection<WorkSpace>>(jsonStr);
 					}
 				}
 			}
@@ -115,13 +166,22 @@ namespace Casamia.Core
 				Logging.LogManager.Instance.LogError("Fail to deserialize {0} :{1}", configPath, ex.Message);
 			}
 
-			if(null ==workSpaces)
+			if (null == workSpaces)
 			{
-				workSpaces = new List<WorkSpace>();
+				workSpaces = new ObservableCollection<WorkSpace>();
+			}
+		}
+
+		void FireChanged(string name)
+		{
+			if (null != PropertyChanged)
+			{
+				PropertyChanged(this, new PropertyChangedEventArgs(name));
 			}
 		}
 
 		#endregion FUNCTION
+
 
 	}
 }

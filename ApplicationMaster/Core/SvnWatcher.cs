@@ -64,11 +64,11 @@ namespace Casamia.Core
 
 				if (onControl[i])
 				{
-					treeNode.icon = new BitmapImage(new Uri("/ProRunner;component/Images/Svn/normal.png", UriKind.Relative));
+					treeNode.icon = new BitmapImage(new Uri("Images/Svn/normal.png", UriKind.Relative));
 				}
 				else
 				{
-					treeNode.icon = new BitmapImage(new Uri("/ProRunner;component/Images/non-versioned.png", UriKind.Relative));
+					treeNode.icon = new BitmapImage(new Uri("Images/non-versioned.png", UriKind.Relative));
 				}
 
 			}

@@ -1,14 +1,12 @@
-﻿using Casamia.MyFacility;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+
 using Casamia.Core;
 using Casamia.DataSource;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
 using Casamia.Logging;
+using Casamia.MyFacility;
 
 namespace Casamia.Menu
 {
@@ -28,14 +26,22 @@ namespace Casamia.Menu
 			string title = string.Empty;
 			if ((MyWorker.bgWorker != null) && MyWorker.bgWorker.IsBusy)
 			{
-				title = "Projects(正在运行)";
+				title = string.Format(
+					"{0} (正在运行){1}", 
+					WorkSpaceManager.Instance.Current.Name,
+					WorkSpaceManager.Instance.IsLocal ? Constants.title_l : Constants.title_s
+					);
 			}
 			else
 			{
-				title = "Projects";
+				title = string.Format(
+					"{0}{1}", 
+					WorkSpaceManager.Instance.Current.Name,
+					WorkSpaceManager.Instance.IsLocal ? Constants.title_l : Constants.title_s
+					);
 			}
 
-			//OutputData.Current.Title = title + (MyUser.OnSvn ? Constants.title_s : Constants.title_l);
+			//mainWindow.Title = title ;
         }
 
         public static string OpenFileDlg() 

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using Casamia.Core;
 
 namespace Casamia.MyFacility
 {
@@ -16,20 +17,36 @@ namespace Casamia.MyFacility
 
 		public static Job UserJob = Job.UnKnow;
 
-		public static bool OnSvn = false;
+		private static bool onSvn = false;
 
-		public static void Initialize() 
+		public static bool OnSvn
+		{
+			get
+			{
+				return onSvn;
+			}
+			set
+			{
+				if (onSvn != value)
+				{
+					onSvn = value;
+					WorkSpaceManager.Instance.IsLocal = !value;
+				}
+			}
+		}
+
+		public static void Initialize()
 		{
 			bool isUserADesigner;
 			if (XMLManage.TryGetBool(Util.Saved_UserJob, out isUserADesigner))
 			{
 				if (isUserADesigner)
 				{
-                    SaveUserJob(Job.Designer);
+					SaveUserJob(Job.Designer);
 				}
 				else
 				{
-                    SaveUserJob(Job.Modeler);
+					SaveUserJob(Job.Modeler);
 				}
 			}
 			else
@@ -43,10 +60,10 @@ namespace Casamia.MyFacility
 			switch (job)
 			{
 				case Job.Designer:
-                    SwitchToDesigner();
+					SwitchToDesigner();
 					break;
 				case Job.Modeler:
-                    SwitchToModeller();
+					SwitchToModeller();
 					break;
 				case Job.UnKnow:
 					break;
@@ -79,43 +96,35 @@ namespace Casamia.MyFacility
 		}
 
 
-		public static void SwitchToDesigner(string dafault = null) 
+		public static void SwitchToDesigner(string dafault = null)
 		{
-			XMLManage.SaveBool(Util.Saved_UserJob, true);
-
-			InputData.Current.UserJob = Constants.Design + "：";
-            UserJob = Job.Designer;
+			WorkSpaceManager.Instance.SetCurrent("UnityDesigner");
+			UserJob = Job.Designer;
 			if (OnSvn)
 			{
-				InputData.Current.Path = XMLManage.GetString(Util.DESIGNURL);
 				SvnMenu.OpenSvn();
 			}
 			else
 			{
-				InputData.Current.Path = XMLManage.GetString(Util.DESIGNPATH);
 				mainWindow.RefreshWholeTree();
 			}
 		}
 
-        public static void SwitchToModeller() 
+		public static void SwitchToModeller()
 		{
-			XMLManage.SaveBool(Util.Saved_UserJob, false);
-
-			InputData.Current.UserJob = Constants.Modelling + "：";
+			WorkSpaceManager.Instance.SetCurrent("UnityModel");
 			UserJob = Job.Modeler;
 			if (OnSvn)
 			{
-				InputData.Current.Path = XMLManage.GetString(Util.PRODUCTURL);
 				SvnMenu.OpenSvn();
 			}
 			else
 			{
-				InputData.Current.Path = XMLManage.GetString(Util.PRODUCTPATH);
 				mainWindow.RefreshWholeTree();
 			}
 		}
 
-		public static string GetUserName() 
+		public static string GetUserName()
 		{
 			return UserJob == Job.Designer ? Constants.Design : Constants.Modelling;
 		}

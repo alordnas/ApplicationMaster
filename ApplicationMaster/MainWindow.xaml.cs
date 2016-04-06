@@ -53,7 +53,7 @@ namespace Casamia
 
 				//OutputData.Current = (OutputData)FindResource(OUTPUT_DATA);
 				InputData.Current = (InputData)FindResource(INPUT_DATA);
-
+				
 				this.SourceInitialized += MainWindow_SourceInitialized;
 				this.MouseLeftButtonDown += MainWindow_MouseLeftButtonDown;
 				filterListBox.ItemsSource = Enum.GetValues(typeof(Casamia.Logging.Log.level));
@@ -62,6 +62,7 @@ namespace Casamia
 				MyWorker.Initialize();
 				MyUser.Initialize();
 				CommonTask.Initialize();
+				//dir_MenuItem.ItemsSource = WorkSpaceManager.Instance.WorkSpaces;
 				task_DataGrid.ItemsSource = TaskManager.TaskCollections;
 			}
 			catch (Exception e)
@@ -92,16 +93,17 @@ namespace Casamia
 
 		public void RefreshWholeTree()
 		{
-			if (!Directory.Exists(InputData.Current.Path))
+			string workPath = WorkSpaceManager.Instance.WorkingPath;
+			if (!Directory.Exists(workPath))
 			{
-				LogManager.Instance.LogError(Constants.Path_No_Exist_Error, InputData.Current.Path);
+				LogManager.Instance.LogError(Constants.Path_No_Exist_Error, workPath);
 				dir_TreeView.ItemsSource = null;
 				return;
 			}
 
 			TreeNode.Root = new TreeNode(null);
 			TreeNode.Root.isRoot = true;
-			TreeNode.Root.filePath = InputData.Current.Path;
+			TreeNode.Root.filePath = workPath;
 
 			this.Dispatcher.BeginInvoke(new BuildTreeDelegate(BuildTree), TreeNode.Root);
 
@@ -498,12 +500,13 @@ namespace Casamia
 		private void openSvn_MenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			MyUser.OnSvn = true;
-			MyUser.ResetUserJob();
+			SvnMenu.OpenSvn();
 		}
 
 		private void closeSvn_MenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			SvnMenu.CloseSvn();
+			MyUser.OnSvn = false;
+			RefreshWholeTree();
 		}
 
 		private void exportDir_MenuItem_Click(object sender, RoutedEventArgs e)
@@ -541,7 +544,10 @@ namespace Casamia
 			}
 			else
 			{
-				LogManager.Instance.LogError(Constants.Path_No_Exist_Error, InputData.Current.Path);
+				LogManager.Instance.LogError(
+					Constants.Path_No_Exist_Error, 
+					WorkSpaceManager.Instance.WorkingPath
+					);
 			}
 		}
 
@@ -551,7 +557,6 @@ namespace Casamia
 			if (path != null)
 			{
 				LogManager.Instance.LogInfomation("临时目录：{0}", path);
-				InputData.Current.Path = path;
 				RefreshWholeTree();
 			}
 		}
@@ -567,7 +572,7 @@ namespace Casamia
 
 			if (CreateCaseData.Current != null)
 			{
-				CreateCaseData.Current.ParentPath = InputData.Current.Path;
+				CreateCaseData.Current.ParentPath = WorkSpaceManager.Instance.WorkingPath;
 			}
 		}
 
@@ -762,13 +767,29 @@ namespace Casamia
 			}
 			else
 			{
-				LogManager.Instance.LogError(Constants.Path_No_Exist_Error, InputData.Current.Path);
+				LogManager.Instance.LogError(
+					Constants.Path_No_Exist_Error,
+					WorkSpaceManager.Instance.WorkingPath
+					);
 			}
 		}
 
-		private void openDesign_MenuItem_Click(object sender, RoutedEventArgs e)
+		private void OnWorkspaceClick(object sender, RoutedEventArgs e)
 		{
-			MyUser.SwitchToDesigner();
+			MenuItem button = sender as MenuItem;
+			if(null != button)
+			{
+				WorkSpaceManager.Instance.SetCurrent(button.Header as string);
+
+				if (WorkSpaceManager.Instance.IsLocal)
+				{
+					RefreshWholeTree();
+				}
+				else
+				{
+					SvnMenu.OpenSvn();
+				}
+			}
 		}
 
 		private void openModel_MenuItem_Click(object sender, RoutedEventArgs e)
