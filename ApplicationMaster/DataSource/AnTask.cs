@@ -12,6 +12,7 @@ namespace Casamia.DataSource
 		private string name;
 		private DateTime startTime;
 		private CommandStatus status;
+		[Newtonsoft.Json.JsonProperty]
 		private List<Command> commandList = new List<Command>();
 		private TimeSpan timeCost;
 
@@ -72,6 +73,7 @@ namespace Casamia.DataSource
 			set;
 		}
 
+		[Newtonsoft.Json.JsonIgnore]
 		public Command[] Commands
 		{
 			get
@@ -88,12 +90,11 @@ namespace Casamia.DataSource
 			}
 		}
 
-
 		#endregion PROPERTIES
 
 		#region PUBLIC
 
-		public void AddChild(Command command)
+		public void AddCommand(Command command)
 		{
 			commandList.Add(command);
 			command.StatusChanged += command_StatusChanged;
@@ -104,7 +105,7 @@ namespace Casamia.DataSource
 			commandList.Clear();
 		}
 
-		public void AddChildren(IEnumerable<Command> commands)
+		public void AddCommands(IEnumerable<Command> commands)
 		{
 			foreach (var item in commands)
 			{
@@ -133,7 +134,7 @@ namespace Casamia.DataSource
 					cloneCommands[i] = command;
 				}
 			}
-			anotherTask.AddChildren(cloneCommands);
+			anotherTask.AddCommands(cloneCommands);
 			return anotherTask;
 		}
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
@@ -31,6 +32,7 @@ namespace Casamia
 		public readonly int customBorderThickness = 7;
 
 		private delegate void BuildTreeDelegate(TreeNode childTree);
+		private ObservableCollection<AnTask> activeTask = new ObservableCollection<AnTask>();
 
 		List<string> commands = new List<string>();
 
@@ -60,7 +62,7 @@ namespace Casamia
 				MyWorker.Initialize();
 				MyUser.Initialize();
 				CommonTask.Initialize();
-				task_DataGrid.ItemsSource = TaskHandler.TaskCollections;
+				task_DataGrid.ItemsSource = TaskManager.TaskCollections;
 			}
 			catch (Exception e)
 			{
@@ -1082,12 +1084,12 @@ namespace Casamia
 
 					if (item.Status == CommandStatus.Waiting)
 					{
-						TaskHandler.RemoveTask(item);
+						TaskManager.RemoveTask(item);
 						anTasks.Add(item.Clone() as AnTask);
 					}
 				}
 
-				TaskHandler.ParallelTask(anTasks.ToArray());
+				TaskManager.ParallelTask(anTasks.ToArray());
 			}
 		}
 

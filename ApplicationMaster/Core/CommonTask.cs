@@ -65,7 +65,7 @@ namespace Casamia.Core
 
 							anTask.Description = reader.ReadString();
 
-							anTask.AddChildren(subTasks);
+							anTask.AddCommands(subTasks);
 
 
 
@@ -145,7 +145,7 @@ namespace Casamia.Core
 					childTask.Executor = subTask.Executor;
 					childTask.Argument = subTask.Argument.Replace(Util.PROJECT_PATH_PLACEHOLDER, projectPath);
 					childTask.Timeout = subTask.Timeout;
-					newTask.AddChild(childTask);
+					newTask.AddCommand(childTask);
 				}
 
 				list.Add(newTask);
@@ -163,7 +163,7 @@ namespace Casamia.Core
 			{
 				AnTask anTask = new AnTask();
 
-				anTask.AddChild(subTask);
+				anTask.AddCommand(subTask);
 
 				RunTask(Constants.TASK_NAME_COMMAND, anTask, projectPaths);
 			}
@@ -199,7 +199,6 @@ namespace Casamia.Core
 				else
 				{
 					List<AnTask> taskList = Allocation(anTask, projectPaths);
-
 					worker.AddTasks(taskList.ToArray());
 				}
 			}
@@ -303,7 +302,7 @@ namespace Casamia.Core
 			AnTask anTask = new AnTask();
 			Command subTask = new Command();
 			subTask.Executor = Util.SVN;
-			subTask.Argument = string.Format("diff {0}", projectPath);
+			subTask.Argument = string.Format(Casamia.Properties.Settings.Default.SVN_COMMAND_DIFF, projectPath);
 			subTask.StatusChanged +=
 				(object sender, CommandStatusEventArgs e) =>
 				{
@@ -320,7 +319,7 @@ namespace Casamia.Core
 				}
 			};
 
-			anTask.AddChild(subTask);
+			anTask.AddCommand(subTask);
 
 			svnWorker.AddTask(anTask);
 		}

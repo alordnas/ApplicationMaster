@@ -19,6 +19,16 @@ namespace Casamia.Core
 
 		string svnRoot;
 
+		bool IsDesignMode(string type)
+		{
+			return type.Contains("designer");
+		}
+
+		bool IsFurnitureMode(string type)
+		{
+			return type.Contains("modeler");
+		}
+
 		public void Create()
 		{
 			projectPath = CreateCaseData.Current.GetProjcetPath();
@@ -41,7 +51,7 @@ namespace Casamia.Core
 				return;
 			}
 
-            TaskWorker worker = new TaskWorker(Constants.TASK_NAME_CREATEPROJECT);
+			TaskWorker worker = new TaskWorker(Constants.TASK_NAME_CREATEPROJECT);
 
 			worker.OnCompleteAll = () =>
 			{
@@ -51,168 +61,70 @@ namespace Casamia.Core
 			TaskWorker svnChecker = new TaskWorker(null);
 
 			CommonTask.SvnCheckDiff(svnChecker, Path.GetDirectoryName(projectPath),
-                   () =>
-                   {
-                       worker.AddTask(GetAddTask(projectPath));
+				   () =>
+				   {
+					   if (IsDesignMode(WorkSpaceManager.Instance.Current.Ext))
+					   {
+						   worker.AddTask(GetCreateDesignUnityTask(projectPath));
+					   }
+					   else if (IsFurnitureMode(WorkSpaceManager.Instance.Current.Ext))
+					   {
+						   worker.AddTask(GetCreateFurnitureUnityTask(projectPath));
+					   }
 
-                       worker.Run();
-                   },
-                   () =>
-                   {
-                       worker.AddTask(GetImportTask(projectPath));
-
-                       worker.Run();
-                   });
+					   worker.Run();
+				   },
+				   () =>
+				   {
+					   if (IsDesignMode(WorkSpaceManager.Instance.Current.Ext))
+					   {
+						   worker.AddTask(GetImportDesignUnityTask(projectPath));
+					   }
+					   else if (IsFurnitureMode(WorkSpaceManager.Instance.Current.Ext))
+					   {
+						   worker.AddTask(GetImportFurnitureUnityTask(projectPath));
+					   }
+					   worker.Run();
+				   });
 
 			svnChecker.Run();
 		}
 
-        private Command GetCreateUnityProject(string projectPath) 
-        {
-            Command anTask = new Command();
-
-            anTask.Executor = Util.UNITY;
-
-            string packageFullPath = CreateCaseData.Current.GetImportPackagePath();
-
-            if (!File.Exists(packageFullPath))
-            {
-				LogManager.Instance.LogError("丢失：{0}", packageFullPath);
-                anTask.Argument = string.Format("-quit -createProject \"{0}\" -BatchMode -exit", projectPath);
-            }
-            else
-                anTask.Argument = string.Format("-quit -createProject \"{0}\" -importPackage \"{1}\" -BatchMode -exit", projectPath, packageFullPath);
-
-            return anTask;
-        }
-		
-		private AnTask GetAddTask(string projectPath) 
+		private AnTask GetCreateDesignUnityTask(string projectPath)
 		{
-			AnTask anTask = new AnTask();
-
-			string[] arguments = new string[]
-			{
-				string.Format("add \"{0}\"", projectPath),
-				string.Format("propset svn:ignore -F {0} \"{1}\"", XMLManage.GetString(Util.IGNOREPATTREN), projectPath),
-				string.Format("revert --depth=infinity \"{0}\\Library\"", projectPath),
-				string.Format("propset svn:externals \"{0}\\Assets\" -F {1}", projectPath, XMLManage.GetString(Util.EXTERNALPATH)),
-				string.Format("update \"{0}\"", projectPath)
-			};
-
-			Command subTask = GetCreateUnityProject(projectPath);
-			subTask.StatusChanged +=
-				(object sender, CommandStatusEventArgs e) =>
-				{
-					if (e.NewStatus == CommandStatus.Completed)
-					{
-						string[] otherPaths = CreateCaseData.Current.GetPathsNeedCreated(projectPath);
-						for (int i = 0, length = otherPaths.Length; i < length; i++)
-						{
-							System.IO.Directory.CreateDirectory(otherPaths[i]);
-						}
-					}
-				};
-			subTask.ErrorOccur += (object sender, CommandEventArgs e) =>
-			{
-				LogManager.Instance.LogError(e.Message);
-			}; 
-			anTask.AddChild(subTask);
-
-            for (int i = 0,length = arguments.Length; i < length; i++)
-            {
-                subTask = new Command();
-
-                subTask.Executor = Util.SVN;
-
-                subTask.Argument = arguments[i];
-				subTask.ErrorOccur += (object sender, CommandEventArgs e) =>
-				{
-					LogManager.Instance.LogError(e.Message);
-				}; 
-
-				anTask.AddChild(subTask);
-            }
+			AnTask anTask = Newtonsoft.Json.JsonConvert.DeserializeObject<AnTask>(
+				Properties.Settings.Default.TASK_CREATE_UNITY_DESIGN_PROJECT
+				);
+			TaskManager.NormalizeTask(anTask, projectPath);
 			return anTask;
 		}
 
-
-		private AnTask GetImportTask(string projectPath)
+		private AnTask GetImportDesignUnityTask(string projectPath)
 		{
-			AnTask anTask = new AnTask();
-
-            string svnPath = string.Format("{0}/{1}", svnRoot, CreateCaseData.Current.ProjectName);
-
-
-            string[] arguments = new string[]
-			{
-				string.Format("import {0} {1} -m \"Initial import\"", projectPath, svnPath),
-				string.Format("checkout {0} {1}", svnPath, projectPath),
-				string.Format("propset svn:ignore -F {0} \"{1}\"", XMLManage.GetString(Util.IGNOREPATTREN), projectPath),
-				string.Format("revert --depth=infinity \"{0}\\Library\"", projectPath),
-				string.Format("propset svn:externals \"{0}\\Assets\" -F {1}", projectPath, XMLManage.GetString(Util.EXTERNALPATH)),
-				string.Format("update \"{0}\"", projectPath),
-				string.Format("commit {0} -m \"Add extenal\"", projectPath)
-			};
-
-			Command subTask = GetCreateUnityProject(projectPath);
-
-			subTask.StatusChanged +=
-				(object sender, CommandStatusEventArgs e) =>
-				{
-					if (e.NewStatus == CommandStatus.Completed)
-					{
-						string[] otherPaths = CreateCaseData.Current.GetPathsNeedCreated(projectPath);
-
-						for (int i = 0, length = otherPaths.Length; i < length; i++)
-						{
-							System.IO.Directory.CreateDirectory(otherPaths[i]);
-						}
-
-						Directory.Delete(string.Format("{0}/Library", projectPath), true);
-
-						if (Directory.Exists(string.Format("{0}/Temp", projectPath)))
-						{
-							Directory.Delete(string.Format("{0}/Temp", projectPath), true);
-						}
-					}
-				};
-			subTask.ErrorOccur += (object sender, CommandEventArgs e) =>
-			{
-				LogManager.Instance.LogError(e.Message);
-			}; 
-
-			anTask.AddChild(subTask);
-
-            for (int i = 0, length = arguments.Length; i < length; i++)
-            {
-				subTask = new Command();
-
-				subTask.Executor = Util.SVN;
-
-				subTask.Argument = arguments[i];
-
-				if (i == 0)
-				{
-					subTask.StatusChanged +=
-						(object sender, CommandStatusEventArgs e) =>
-						{
-							if (e.NewStatus == CommandStatus.Completed)
-							{
-								Directory.Delete(projectPath, true);
-								Directory.CreateDirectory(projectPath);
-							}
-						};
-					subTask.ErrorOccur += (object sender, CommandEventArgs e) =>
-					{
-						LogManager.Instance.LogError(e.Message);
-					};
-				}
-
-				anTask.AddChild(subTask);
-            }
-
+			string text = Properties.Settings.Default.TASK_IMPORT_UNITY_DESIGN_PROJECT;
+			AnTask anTask = Newtonsoft.Json.JsonConvert.DeserializeObject<AnTask>(
+				text
+				);
+			TaskManager.NormalizeTask(anTask, projectPath);
 			return anTask;
+		}
 
+		private AnTask GetCreateFurnitureUnityTask(string projectPath)
+		{
+			AnTask anTask = Newtonsoft.Json.JsonConvert.DeserializeObject<AnTask>(
+				Properties.Settings.Default.TASK_CREATE_UNITY_FURNITURE_PROJECT
+				);
+			TaskManager.NormalizeTask(anTask, projectPath);
+			return anTask;
+		}
+
+		private AnTask GetImportFurnitureUnityTask(string projectPath)
+		{
+			AnTask anTask = Newtonsoft.Json.JsonConvert.DeserializeObject<AnTask>(
+				Properties.Settings.Default.TASK_IMPORT_UNITY_FURNITURE_PROJECT
+				);
+			TaskManager.NormalizeTask(anTask, projectPath);
+			return anTask;
 		}
 	}
 }

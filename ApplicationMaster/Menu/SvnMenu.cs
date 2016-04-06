@@ -1,16 +1,14 @@
-﻿using Casamia.MyFacility;
-using Casamia.DataSource;
-using System;
-using System.IO;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Casamia.Core;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows.Media.Imaging;
-using Casamia.Model.EventArgs;
+
+using Casamia.Core;
+using Casamia.DataSource;
 using Casamia.Logging;
+using Casamia.Model.EventArgs;
+using Casamia.MyFacility;
 
 namespace Casamia.Menu
 {
@@ -164,7 +162,12 @@ namespace Casamia.Menu
 									}
 								}
 
-								if ((MyUser.UserJob == Job.Designer && deep == 3) || MyUser.UserJob == Job.Modeler && deep == 1)
+								if ((MyUser.UserJob == Job.Designer
+									&& deep == Casamia.Properties.Settings.Default.DESIGN_SVN_DEPTH)
+									||
+									(MyUser.UserJob == Job.Modeler
+									&& deep == Casamia.Properties.Settings.Default.FURNITURE_SVN_DEPTH)
+									)
 								{
 									InputData.Current.Percent += InputData.Current.Percent < 90 ? 2 : 0;
 								}
@@ -181,7 +184,7 @@ namespace Casamia.Menu
 
 			AnTask anTask = new AnTask();
 
-			anTask.AddChild(command);
+			anTask.AddCommand(command);
 
 			worker.AddTask(anTask);
 		}
@@ -274,14 +277,10 @@ namespace Casamia.Menu
 
 		public static void CheckoutProjects(string[] svnPaths) 
 		{
-			Command[] tasks = GenerateCheckOutCommand(svnPaths);
-
+			Command[] commands = GenerateCheckOutCommand(svnPaths);
 			AnTask anTask = new AnTask();
-
-			anTask.AddChildren(tasks);
-
+			anTask.AddCommands(commands);
 			TaskWorker worker = new TaskWorker("检出项目");
-
 			worker.AddTask(anTask);
 
 			worker.OnCompleteAll = () =>

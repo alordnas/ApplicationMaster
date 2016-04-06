@@ -28,6 +28,8 @@ namespace Casamia.DataSource
 		private TimeSpan timeCost;
 		private TimeSpan timeout;
 		private CommandStatus status = CommandStatus.Waiting;
+		private string description;
+
 
 		#endregion
 
@@ -35,6 +37,14 @@ namespace Casamia.DataSource
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
+		public string Description
+		{
+			get { return description; }
+			set
+			{
+				description = value;
+			}
+		}
 		public string Exe
 		{
 			get

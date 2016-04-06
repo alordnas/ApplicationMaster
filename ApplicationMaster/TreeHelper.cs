@@ -13,6 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Casamia.Core;
 
 namespace Casamia
 {
@@ -71,7 +72,7 @@ namespace Casamia
 
         public static bool IsChildPath(string path)
         {
-            string dir = InputData.Current.Path;
+			string dir = WorkSpaceManager.Instance.Current.LocalUrl;
 
             if (!string.IsNullOrEmpty(dir) && path.StartsWith(TreeHelper.RectifyPath(dir)))
                 return true;

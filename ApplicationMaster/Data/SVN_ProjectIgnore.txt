@@ -1,0 +1,14 @@
+Log
+Library
+Temp
+Obj
+obj
+Keyboard
+Preview
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.userprefs
+*.dotsettings
+.vs

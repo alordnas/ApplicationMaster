@@ -10,17 +10,37 @@ namespace Casamia.Model
 	/// </summary>
 	public class Executor
 	{
+		private string placeHolder;
+		private string name;
+
+		public string Name
+		{
+			get { return name; }
+			set
+			{
+				if (!string.Equals(name, value, StringComparison.OrdinalIgnoreCase))
+				{
+					name = value;
+					placeHolder = string.Format(Util.EXECUTOR_FORMATTOR, name);
+				}
+			}
+		}
+
 		public string Path
 		{
 			get;
 			set;
 		}
 
-		public string Alias
+
+		public string PlaceHolder
 		{
-			get;
-			set;
+			get
+			{
+				return placeHolder;
+			}
 		}
+
 		public string Description
 		{
 			get;

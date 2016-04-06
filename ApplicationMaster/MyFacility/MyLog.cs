@@ -172,7 +172,7 @@ namespace Casamia.MyFacility
 
 								subTask.Timeout = TimeSpan.FromSeconds(reader.ReadInt32());
 
-								anTask.AddChild(subTask);
+								anTask.AddCommand(subTask);
 							}
 
 							_logTasks.Add(anTask);

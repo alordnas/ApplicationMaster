@@ -38,15 +38,10 @@ namespace Casamia.Core
 		public TaskWorker(string taskName)
 		{
 			_taskName = taskName;
-
 			WorkerReportsProgress = true;
-
 			WorkerSupportsCancellation = true;
-
 			DoWork += TaskWorker_DoWork;
-
 			RunWorkerCompleted += TaskWorker_RunWorkerCompleted;
-
 			ProgressChanged += TaskWorker_ProgressChanged;
 		}
 
@@ -69,7 +64,7 @@ namespace Casamia.Core
 				if (isActive)
 				{
 					anTask.Name = _taskName;
-					TaskHandler.AddActiveTask(anTask, this);
+					TaskManager.AddActiveTask(anTask, this);
 				}
 			}
 		}
@@ -98,7 +93,6 @@ namespace Casamia.Core
 			{
 				OnCompleteAll();
 			}
-
 		}
 
 

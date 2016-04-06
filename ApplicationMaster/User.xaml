@@ -4,7 +4,7 @@
         xmlns:data="clr-namespace:Casamia.DataSource"
         Title="New Project" Height="160" Width="300" WindowStyle="None" AllowsTransparency ="True" WindowStartupLocation="CenterScreen" BorderBrush="Gray"
 		BorderThickness="1" Background="#2d2d30" Topmost="True"
-        MouseDown="Window_MouseDown" Closed="Window_Closed" Icon="/ProRunner;component/Images/Logo.ico">
+        MouseDown="Window_MouseDown" Closed="Window_Closed" Icon="Images/Logo.ico">
 
 	<Window.Resources>
 		<data:CreateCaseData x:Key="caseData"/>

@@ -71,7 +71,7 @@ namespace Casamia
 
 			AnTask anTask = new AnTask();
 
-			anTask.AddChildren(currentSubTasks);
+			anTask.AddCommands(currentSubTasks);
 
 			anTask.Description = string.IsNullOrEmpty(describe_TextBox.Text) ? "无" : describe_TextBox.Text;
 
@@ -242,7 +242,7 @@ namespace Casamia
 
 					AnTask anTask = new AnTask();
 
-					anTask.AddChildren(currentSubTasks);
+					anTask.AddCommands(currentSubTasks);
 
 					anTask.Description = string.IsNullOrEmpty(describe_TextBox.Text) ? "无" : describe_TextBox.Text;
 
@@ -259,7 +259,7 @@ namespace Casamia
 				else
 				{
 					CommonTask.CommonTasks[selected].Clear();
-					CommonTask.CommonTasks[selected].AddChildren(currentSubTasks);
+					CommonTask.CommonTasks[selected].AddCommands(currentSubTasks);
 				}
 				CommonTask.Flush();
 				LogManager.Instance.LogInfomation("任务：{0} 已修改", selected);
@@ -425,7 +425,7 @@ namespace Casamia
 				};
 				AnTask anTask = new AnTask();
 
-				anTask.AddChild(task);
+				anTask.AddCommand(task);
 
 				worker.AddTask(anTask);
 
