@@ -14,12 +14,12 @@ using Casamia.MyFacility;
 
 namespace Casamia.Menu
 {
-    public class SvnMenu
-    {
+	public class SvnMenu
+	{
 		static MainWindow mianWindow = App.Current.MainWindow as MainWindow;
-        public static void OpenSvn() 
-        {
-            CommonMethod.SetTitle();
+		public static void OpenSvn()
+		{
+			CommonMethod.SetTitle();
 
 			TreeNode.SvnRoot = new TreeNode(null);
 			TreeNode.SvnRoot.isRoot = true;
@@ -45,13 +45,13 @@ namespace Casamia.Menu
 			);
 		}
 
-        private static void Build(TreeNode root, Action onCompleted, int deep) 
-        {
-            TaskWorker worker = new TaskWorker(null);
+		private static void Build(TreeNode root, Action onCompleted, int deep)
+		{
+			TaskWorker worker = new TaskWorker(null);
 
-            HandleTask(worker, root, deep);
+			HandleTask(worker, root, deep);
 
-			worker.OnCompleteAll = () => 
+			worker.OnCompleteAll = () =>
 			{
 				if (worker.anyTask)
 				{
@@ -66,8 +66,8 @@ namespace Casamia.Menu
 				}
 			};
 
-            worker.Run();
-        }
+			worker.Run();
+		}
 
 		private static void HandleTask(TaskWorker worker, TreeNode root, int deep, int curDeep = 0)
 		{
@@ -75,7 +75,7 @@ namespace Casamia.Menu
 
 			AnTask anTask = TaskManager.GetEmbeddedTask("SVN_LIST_TASK");
 			TaskManager.NormalizeTask(anTask, root.filePath);
-			if(null !=anTask && null != anTask.Commands && anTask.Commands.Length>0)
+			if (null != anTask && null != anTask.Commands && anTask.Commands.Length > 0)
 			{
 				Command command = anTask.Commands[0];
 				command.StatusChanged +=
@@ -116,7 +116,7 @@ namespace Casamia.Menu
 
 		private static ObservableCollection<TreeNode> ParseListOutPut(TreeNode parent, string output)
 		{
-			string[] names = output.Split(new char[] { '\n', '/' }, 
+			string[] names = output.Split(new char[] { '\n', '/' },
 				StringSplitOptions.RemoveEmptyEntries);
 
 			for (int i = 0, length = names.Length; i < length; i++)
@@ -165,9 +165,9 @@ namespace Casamia.Menu
 						}
 					}
 				},
-				() => 
+				() =>
 				{
-					for (int i = 0,length = worker.resultBools.Length; i < length; i++)
+					for (int i = 0, length = worker.resultBools.Length; i < length; i++)
 					{
 						if (worker.resultBools[i])
 						{
@@ -182,7 +182,7 @@ namespace Casamia.Menu
 		}
 
 
-		public static void CheckoutSelectedProjects() 
+		public static void CheckoutSelectedProjects()
 		{
 			if (MyUser.OnSvn)
 			{
@@ -200,18 +200,24 @@ namespace Casamia.Menu
 
 		public static void CheckoutProjects(string[] svnPaths)
 		{
-			AnTask anTask = TaskManager.GetEmbeddedTask("CheckoutProject");
-			if (null != anTask)
+			for (int i = 0; i < svnPaths.Length; i++)
 			{
-				TaskWorker worker = new TaskWorker("检出项目");
-				worker.AddTask(anTask);
 
-				worker.OnCompleteAll = () =>
+				AnTask anTask = TaskManager.GetEmbeddedTask("CheckoutProject");
+				TaskManager.NormalizeTask(anTask, svnPaths[i]);
+				if (null != anTask)
 				{
-					LogManager.Instance.LogInfomation("检出完毕");
-				};
+					TaskWorker worker = new TaskWorker("检出项目");
+					worker.AddTask(anTask);
 
-				worker.Run();
+					worker.OnCompleteAll = () =>
+					{
+						LogManager.Instance.LogInfomation("检出完毕");
+					};
+
+					worker.Run();
+				}
+
 			}
 		}
 

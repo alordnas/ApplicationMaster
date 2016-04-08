@@ -12,7 +12,33 @@
 
 	<Window.Resources>
 		<data:InputData  x:Key="inputData"/>
-
+		<MenuItem x:Key="createProject_MenuItem" Header="创建新项目"  x:Name="creatProject_MenuItem" Click="createUnity_MenuItem_Click" Background="Beige">
+			<MenuItem.Icon>
+				<Image Width="20" Height="20"/>
+			</MenuItem.Icon>
+		</MenuItem>
+		<MenuItem x:Key="svnUpdata_MenuItem" Header="Svn 更新"  Background="Beige">
+			<MenuItem.Icon>
+				<Image Width="20" Height="20" Source="Images/ParentFolder.png" />
+			</MenuItem.Icon>
+		</MenuItem>
+		<MenuItem x:Key="openExplorer_MenuItem" x:Name ="openExplorer_MenuItem"  Header="在浏览器中打开" Click="openExplorer_MenuItem_Click" Background="Beige">
+			<MenuItem.Icon>
+				<Image Width="20" Height="20" Source="Images/folder.jpg" />
+			</MenuItem.Icon>
+		</MenuItem>
+		<MenuItem x:Key="expand_MenuItem" Header="展开" Click="expand_MenuItem_Click" Background="Beige">
+			<MenuItem.Icon>
+				<Image Width="20" Height="20" />
+			</MenuItem.Icon>
+		</MenuItem>
+		<MenuItem x:Key="shrink_MenuItem" Header="收起" Click="shrink_MenuItem_Click" Background="Beige">
+			<MenuItem.Icon>
+				<Image Width="20" Height="20" />
+			</MenuItem.Icon>
+		</MenuItem>
+		<MenuItem x:Key="checkout_MenuItem"  x:Name="checkoutSelected_MenuItem" Click="checkoutSelected_MenuItem_Click" Background="Beige">
+		</MenuItem>
 		<Style TargetType="MenuItem">
 			<Style.Setters>
 				<Setter Property="Background" Value="#2d2d30"></Setter>
@@ -85,7 +111,7 @@
 			<!--Menu-->
 			<Menu Margin="5,0" Background="Transparent" Foreground="Orange">
 				
-				<MenuItem x:Name="dir_MenuItem" Header="工作集">
+				<MenuItem x:Name="dir_MenuItem" Header="工作集" Padding="0">
 					<MenuItem.ItemsSource>
 						<CompositeCollection>
 							<CollectionContainer Collection="{Binding Source={x:Static core:WorkSpaceManager.Instance }, Mode=OneWay, Path=WorkSpaces}"></CollectionContainer>
@@ -99,7 +125,7 @@
 						</Style>
 					</MenuItem.ItemContainerStyle>
 				</MenuItem>
-				<MenuItem x:Name="edit_MenuItem" Header="编辑">
+				<MenuItem x:Name="edit_MenuItem" Header="编辑" HorizontalContentAlignment="Center">
 					<MenuItem  x:Name="openDir_MenuItem" Header ="更改..."  Click="openDir_MenuItem_Click"/>
 					<MenuItem x:Name="preference_MenuItem" Header="设定"  Click="preference_MenuItem_Click"/>
 					<MenuItem x:Name="selectAll_MenuItem" Header="全选(Ctrl + A)"  Click="selectAll_MenuItem_Click"/>
@@ -250,7 +276,7 @@
 
 										<GroupBox Grid.Row="3" Header="细节" Background="WhiteSmoke" BorderBrush="Gray" BorderThickness="2">
 											<DataGrid x:Name="commandDataGrid" Margin="5"  ItemsSource="{Binding}" AutoGenerateColumns="False" 
-												  CanUserAddRows="False" IsReadOnly="True">
+												  CanUserAddRows="False">
 
 												<DataGrid.Columns>
 													<DataGridTextColumn Header="序号" Width="50" Binding="{Binding ID}"/>

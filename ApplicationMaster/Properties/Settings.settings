@@ -28,9 +28,9 @@
 		"ID" : 0,
 		"commandList" : [
 			{
-				"Executor" : "%EXE_APP_UNITY%",
+				"Executor" : "%EXE_APP_SVN%",
 				"Status" : 0,
-				"Argument" : "checkout %SELECTED_PROJECT% %SELECTED_PROJECT_URL%",
+				"Argument" : "checkout %SELECTED_PROJECT_URL% \"%SELECTED_PROJECT%\"",
 				"Timeout" : "-00:00:01",
 				"Description" : "Checkout project."
 			}
@@ -275,7 +275,7 @@
 			}
 		],
 		"Status" : 0
-	},	
+	},
 	{
 		"Description" : "SVN diff ",
 		"Name" : "SVN_DIFF_TASK",
