@@ -58,7 +58,7 @@ namespace Casamia.Core
 		public void AddTask(AnTask anTask)
 		{
 			if (anTask != null)
-			{
+			{	
 				groupTasks.Enqueue(anTask);
 
 				if (isActive)
@@ -200,12 +200,12 @@ namespace Casamia.Core
 			}
 		}
 
-		private bool RunProcess(Command subTask)
+		private bool RunProcess(Command command)
 		{
 			StringBuilder outputDataBuilder = new StringBuilder();
 			Process process = new Process();
-			process.StartInfo.FileName = subTask.Exe;
-			process.StartInfo.Arguments = subTask.Argument;
+			process.StartInfo.FileName = command.Exe;
+			process.StartInfo.Arguments = command.Argument;
 			process.StartInfo.UseShellExecute = false;
 			process.StartInfo.CreateNoWindow = true;
 			process.StartInfo.RedirectStandardOutput = true;
@@ -216,7 +216,7 @@ namespace Casamia.Core
 				{
 					if (!string.IsNullOrEmpty(e.Data))
 					{
-						subTask.Output = e.Data;
+						command.Output = e.Data;
 					}
 				};
 			process.ErrorDataReceived +=
@@ -224,40 +224,33 @@ namespace Casamia.Core
 				{
 					if (!string.IsNullOrEmpty(e.Data))
 					{
-						subTask.Error = e.Data;
+						command.Error = e.Data;
 					}
 				};
-			Stopwatch stopWatch = new Stopwatch();
-
-			stopWatch.Start();
+			
+			command.StartTime = DateTime.Now;
+			
 
 			process.Start();
-			Logging.LogManager.Instance.LogDebug("{0} {1}", subTask.Executor, subTask.Argument);
+			Logging.LogManager.Instance.LogDebug("{0} {1}", command.Executor, command.Argument);
 			process.BeginErrorReadLine();
 			process.BeginOutputReadLine();
 
 			bool isTimeout = false;
 			double actualTimeout = double.MaxValue;
 			//强制等待结束
-			if (subTask.Timeout.TotalMilliseconds < double.Epsilon)
+			if (command.Timeout.TotalMilliseconds < double.Epsilon)
 			{
 				process.WaitForExit();
 			}
 			else
 			{
 				int _systemTimeout = MyFacility.MyWorker.timeout < 0 ? int.MaxValue : MyFacility.MyWorker.timeout;
-				actualTimeout = Math.Min(subTask.Timeout.TotalMilliseconds, _systemTimeout);
+				actualTimeout = Math.Min(command.Timeout.TotalMilliseconds, _systemTimeout);
 				isTimeout = !process.WaitForExit((int)actualTimeout);
-				if (!isTimeout)
-				{
-					subTask.TimeCost = TimeSpan.FromMilliseconds(stopWatch.ElapsedMilliseconds);
-				}
 			}
 
-			stopWatch.Stop();
-
-			subTask.TimeCost = TimeSpan.FromMilliseconds(Math.Min(stopWatch.ElapsedMilliseconds, actualTimeout));
-
+			command.TimeCost = DateTime.Now - command.StartTime;
 			return isTimeout;
 		}
 	}

@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows.Media.Imaging;
 
+using Newtonsoft.Json;
+
 using Casamia.Core;
 using Casamia.DataSource;
 using Casamia.Logging;
@@ -43,16 +45,6 @@ namespace Casamia.Menu
 			);
 		}
 
-        public static void CloseSvn() 
-        {
-			MyUser.OnSvn = false;
-
-            CommonMethod.SetTitle();
-
-			MyUser.ResetUserJob();
-        }
-
-
         private static void Build(TreeNode root, Action onCompleted, int deep) 
         {
             TaskWorker worker = new TaskWorker(null);
@@ -81,59 +73,46 @@ namespace Casamia.Menu
 		{
 			curDeep++;
 
-			Command command = new Command();
-			command.Executor = Util.SVN;
-			command.Argument = string.Format("list {0}", root.filePath);
-			command.CommandFeedbackReceived +=
-				(object sender, CommandEventArgs e) =>
-				{
-					LogManager.Instance.LogDebug(e.Message);
-				};
-			command.ErrorOccur +=
-				(object sender, CommandEventArgs e) =>
-				{
-					LogManager.Instance.LogError(e.Message);
-				};
-			command.StatusChanged +=
-				(object sender, CommandStatusEventArgs e) =>
-				{
-					switch(e.NewStatus)
-					{	
-						case CommandStatus.Completed:
-							{
-
-								ObservableCollection<TreeNode> children = ParseListOutPut(root, command.Output);
-
-								if (curDeep < deep)
+			AnTask anTask = TaskManager.GetEmbeddedTask("SVN_LIST_TASK");
+			TaskManager.NormalizeTask(anTask, root.filePath);
+			if(null !=anTask && null != anTask.Commands && anTask.Commands.Length>0)
+			{
+				Command command = anTask.Commands[0];
+				command.StatusChanged +=
+					(object sender, CommandStatusEventArgs e) =>
+					{
+						switch (e.NewStatus)
+						{
+							case CommandStatus.Completed:
 								{
-									for (int i = 0, length = children.Count; i < length; i++)
+									ObservableCollection<TreeNode> children = ParseListOutPut(root, command.Output);
+
+									if (curDeep < deep)
 									{
-										TreeNode child = children[i];
-										HandleTask(worker, child, deep, curDeep);
+										for (int i = 0, length = children.Count; i < length; i++)
+										{
+											TreeNode child = children[i];
+											HandleTask(worker, child, deep, curDeep);
+										}
+									}
+									if (curDeep == deep)
+									{
+										InputData.Current.Percent += InputData.Current.Percent < 90 ? 2 : 0;
+									}
+									else
+									{
+										worker.OnCompleteAll = null;
 									}
 								}
-								if (curDeep == deep)
-								{
-									InputData.Current.Percent += InputData.Current.Percent < 90 ? 2 : 0;
-								}
-								else
-								{
-									worker.OnCompleteAll = null;
-								}
-							}
-							break;
-						default:
-							break;
-					}
-				};
-
-			AnTask anTask = new AnTask();
-
-			anTask.AddCommand(command);
+								break;
+							default:
+								break;
+						}
+					};
+			}
 
 			worker.AddTask(anTask);
 		}
-
 
 		private static ObservableCollection<TreeNode> ParseListOutPut(TreeNode parent, string output)
 		{
@@ -219,88 +198,22 @@ namespace Casamia.Menu
 			}
 		}
 
-		public static void CheckoutProjects(string[] svnPaths) 
+		public static void CheckoutProjects(string[] svnPaths)
 		{
-			Command[] commands = GenerateCheckOutCommand(svnPaths);
-			AnTask anTask = new AnTask();
-			anTask.AddCommands(commands);
-			TaskWorker worker = new TaskWorker("检出项目");
-			worker.AddTask(anTask);
-
-			worker.OnCompleteAll = () =>
+			AnTask anTask = TaskManager.GetEmbeddedTask("CheckoutProject");
+			if (null != anTask)
 			{
-				LogManager.Instance.LogInfomation("检出完毕");
-			};
+				TaskWorker worker = new TaskWorker("检出项目");
+				worker.AddTask(anTask);
 
-			worker.Run();
-		}
+				worker.OnCompleteAll = () =>
+				{
+					LogManager.Instance.LogInfomation("检出完毕");
+				};
 
-
-		private static Command[] GenerateCheckOutCommand(string[] svnProjectPaths) 
-		{
-			Command[] tasks = new Command[svnProjectPaths.Length];
-
-			int timeout = int.Parse(XMLManage.GetString(Util.MAXIMUM_EXECUTE_TIME));
-
-
-			for (int i = 0, length = svnProjectPaths.Length; i < length; )
-			{
-				string svnProjectPath = svnProjectPaths[i];
-
-				string localProjectPaths = CommonMethod.SvnToLocalPath(svnProjectPath);
-
-				//Command cleanupCmd = new Command();
-				//cleanupCmd.Executor = Util.SVN;
-				//cleanupCmd.Argument = string.Format("cleanup \"{0}\"", localProjectPaths);
-				//cleanupCmd.Timeout = TimeSpan.FromSeconds(timeout);
-				//tasks[i++] = cleanupCmd;
-				//cleanupCmd.CommandFeedbackReceived +=
-				//	(object sender, CommandEventArgs e) =>
-				//	{
-				//		LogManager.Instance.LogDebug(e.Message);
-				//	};
-				//cleanupCmd.ErrorOccur +=
-				//	(object sender, CommandEventArgs e) =>
-				//	{
-				//		LogManager.Instance.LogError(e.Message);
-				//	};
-				//cleanupCmd.StatusChanged +=
-				//	(object sender, CommandStatusEventArgs e) =>
-				//	{
-				//		if (e.NewStatus == CommandStatus.Completed)
-				//		{
-				//			LogManager.Instance.LogInfomation("cleanup {0} completed.", svnProjectPath);
-				//		}
-				//	};
-
-				Command coCmd = new Command();
-				coCmd.Executor = Util.SVN;
-				coCmd.Argument = string.Format("checkout {0} \"{1}\"", svnProjectPath, localProjectPaths);
-				coCmd.Timeout = TimeSpan.FromSeconds(timeout);
-				tasks[i++] = coCmd;
-				coCmd.CommandFeedbackReceived +=
-					(object sender, CommandEventArgs e) =>
-					{
-						LogManager.Instance.LogDebug(e.Message);
-					};
-				coCmd.ErrorOccur +=
-					(object sender, CommandEventArgs e) =>
-					{
-						LogManager.Instance.LogError(e.Message);
-					};
-				coCmd.StatusChanged +=
-					(object sender, CommandStatusEventArgs e) =>
-					{
-						if(e.NewStatus == CommandStatus.Completed)
-						{
-							LogManager.Instance.LogInfomation("check out {0} completed.", svnProjectPath);
-						}
-					};
-
+				worker.Run();
 			}
-			return tasks;
 		}
 
-
-    }
+	}
 }

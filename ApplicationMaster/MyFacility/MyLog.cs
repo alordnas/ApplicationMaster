@@ -83,8 +83,6 @@ namespace Casamia.MyFacility
 						{
 							AnTask anTask = todayLogTasks[i];
 
-							writer.Write(anTask.ID);
-
 							writer.Write(anTask.Name);
 
 							writer.Write(anTask.Description);
@@ -140,9 +138,6 @@ namespace Casamia.MyFacility
 						for (int i = 0; i < anTaskCount; i++)
 						{
 							AnTask anTask = new AnTask();
-
-							anTask.ID = reader.ReadInt32();
-
 							anTask.Name = reader.ReadString();
 
 							anTask.Description = reader.ReadString();

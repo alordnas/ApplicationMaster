@@ -1,8 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
-using System.IO;
 using System.Text;
 
+using Casamia.Core;
+using Casamia.Model;
 using Casamia.Model.EventArgs;
 
 namespace Casamia.DataSource
@@ -51,18 +52,9 @@ namespace Casamia.DataSource
 			{
 				return _exe;
 			}
-			set
+			private set
 			{
 				_exe = value;
-
-				if (_exe != null)
-				{
-					_executor = Path.GetFileNameWithoutExtension(_exe).ToLower();
-				}
-				else
-				{
-					_executor = null;
-				}
 			}
 		}
 
@@ -74,22 +66,21 @@ namespace Casamia.DataSource
 			}
 			set
 			{
-				_executor = value;
-
-				if (_executor != null)
+				if (!string.Equals(_executor, value))
 				{
-					if (_executor.Equals(Util.UNITY))
+					_executor = value;
+					Executor executor = ExecutorManager.Instance.GetByPlaceHolder(_executor);
+					if(null != executor)
 					{
-						_exe = XMLManage.GetString(Util.UNITY);
+						_exe = executor.Path;
 					}
-					else if ((_executor.Equals(Util.SVN)))
+					else
 					{
-						_exe = XMLManage.GetString(Util.SVN);
+						Logging.LogManager.Instance.LogError(
+							"{0} cannot find corresponding application",
+							_executor
+							);
 					}
-				}
-				else
-				{
-					_exe = null;
 				}
 			}
 		}
@@ -114,7 +105,10 @@ namespace Casamia.DataSource
 					OnPropertyChanged("TimeCost");
 					if (null != CommandFeedbackReceived)
 					{
-						CommandFeedbackReceived(this, new CommandEventArgs(value, CommandStatus.Running));
+						CommandFeedbackReceived(
+							this, 
+							new CommandEventArgs(value, CommandStatus.Running)
+							);
 					}
 					OnPropertyChanged("Output");
 				}
@@ -214,7 +208,7 @@ namespace Casamia.DataSource
 		public DateTime StartTime
 		{
 			get { return startTime; }
-			private set
+			set
 			{
 				if (!DateTime.Equals(startTime, value))
 				{

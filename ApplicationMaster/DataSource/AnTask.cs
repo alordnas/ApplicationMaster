@@ -194,6 +194,11 @@ namespace Casamia.DataSource
 			}
 		}
 
+		public override string ToString()
+		{
+			return this.name;
+		}
+
 		#endregion FUNCTION
 
 		public event PropertyChangedEventHandler PropertyChanged;

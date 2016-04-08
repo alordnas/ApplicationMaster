@@ -12,6 +12,13 @@ namespace Casamia.Model
 	{
 		private string placeHolder;
 		private string name;
+		private string[] potentialParameters;
+
+		public string[] PotentialParameters
+		{
+			get { return potentialParameters; }
+			set { potentialParameters = value; }
+		}
 
 		public string Name
 		{

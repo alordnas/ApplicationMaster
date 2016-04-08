@@ -49,18 +49,6 @@ namespace Casamia.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("diff {0}")]
-        public string SVN_COMMAND_DIFF {
-            get {
-                return ((string)(this["SVN_COMMAND_DIFF"]));
-            }
-            set {
-                this["SVN_COMMAND_DIFF"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("workspace.config")]
         public string WORKSPACE_CONFIG_PATH {
             get {
@@ -97,92 +85,130 @@ namespace Casamia.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"{""Description"":""Create Design Unity project."",""Name"":""Create Design Unity Project"",""ID"":0,""commandList"":[{""Executor"":""%EXE_APP_UNITY%"",""Status"":0,""Argument"":""-quit -createProject \""%SELECTED_PROJECT%\"" -importPackage \"".\\Data\\Package\\Design.unitypackage\"" -BatchMode -exit "",""Timeout"":""-00:00:01"",""Description"":""create design project.""},{""Executor"":""%EXE_APP_CMD%"",""Status"":0,""Argument"":""mkdir \""%SELECTED_PROJECT%\\Maps\"""",""Timeout"":""-00:00:01"",""Description"":""create Maps directory.""},{""Executor"":""%EXE_APP_CMD%"",""Status"":0,""Argument"":""mkdir \""%SELECTED_PROJECT%\\Reference\"""",""Timeout"":""-00:00:01"",""Description"":""create Reference directory.""},{""Executor"":""%EXE_APP_SVN%"",""Status"":0,""Argument"":""add \""%SELECTED_PROJECT%\"""",""Timeout"":""-00:00:01"",""Description"":""mark project to added.""},{""Executor"":""%EXE_APP_SVN%"",""Status"":0,""Argument"":""propset svn:ignore -F \"".\\Data\\SVN_ProjectIgnore.txt\"" \""%SELECTED_PROJECT%\"""",""Timeout"":""-00:00:01"",""Description"":""add project ignore properties.""},{""Executor"":""%EXE_APP_SVN%"",""Status"":0,""Argument"":""propset svn:externals \""%SELECTED_PROJECT%\\Assets\"" -F \"".\\Data\\DesignProjectExternals.txt\"""",""Timeout"":""-00:00:01"",""Description"":""add project externals properties.""}],""Status"":0}")]
-        public string TASK_CREATE_UNITY_DESIGN_PROJECT {
+        [global::System.Configuration.DefaultSettingValueAttribute("executors.config")]
+        public string EXECUTOR_CONFIG_PATH {
             get {
-                return ((string)(this["TASK_CREATE_UNITY_DESIGN_PROJECT"]));
+                return ((string)(this["EXECUTOR_CONFIG_PATH"]));
             }
             set {
-                this["TASK_CREATE_UNITY_DESIGN_PROJECT"] = value;
+                this["EXECUTOR_CONFIG_PATH"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("{\"Description\":\"Create Design Unity project.\",\"Name\":\"Create Design Unity Project" +
-            "\",\"ID\":0,\"commandList\":[{\"Executor\":\"%EXE_APP_UNITY%\",\"Status\":0,\"Argument\":\"-qu" +
+        [global::System.Configuration.DefaultSettingValueAttribute("[\r\n\t{\r\n\t\t\"Description\" : \"Checkout Project\",\r\n\t\t\"Name\" : \"CheckoutProject\",\r\n\t\t\"I" +
+            "D\" : 0,\r\n\t\t\"commandList\" : [\r\n\t\t\t{\r\n\t\t\t\t\"Executor\" : \"%EXE_APP_UNITY%\",\r\n\t\t\t\t\"St" +
+            "atus\" : 0,\r\n\t\t\t\t\"Argument\" : \"checkout %SELECTED_PROJECT% %SELECTED_PROJECT_URL%" +
+            "\",\r\n\t\t\t\t\"Timeout\" : \"-00:00:01\",\r\n\t\t\t\t\"Description\" : \"Checkout project.\"\r\n\t\t\t}\r" +
+            "\n\t\t],\r\n\t\t\"Status\" : 0\r\n\t},\r\n\t{\r\n\t\t\"Description\" : \"Import Design Unity project.\"" +
+            ",\r\n\t\t\"Name\" : \"ImportDesignUnityProject\",\r\n\t\t\"ID\" : 0,\r\n\t\t\"commandList\" : [\r\n\t\t\t" +
+            "{\r\n\t\t\t\t\"Executor\" : \"%EXE_APP_UNITY%\",\r\n\t\t\t\t\"Status\" : 0,\r\n\t\t\t\t\"Argument\" : \"-qu" +
             "it -createProject \\\"%SELECTED_PROJECT%\\\" -importPackage \\\".\\\\Data\\\\Package\\\\Desi" +
-            "gn.unitypackage\\\" -BatchMode -exit \",\"Timeout\":\"-00:00:01\",\"Description\":\"create" +
-            " design project.\"},{\"Executor\":\"%EXE_APP_CMD%\",\"Status\":0,\"Argument\":\"mkdir \\\"%S" +
-            "ELECTED_PROJECT%\\\\Maps\\\"\",\"Timeout\":\"-00:00:01\",\"Description\":\"create Maps direc" +
-            "tory.\"},{\"Executor\":\"%EXE_APP_CMD%\",\"Status\":0,\"Argument\":\"mkdir \\\"%SELECTED_PRO" +
-            "JECT%\\\\Reference\\\"\",\"Timeout\":\"-00:00:01\",\"Description\":\"create Reference direct" +
-            "ory.\"},{\"Executor\":\"%EXE_APP_SVN%\",\"Status\":0,\"Argument\":\"import \\\"%SELECTED_PRO" +
-            "JECT%\\\" %SELECTED_PROJECT_URL% -m \\\"Initial import\\\" --depth=\\\"empty\\\"\",\"Timeout" +
-            "\":\"-00:00:01\",\"Description\":\"import project.\"},{\"Executor\":\"%EXE_APP_SVN%\",\"Stat" +
-            "us\":0,\"Argument\":\"checkout \\\"%SELECTED_PROJECT%\\\" %SELECTED_PROJECT_URL%\",\"Timeo" +
-            "ut\":\"-00:00:01\",\"Description\":\"import project.\"},{\"Executor\":\"%EXE_APP_SVN%\",\"St" +
-            "atus\":0,\"Argument\":\"propset svn:ignore -F \\\".\\\\Data\\\\SVN_ProjectIgnore.txt\\\" \\\"%" +
-            "SELECTED_PROJECT%\\\"\",\"Timeout\":\"-00:00:01\",\"Description\":\"add project ignore pro" +
-            "perties.\"},{\"Executor\":\"%EXE_APP_SVN%\",\"Status\":0,\"Argument\":\"propset svn:extern" +
-            "als \\\"%SELECTED_PROJECT%\\\\Assets\\\" -F \\\".\\\\Data\\\\DesignProjectExternals.txt\\\"\",\"" +
-            "Timeout\":\"-00:00:01\",\"Description\":\"add project externals properties.\"},{\"Execut" +
-            "or\":\"%EXE_APP_SVN%\",\"Status\":0,\"Argument\":\"add .\",\"Timeout\":\"-00:00:01\",\"Descrip" +
-            "tion\":\"add project externals properties.\"},{\"Executor\":\"%EXE_APP_SVN%\",\"Status\":" +
-            "0,\"Argument\":\"update \\\"%SELECTED_PROJECT%\\\"\",\"Timeout\":\"-00:00:01\",\"Description\"" +
-            ":\"add project externals properties.\"},{\"Executor\":\"%EXE_APP_SVN%\",\"Status\":0,\"Ar" +
-            "gument\":\"commit \\\"%SELECTED_PROJECT%\\\" -m \\\"Add extenal\\\"\",\"Timeout\":\"-00:00:01\"" +
-            ",\"Description\":\"add project externals properties.\"}],\"Status\":0}")]
-        public string TASK_IMPORT_UNITY_DESIGN_PROJECT {
+            "gn.unitypackage\\\" -BatchMode -exit \",\r\n\t\t\t\t\"Timeout\" : \"-00:00:01\",\r\n\t\t\t\t\"Descri" +
+            "ption\" : \"create design project.\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"Executor\" : \"%EXE_APP_CMD%\"" +
+            ",\r\n\t\t\t\t\"Status\" : 0,\r\n\t\t\t\t\"Argument\" : \"mkdir \\\"%SELECTED_PROJECT%\\\\Maps\\\"\",\r\n\t\t" +
+            "\t\t\"Timeout\" : \"-00:00:01\",\r\n\t\t\t\t\"Description\" : \"create Maps directory.\"\r\n\t\t\t},\r" +
+            "\n\t\t\t{\r\n\t\t\t\t\"Executor\" : \"%EXE_APP_CMD%\",\r\n\t\t\t\t\"Status\" : 0,\r\n\t\t\t\t\"Argument\" : \"m" +
+            "kdir \\\"%SELECTED_PROJECT%\\\\Reference\\\"\",\r\n\t\t\t\t\"Timeout\" : \"-00:00:01\",\r\n\t\t\t\t\"Des" +
+            "cription\" : \"create Reference directory.\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"Executor\" : \"%EXE_A" +
+            "PP_SVN%\",\r\n\t\t\t\t\"Status\" : 0,\r\n\t\t\t\t\"Argument\" : \"import \\\"%SELECTED_PROJECT%\\\" %S" +
+            "ELECTED_PROJECT_URL% -m \\\"Initial import\\\" --depth=\\\"empty\\\"\",\r\n\t\t\t\t\"Timeout\" : " +
+            "\"-00:00:01\",\r\n\t\t\t\t\"Description\" : \"import project.\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"Executor\"" +
+            " : \"%EXE_APP_SVN%\",\r\n\t\t\t\t\"Status\" : 0,\r\n\t\t\t\t\"Argument\" : \"checkout \\\"%SELECTED_P" +
+            "ROJECT%\\\" %SELECTED_PROJECT_URL%\",\r\n\t\t\t\t\"Timeout\" : \"-00:00:01\",\r\n\t\t\t\t\"Descripti" +
+            "on\" : \"import project.\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"Executor\" : \"%EXE_APP_SVN%\",\r\n\t\t\t\t\"St" +
+            "atus\" : 0,\r\n\t\t\t\t\"Argument\" : \"propset svn:ignore -F \\\".\\\\Data\\\\SVN_ProjectIgnore" +
+            ".txt\\\" \\\"%SELECTED_PROJECT%\\\"\",\r\n\t\t\t\t\"Timeout\" : \"-00:00:01\",\r\n\t\t\t\t\"Description\"" +
+            " : \"add project ignore properties.\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"Executor\" : \"%EXE_APP_SVN" +
+            "%\",\r\n\t\t\t\t\"Status\" : 0,\r\n\t\t\t\t\"Argument\" : \"propset svn:externals \\\"%SELECTED_PROJ" +
+            "ECT%\\\\Assets\\\" -F \\\".\\\\Data\\\\DesignProjectExternals.txt\\\"\",\r\n\t\t\t\t\"Timeout\" : \"-0" +
+            "0:00:01\",\r\n\t\t\t\t\"Description\" : \"add project externals properties.\"\r\n\t\t\t},\r\n\t\t\t{\r" +
+            "\n\t\t\t\t\"Executor\" : \"%EXE_APP_SVN%\",\r\n\t\t\t\t\"Status\" : 0,\r\n\t\t\t\t\"Argument\" : \"add .\"," +
+            "\r\n\t\t\t\t\"Timeout\" : \"-00:00:01\",\r\n\t\t\t\t\"Description\" : \"add project externals prope" +
+            "rties.\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"Executor\" : \"%EXE_APP_SVN%\",\r\n\t\t\t\t\"Status\" : 0,\r\n\t\t\t\t" +
+            "\"Argument\" : \"update \\\"%SELECTED_PROJECT%\\\"\",\r\n\t\t\t\t\"Timeout\" : \"-00:00:01\",\r\n\t\t\t" +
+            "\t\"Description\" : \"add project externals properties.\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"Executor" +
+            "\" : \"%EXE_APP_SVN%\",\r\n\t\t\t\t\"Status\" : 0,\r\n\t\t\t\t\"Argument\" : \"commit \\\"%SELECTED_PR" +
+            "OJECT%\\\" -m \\\"Add extenal\\\"\",\r\n\t\t\t\t\"Timeout\" : \"-00:00:01\",\r\n\t\t\t\t\"Description\" :" +
+            " \"add project externals properties.\"\r\n\t\t\t}\r\n\t\t],\r\n\t\t\"Status\" : 0\r\n\t},\r\n\t{\r\n\t\t\"De" +
+            "scription\" : \"Add Design Unity project.\",\r\n\t\t\"Name\" : \"AddDesignUnityProject\",\r\n" +
+            "\t\t\"ID\" : 0,\r\n\t\t\"commandList\" : [\r\n\t\t\t{\r\n\t\t\t\t\"Executor\" : \"%EXE_APP_UNITY%\",\r\n\t\t\t" +
+            "\t\"Status\" : 0,\r\n\t\t\t\t\"Argument\" : \"-quit -createProject \\\"%SELECTED_PROJECT%\\\" -i" +
+            "mportPackage \\\".\\\\Data\\\\Package\\\\Design.unitypackage\\\" -BatchMode -exit \",\r\n\t\t\t\t" +
+            "\"Timeout\" : \"-00:00:01\",\r\n\t\t\t\t\"Description\" : \"create design project.\"\r\n\t\t\t},\r\n\t" +
+            "\t\t{\r\n\t\t\t\t\"Executor\" : \"%EXE_APP_CMD%\",\r\n\t\t\t\t\"Status\" : 0,\r\n\t\t\t\t\"Argument\" : \"mkd" +
+            "ir \\\"%SELECTED_PROJECT%\\\\Maps\\\"\",\r\n\t\t\t\t\"Timeout\" : \"-00:00:01\",\r\n\t\t\t\t\"Descriptio" +
+            "n\" : \"create Maps directory.\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"Executor\" : \"%EXE_APP_CMD%\",\r\n\t" +
+            "\t\t\t\"Status\" : 0,\r\n\t\t\t\t\"Argument\" : \"mkdir \\\"%SELECTED_PROJECT%\\\\Reference\\\"\",\r\n\t" +
+            "\t\t\t\"Timeout\" : \"-00:00:01\",\r\n\t\t\t\t\"Description\" : \"create Reference directory.\"\r\n" +
+            "\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"Executor\" : \"%EXE_APP_SVN%\",\r\n\t\t\t\t\"Status\" : 0,\r\n\t\t\t\t\"Argument" +
+            "\" : \"add \\\"%SELECTED_PROJECT%\\\"\",\r\n\t\t\t\t\"Timeout\" : \"-00:00:01\",\r\n\t\t\t\t\"Descriptio" +
+            "n\" : \"mark project to added.\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"Executor\" : \"%EXE_APP_SVN%\",\r\n\t" +
+            "\t\t\t\"Status\" : 0,\r\n\t\t\t\t\"Argument\" : \"propset svn:ignore -F \\\".\\\\Data\\\\SVN_Project" +
+            "Ignore.txt\\\" \\\"%SELECTED_PROJECT%\\\"\",\r\n\t\t\t\t\"Timeout\" : \"-00:00:01\",\r\n\t\t\t\t\"Descri" +
+            "ption\" : \"add project ignore properties.\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"Executor\" : \"%EXE_A" +
+            "PP_SVN%\",\r\n\t\t\t\t\"Status\" : 0,\r\n\t\t\t\t\"Argument\" : \"propset svn:externals \\\"%SELECTE" +
+            "D_PROJECT%\\\\Assets\\\" -F \\\".\\\\Data\\\\DesignProjectExternals.txt\\\"\",\r\n\t\t\t\t\"Timeout\"" +
+            " : \"-00:00:01\",\r\n\t\t\t\t\"Description\" : \"add project externals properties.\"\r\n\t\t\t}\r\n" +
+            "\t\t],\r\n\t\t\"Status\" : 0\r\n\t},\r\n\t{\r\n\t\t\"Description\" : \"Import FURNITURE Unity project" +
+            ".\",\r\n\t\t\"Name\" : \"ImportFurnitureUnityProject\",\r\n\t\t\"ID\" : 0,\r\n\t\t\"commandList\" : [" +
+            "\r\n\t\t\t{\r\n\t\t\t\t\"Executor\" : \"%EXE_APP_UNITY%\",\r\n\t\t\t\t\"Status\" : 0,\r\n\t\t\t\t\"Argument\" :" +
+            " \"-quit -createProject \\\"%SELECTED_PROJECT%\\\" -importPackage \\\".\\\\Data\\\\Package\\" +
+            "\\Model.unitypackage\\\" -BatchMode -exit \",\r\n\t\t\t\t\"Timeout\" : \"-00:00:01\",\r\n\t\t\t\t\"De" +
+            "scription\" : \"create FURNITURE project.\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"Executor\" : \"%EXE_AP" +
+            "P_CMD%\",\r\n\t\t\t\t\"Status\" : 0,\r\n\t\t\t\t\"Argument\" : \"mkdir \\\"%SELECTED_PROJECT%\\\\refer" +
+            "ence\\\"\",\r\n\t\t\t\t\"Timeout\" : \"-00:00:01\",\r\n\t\t\t\t\"Description\" : \"create Reference di" +
+            "rectory.\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"Executor\" : \"%EXE_APP_SVN%\",\r\n\t\t\t\t\"Status\" : 0,\r\n\t\t" +
+            "\t\t\"Argument\" : \"import \\\"%SELECTED_PROJECT%\\\" %SELECTED_PROJECT_URL% -m \\\"Initia" +
+            "l import\\\" --depth=\\\"empty\\\"\",\r\n\t\t\t\t\"Timeout\" : \"-00:00:01\",\r\n\t\t\t\t\"Description\" " +
+            ": \"import project.\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"Executor\" : \"%EXE_APP_SVN%\",\r\n\t\t\t\t\"Status" +
+            "\" : 0,\r\n\t\t\t\t\"Argument\" : \"checkout \\\"%SELECTED_PROJECT%\\\" %SELECTED_PROJECT_URL%" +
+            "\",\r\n\t\t\t\t\"Timeout\" : \"-00:00:01\",\r\n\t\t\t\t\"Description\" : \"import project.\"\r\n\t\t\t},\r\n" +
+            "\t\t\t{\r\n\t\t\t\t\"Executor\" : \"%EXE_APP_SVN%\",\r\n\t\t\t\t\"Status\" : 0,\r\n\t\t\t\t\"Argument\" : \"pr" +
+            "opset svn:ignore -F \\\".\\\\Data\\\\SVN_ProjectIgnore.txt\\\" \\\"%SELECTED_PROJECT%\\\"\",\r" +
+            "\n\t\t\t\t\"Timeout\" : \"-00:00:01\",\r\n\t\t\t\t\"Description\" : \"add project ignore propertie" +
+            "s.\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"Executor\" : \"%EXE_APP_SVN%\",\r\n\t\t\t\t\"Status\" : 0,\r\n\t\t\t\t\"Arg" +
+            "ument\" : \"propset svn:externals \\\"%SELECTED_PROJECT%\\\\Assets\\\" -F \\\".\\\\Data\\\\Des" +
+            "ignProjectExternals.txt\\\"\",\r\n\t\t\t\t\"Timeout\" : \"-00:00:01\",\r\n\t\t\t\t\"Description\" : \"" +
+            "add project externals properties.\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"Executor\" : \"%EXE_APP_SVN%" +
+            "\",\r\n\t\t\t\t\"Status\" : 0,\r\n\t\t\t\t\"Argument\" : \"add .\",\r\n\t\t\t\t\"Timeout\" : \"-00:00:01\",\r\n" +
+            "\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"Executor\" : \"%EXE_APP_SVN%\",\r\n\t\t\t\t\"Status\" : 0,\r\n\t\t\t\t\"Argument" +
+            "\" : \"update \\\"%SELECTED_PROJECT%\\\"\",\r\n\t\t\t\t\"Timeout\" : \"-00:00:01\",\r\n\t\t\t},\r\n\t\t\t{\r" +
+            "\n\t\t\t\t\"Executor\" : \"%EXE_APP_SVN%\",\r\n\t\t\t\t\"Status\" : 0,\r\n\t\t\t\t\"Argument\" : \"commit " +
+            "\\\"%SELECTED_PROJECT%\\\" -m \\\"Add extenal\\\"\",\r\n\t\t\t\t\"Timeout\" : \"-00:00:01\",\r\n\t\t\t}\r" +
+            "\n\t\t],\r\n\t\t\"Status\" : 0\r\n\t},\r\n\t{\r\n\t\t\"Description\" : \"Add Furniture Unity project.\"" +
+            ",\r\n\t\t\"Name\" : \"AddFurnitureUnityProject\",\r\n\t\t\"ID\" : 0,\r\n\t\t\"commandList\" : [\r\n\t\t\t" +
+            "{\r\n\t\t\t\t\"Executor\" : \"%EXE_APP_UNITY%\",\r\n\t\t\t\t\"Status\" : 0,\r\n\t\t\t\t\"Argument\" : \"-qu" +
+            "it -createProject \\\"%SELECTED_PROJECT%\\\" -importPackage \\\".\\\\Data\\\\Package\\\\Mode" +
+            "l.unitypackage\\\" -BatchMode -exit \",\r\n\t\t\t\t\"Timeout\" : \"-00:00:01\",\r\n\t\t\t\t\"Descrip" +
+            "tion\" : \"create design project.\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"Executor\" : \"%EXE_APP_CMD%\"," +
+            "\r\n\t\t\t\t\"Status\" : 0,\r\n\t\t\t\t\"Argument\" : \"mkdir \\\"%SELECTED_PROJECT%\\\\reference\\\"\"," +
+            "\r\n\t\t\t\t\"Timeout\" : \"-00:00:01\",\r\n\t\t\t\t\"Description\" : \"create Reference directory." +
+            "\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"Executor\" : \"%EXE_APP_SVN%\",\r\n\t\t\t\t\"Status\" : 0,\r\n\t\t\t\t\"Argum" +
+            "ent\" : \"add \\\"%SELECTED_PROJECT%\\\"\",\r\n\t\t\t\t\"Timeout\" : \"-00:00:01\",\r\n\t\t\t\t\"Descrip" +
+            "tion\" : \"mark project to added.\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"Executor\" : \"%EXE_APP_SVN%\"," +
+            "\r\n\t\t\t\t\"Status\" : 0,\r\n\t\t\t\t\"Argument\" : \"propset svn:ignore -F \\\".\\\\Data\\\\SVN_Proj" +
+            "ectIgnore.txt\\\" \\\"%SELECTED_PROJECT%\\\"\",\r\n\t\t\t\t\"Timeout\" : \"-00:00:01\",\r\n\t\t\t\t\"Des" +
+            "cription\" : \"add project ignore properties.\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"Executor\" : \"%EX" +
+            "E_APP_SVN%\",\r\n\t\t\t\t\"Status\" : 0,\r\n\t\t\t\t\"Argument\" : \"propset svn:externals \\\"%SELE" +
+            "CTED_PROJECT%\\\\Assets\\\" -F \\\".\\\\Data\\\\DesignProjectExternals.txt\\\"\",\r\n\t\t\t\t\"Timeo" +
+            "ut\" : \"-00:00:01\",\r\n\t\t\t\t\"Description\" : \"add project externals properties.\"\r\n\t\t\t" +
+            "}\r\n\t\t],\r\n\t\t\"Status\" : 0\r\n\t},\t\r\n\t{\r\n\t\t\"Description\" : \"SVN diff \",\r\n\t\t\"Name\" : \"S" +
+            "VN_DIFF_TASK\",\r\n\t\t\"ID\" : 0,\r\n\t\t\"commandList\" : [\r\n\t\t\t{\r\n\t\t\t\t\"Executor\" : \"%EXE_A" +
+            "PP_SVN%\",\r\n\t\t\t\t\"Status\" : 0,\r\n\t\t\t\t\"Argument\" : \"diff  \\\"%SELECTED_PROJECT%\\\"\",\r\n" +
+            "\t\t\t\t\"Timeout\" : \"-00:00:01\",\r\n\t\t\t\t\"Description\" : \"Svn diff.\"\r\n\t\t\t}\r\n\t\t],\r\n\t\t\"St" +
+            "atus\" : 0\r\n\t},\r\n\t{\r\n\t\t\"Description\" : \"SVN list \",\r\n\t\t\"Name\" : \"SVN_LIST_TASK\",\r" +
+            "\n\t\t\"ID\" : 0,\r\n\t\t\"commandList\" : [\r\n\t\t\t{\r\n\t\t\t\t\"Executor\" : \"%EXE_APP_SVN%\",\r\n\t\t\t\t" +
+            "\"Status\" : 0,\r\n\t\t\t\t\"Argument\" : \"list  %SELECTED_PROJECT_URL%\",\r\n\t\t\t\t\"Timeout\" :" +
+            " \"-00:00:01\",\r\n\t\t\t\t\"Description\" : \"Svn list.\"\r\n\t\t\t}\r\n\t\t],\r\n\t\t\"Status\" : 0\r\n\t}\r\n" +
+            "]\r\n")]
+        public string EMBEDDED_TASKS {
             get {
-                return ((string)(this["TASK_IMPORT_UNITY_DESIGN_PROJECT"]));
+                return ((string)(this["EMBEDDED_TASKS"]));
             }
             set {
-                this["TASK_IMPORT_UNITY_DESIGN_PROJECT"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("{\"Description\":\"Create FURNITURE Unity project.\",\"Name\":\"Create FURNITURE Unity P" +
-            "roject\",\"ID\":0,\"commandList\":[{\"Executor\":\"%EXE_APP_UNITY%\",\"Status\":0,\"Argument" +
-            "\":\"-quit -createProject \\\"%SELECTED_PROJECT%\\\" -importPackage \\\".\\\\Data\\\\Package" +
-            "\\\\Model.unitypackage\\\" -BatchMode -exit \",\"Timeout\":\"-00:00:01\",\"Description\":\"c" +
-            "reate FURNITURE project.\"},{\"Executor\":\"%EXE_APP_CMD%\",\"Status\":0,\"Argument\":\"mk" +
-            "dir \\\"%SELECTED_PROJECT%\\\\reference\\\"\",\"Timeout\":\"-00:00:01\",\"Description\":\"crea" +
-            "te Reference directory.\"},{\"Executor\":\"%EXE_APP_SVN%\",\"Status\":0,\"Argument\":\"imp" +
-            "ort \\\"%SELECTED_PROJECT%\\\" %SELECTED_PROJECT_URL% -m \\\"Initial import\\\" --depth=" +
-            "\\\"empty\\\"\",\"Timeout\":\"-00:00:01\",\"Description\":\"import project.\"},{\"Executor\":\"%" +
-            "EXE_APP_SVN%\",\"Status\":0,\"Argument\":\"checkout \\\"%SELECTED_PROJECT%\\\" %SELECTED_P" +
-            "ROJECT_URL%\",\"Timeout\":\"-00:00:01\",\"Description\":\"import project.\"},{\"Executor\":" +
-            "\"%EXE_APP_SVN%\",\"Status\":0,\"Argument\":\"propset svn:ignore -F \\\".\\\\Data\\\\SVN_Proj" +
-            "ectIgnore.txt\\\" \\\"%SELECTED_PROJECT%\\\"\",\"Timeout\":\"-00:00:01\",\"Description\":\"add" +
-            " project ignore properties.\"},{\"Executor\":\"%EXE_APP_SVN%\",\"Status\":0,\"Argument\":" +
-            "\"propset svn:externals \\\"%SELECTED_PROJECT%\\\\Assets\\\" -F \\\".\\\\Data\\\\DesignProjec" +
-            "tExternals.txt\\\"\",\"Timeout\":\"-00:00:01\",\"Description\":\"add project externals pro" +
-            "perties.\"},{\"Executor\":\"%EXE_APP_SVN%\",\"Status\":0,\"Argument\":\"add .\",\"Timeout\":\"" +
-            "-00:00:01\",},{\"Executor\":\"%EXE_APP_SVN%\",\"Status\":0,\"Argument\":\"update \\\"%SELECT" +
-            "ED_PROJECT%\\\"\",\"Timeout\":\"-00:00:01\",},{\"Executor\":\"%EXE_APP_SVN%\",\"Status\":0,\"A" +
-            "rgument\":\"commit \\\"%SELECTED_PROJECT%\\\" -m \\\"Add extenal\\\"\",\"Timeout\":\"-00:00:01" +
-            "\",}],\"Status\":0}")]
-        public string TASK_IMPORT_UNITY_FURNITURE_PROJECT {
-            get {
-                return ((string)(this["TASK_IMPORT_UNITY_FURNITURE_PROJECT"]));
-            }
-            set {
-                this["TASK_IMPORT_UNITY_FURNITURE_PROJECT"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"{""Description"":""Create Design Unity project."",""Name"":""Create Design Unity Project"",""ID"":0,""commandList"":[{""Executor"":""%EXE_APP_UNITY%"",""Status"":0,""Argument"":""-quit -createProject \""%SELECTED_PROJECT%\"" -importPackage \"".\\Data\\Package\\Model.unitypackage\"" -BatchMode -exit "",""Timeout"":""-00:00:01"",""Description"":""create design project.""},{""Executor"":""%EXE_APP_CMD%"",""Status"":0,""Argument"":""mkdir \""%SELECTED_PROJECT%\\reference\"""",""Timeout"":""-00:00:01"",""Description"":""create Reference directory.""},{""Executor"":""%EXE_APP_SVN%"",""Status"":0,""Argument"":""add \""%SELECTED_PROJECT%\"""",""Timeout"":""-00:00:01"",""Description"":""mark project to added.""},{""Executor"":""%EXE_APP_SVN%"",""Status"":0,""Argument"":""propset svn:ignore -F \"".\\Data\\SVN_ProjectIgnore.txt\"" \""%SELECTED_PROJECT%\"""",""Timeout"":""-00:00:01"",""Description"":""add project ignore properties.""},{""Executor"":""%EXE_APP_SVN%"",""Status"":0,""Argument"":""propset svn:externals \""%SELECTED_PROJECT%\\Assets\"" -F \"".\\Data\\DesignProjectExternals.txt\"""",""Timeout"":""-00:00:01"",""Description"":""add project externals properties.""}],""Status"":0}")]
-        public string TASK_CREATE_UNITY_FURNITURE_PROJECT {
-            get {
-                return ((string)(this["TASK_CREATE_UNITY_FURNITURE_PROJECT"]));
-            }
-            set {
-                this["TASK_CREATE_UNITY_FURNITURE_PROJECT"] = value;
+                this["EMBEDDED_TASKS"] = value;
             }
         }
     }

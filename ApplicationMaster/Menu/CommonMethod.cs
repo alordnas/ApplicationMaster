@@ -11,15 +11,7 @@ using Casamia.MyFacility;
 namespace Casamia.Menu
 {
     public class CommonMethod
-    {
-        static MainWindow mainWindow = App.Current.MainWindow as MainWindow;
-
-
-        public static void Exit()
-        {
-            mainWindow.Close();
-        }
-
+	{
 
         public static void SetTitle()
         {

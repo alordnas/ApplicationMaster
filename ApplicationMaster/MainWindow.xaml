@@ -11,34 +11,6 @@
         Foreground ="Black"  KeyDown="Window_KeyDown" KeyUp="Window_KeyUp" Closing="Window_Closing" Loaded="Window_Loaded" Icon="Images/Logo.ico">
 
 	<Window.Resources>
-		<!--<MenuItem x:Key="createProject_MenuItem" Header="创建新项目"  x:Name="creatProject_MenuItem" Click="createUnity_MenuItem_Click" Background="Beige">
-			<MenuItem.Icon>
-				<Image Width="20" Height="20"/>
-			</MenuItem.Icon>
-		</MenuItem>
-		<MenuItem x:Key="svnUpdata_MenuItem" Header="Svn 更新"  Background="Beige">
-			<MenuItem.Icon>
-				<Image Width="20" Height="20" Source="Images/ParentFolder.png" />
-			</MenuItem.Icon>
-		</MenuItem>
-		<MenuItem x:Key="openExplorer_MenuItem" x:Name ="openExplorer_MenuItem"  Header="在浏览器中打开" Click="openExplorer_MenuItem_Click" Background="Beige">
-			<MenuItem.Icon>
-				<Image Width="20" Height="20" Source="Images/folder.jpg" />
-			</MenuItem.Icon>
-		</MenuItem>
-		<MenuItem x:Key="expand_MenuItem" Header="展开" Click="expand_MenuItem_Click" Background="Beige">
-			<MenuItem.Icon>
-				<Image Width="20" Height="20" />
-			</MenuItem.Icon>
-		</MenuItem>
-		<MenuItem x:Key="shrink_MenuItem" Header="收起" Click="shrink_MenuItem_Click" Background="Beige">
-			<MenuItem.Icon>
-				<Image Width="20" Height="20" />
-			</MenuItem.Icon>
-		</MenuItem>
-		<MenuItem x:Key="checkout_MenuItem"  x:Name="checkoutSelected_MenuItem" Click="checkoutSelected_MenuItem_Click" Background="Beige">
-		</MenuItem>-->
-
 		<data:InputData  x:Key="inputData"/>
 
 		<Style TargetType="MenuItem">
@@ -112,7 +84,8 @@
 		<StackPanel Grid.Row="1" Orientation="Horizontal" FlowDirection="LeftToRight">
 			<!--Menu-->
 			<Menu Margin="5,0" Background="Transparent" Foreground="Orange">
-				<MenuItem x:Name="dir_MenuItem" Header="workspace">
+				
+				<MenuItem x:Name="dir_MenuItem" Header="工作集">
 					<MenuItem.ItemsSource>
 						<CompositeCollection>
 							<CollectionContainer Collection="{Binding Source={x:Static core:WorkSpaceManager.Instance }, Mode=OneWay, Path=WorkSpaces}"></CollectionContainer>
@@ -149,9 +122,25 @@
 					<Separator Background="Transparent"/>
 					<MenuItem x:Name="checkout_MenuItem" Header="检出选中"  Click="checkout_MenuItem_Click"/>
 				</MenuItem>
+
 				<MenuItem x:Name="task_MenuItem" Header="任务">
-					<MenuItem x:Name="taskManager_MenuItem" Header="管理..." Click="taskManager_MenuItem_Click"/>
+					<MenuItem.ItemsSource>
+						<CompositeCollection>
+							<MenuItem x:Name="taskManager_MenuItem" Header="管理..." Click="taskManager_MenuItem_Click"/>
+							<CollectionContainer Collection="{Binding Source={x:Static core:TaskManager.ProtoTasks }, Mode=OneWay}"></CollectionContainer>
+						</CompositeCollection>
+					</MenuItem.ItemsSource>
+					<MenuItem.ItemContainerStyle>
+						<Style TargetType="MenuItem">
+							<Setter Property="MenuItem.Header" Value="{Binding}"/>
+							<EventSetter Event="Click" Handler="OnProtoTaskClick"></EventSetter>
+							<Setter Property="Background" Value="#2d2d30"></Setter>
+						</Style>
+					</MenuItem.ItemContainerStyle>
 				</MenuItem>
+				<!--<MenuItem x:Name="task_MenuItem" Header="任务">
+					<MenuItem x:Name="taskManager_MenuItem" Header="管理..." Click="taskManager_MenuItem_Click"/>
+				</MenuItem>-->
 				<MenuItem Header="帮助">
 					<MenuItem Header="帮助手册"  />
 				</MenuItem>
@@ -179,19 +168,16 @@
 							<RowDefinition Height="28"/>
 							<RowDefinition />
 						</Grid.RowDefinitions>
-						<Border BorderBrush="White" BorderThickness ="5,5,5,0">
-							<Grid>
+						<Border BorderBrush="White">
+							<Grid HorizontalAlignment="Stretch">
 								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="50"/>
-									<ColumnDefinition/>
+									<ColumnDefinition Width="1*"/>
 									<ColumnDefinition Width="18"/>
 								</Grid.ColumnDefinitions>
-								<TextBox Text="{Binding Source={x:Static core:WorkSpaceManager.Instance} , Mode=OneWay, Path=WorkSpace}" FontSize="15" Background="WhiteSmoke"
-								  IsEnabled="False" />
-								<TextBox x:Name = "dir_TextBox"  Grid.Column="1" Text="{Binding Source={x:Static core:WorkSpaceManager.Instance} , Mode=OneWay, Path=WorkingPath}"  FontSize="15" Background="Transparent"
+								<TextBox x:Name = "dir_TextBox"  Grid.Column="0" Text="{Binding Source={x:Static core:WorkSpaceManager.Instance} , Mode=OneWay, Path=WorkingPath}"  FontSize="15" Background="Transparent"
 								  IsEnabled="False"/>
-								<ProgressBar Grid.Column="1" Value="{Binding Percent}" Foreground="#20FF66F3" Orientation="Horizontal" IsIndeterminate="False"  Background="Transparent" BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-								<Button x:Name="exchangeUser_Button" Grid.Column="2" Style="{DynamicResource ResourceKey=ExchangeButtonStyle}"  Click="exchangeUser_Button_Click" ToolTip="切换">
+								<ProgressBar Grid.Column="0" Value="{Binding Percent}" Foreground="#20FF66F3" Orientation="Horizontal" IsIndeterminate="False"  Background="Transparent" BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+								<Button x:Name="exchangeUser_Button" Grid.Column="1" Style="{DynamicResource ResourceKey=ExchangeButtonStyle}"  Click="exchangeUser_Button_Click" ToolTip="切换">
 								</Button>
 							</Grid>
 						</Border>
@@ -269,10 +255,10 @@
 												<DataGrid.Columns>
 													<DataGridTextColumn Header="序号" Width="50" Binding="{Binding ID}"/>
 													<DataGridTextColumn Header="程序" Width="50" Binding="{Binding Exe}"/>
-													<DataGridTextColumn Header="参数" Width="100" Binding="{Binding Argument}"/>
+													<DataGridTextColumn Header="参数" Width="100" Binding="{Binding Argument}" IsReadOnly="False"/>
 													<DataGridTextColumn Header="开始时间" Width="70" Binding="{Binding StartTime ,Mode=OneWay, StringFormat=\{0:HH:mm:ss\}}"/>
 													<DataGridTextColumn Header="耗时" Width="70" Binding="{Binding TimeCost, Mode=OneWay, StringFormat=\{0:hh\\:mm\\:ss\}}"/>
-													<DataGridTextColumn Header="限制" Width="70" Binding="{Binding Timeout,Mode=OneWay, StringFormat=\{0:hh\\:mm\\:ss\}}"/>
+													<DataGridTextColumn Header="超时" Width="70" Binding="{Binding Timeout,Mode=OneWay, StringFormat=\{0:hh\\:mm\\:ss\}}"/>
 													<DataGridTemplateColumn Width="80" >
 														<DataGridTemplateColumn.HeaderTemplate>
 															<DataTemplate>
@@ -285,7 +271,7 @@
 															</DataTemplate>
 														</DataGridTemplateColumn.CellTemplate>
 													</DataGridTemplateColumn>
-													<DataGridTemplateColumn Width="*" >
+													<DataGridTemplateColumn Width="*" IsReadOnly="False" >
 														<DataGridTemplateColumn.HeaderTemplate>
 															<DataTemplate>
 																<TextBlock Text="结果" />
@@ -301,7 +287,7 @@
 															</DataTemplate>
 														</DataGridTemplateColumn.CellTemplate>
 													</DataGridTemplateColumn>
-													<DataGridTemplateColumn Width="*" >
+													<DataGridTemplateColumn Width="*" IsReadOnly="False" >
 														<DataGridTemplateColumn.HeaderTemplate>
 															<DataTemplate>
 																<TextBlock Text="错误" />

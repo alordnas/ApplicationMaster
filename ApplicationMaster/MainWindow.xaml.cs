@@ -35,6 +35,7 @@ namespace Casamia
 		private ObservableCollection<AnTask> activeTask = new ObservableCollection<AnTask>();
 
 		List<string> commands = new List<string>();
+		private ObservableCollection<AnTask> activeTasks = new ObservableCollection<AnTask>();
 
 		public TreeNode selectedNode = null;
 
@@ -49,9 +50,10 @@ namespace Casamia
 				LogManager.Instance.AllowLevel = Log.level.Error | Log.level.Infomation | Log.level.Waring;
 
 				if (!File.Exists(Util.RUNNER_CONFIG_FILE))
+				{
 					XMLManage.WriteDafaultConfigText(Util.RUNNER_CONFIG_FILE);
+				}
 
-				//OutputData.Current = (OutputData)FindResource(OUTPUT_DATA);
 				InputData.Current = (InputData)FindResource(INPUT_DATA);
 				
 				this.SourceInitialized += MainWindow_SourceInitialized;
@@ -61,9 +63,16 @@ namespace Casamia
 				MyLog.Initialize();
 				MyWorker.Initialize();
 				MyUser.Initialize();
-				CommonTask.Initialize();
-				//dir_MenuItem.ItemsSource = WorkSpaceManager.Instance.WorkSpaces;
-				task_DataGrid.ItemsSource = TaskManager.TaskCollections;
+				
+				ExecutorManager.Instance.Save();
+				task_DataGrid.ItemsSource = activeTasks;
+				TaskManager.ActivateTask += (AnTask anTask) =>
+				{
+					this.Dispatcher.BeginInvoke(new Action(() =>
+					{
+						activeTasks.Add(anTask);
+					}));
+				};
 			}
 			catch (Exception e)
 			{
@@ -74,7 +83,7 @@ namespace Casamia
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
-			ResetTaskMenu();
+			
 		}
 		private void lb_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
@@ -222,80 +231,15 @@ namespace Casamia
 			}
 		}
 
-		public void ResetTaskMenu()
+		void OnProtoTaskClick(object sender, RoutedEventArgs e)
 		{
-			if (task_MenuItem.HasItems)
-			{
-				for (int i = task_MenuItem.Items.Count - 1; i >= 0; i--)
-				{
-					var item = task_MenuItem.Items[i];
-					if (item is MenuItem)
-					{
-						MenuItem munuItem = item as MenuItem;
-
-						if (munuItem.HasHeader && munuItem.Header.Equals("管理..."))
-						{
-							continue;
-						}
-					}
-					task_MenuItem.Items.Remove(item);
-				}
-				task_MenuItem.Items.Add(new Separator());
-			}
-			foreach (var taskKey in CommonTask.CommonTasks.Keys)
-			{
-				MenuItem menuItem = new MenuItem();
-				menuItem.Header = taskKey;
-				menuItem.Foreground = Brushes.Black;
-				menuItem.Click += menuItem_Click;
-
-				task_MenuItem.Items.Add(menuItem);
-			}
-		}
-
-		void menuItem_Click(object sender, RoutedEventArgs e)
-		{
-			string taskName = (sender as MenuItem).Header.ToString();
+			AnTask anTask = (sender as MenuItem).Header as AnTask;
+			if (null == anTask) return;
 
 			string[] projectPaths = null;
-
-			if (MyUser.OnSvn)
-			{
-				List<TreeNode> nodes = TreeHelper.GetSelectedLeaves(TreeNode.SvnRoot);
-
-				List<string> paths = new List<string>();
-
-				for (int i = 0, length = nodes.Count; i < length; i++)
-				{
-					TreeNode node = nodes[i];
-
-					string localPath = CommonMethod.SvnToLocalPath(node.filePath);
-
-					if (Directory.Exists(localPath))
-					{
-						if (TreeNode.IsProject(localPath))
-						{
-							paths.Add(localPath);
-						}
-					}
-				}
-
-				projectPaths = paths.ToArray();
-
-				if (0 == projectPaths.Length)
-				{
-					LogManager.Instance.LogError("需要是本地存在的项目。");
-					return;
-				}
-			}
-			else
-			{
-				List<TreeNode> nodes = TreeHelper.GetSelectedProjects(TreeNode.Root);
-
-				projectPaths = TreeHelper.GetTreeNodePaths(nodes);
-			}
-
-			CommonTask.RunTask(taskName, projectPaths);
+			List<TreeNode> nodes = TreeHelper.GetSelectedProjects(TreeNode.Root);
+			projectPaths = TreeHelper.GetTreeNodePaths(nodes);
+			CommonTask.RunTask(anTask, projectPaths);
 		}
 
 		/// <summary>
@@ -467,11 +411,6 @@ namespace Casamia
 						quickExec_Textbox.Text = commands[index + 1];
 					}
 				}
-			}
-
-			if (e.Key == Key.Tab)
-			{
-				//MyUser.SwitchUserJob();
 			}
 		}
 
@@ -912,7 +851,7 @@ namespace Casamia
 
 		private void taskManager_MenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			new TaskManageWindow().Show();
+			new TaskManageWindow().ShowDialog();
 		}
 
 		private void checkout_MenuItem_Click(object sender, RoutedEventArgs e)
@@ -1060,7 +999,6 @@ namespace Casamia
 
 			if (cells != null && 0 < cells.Count)
 			{
-
 				List<AnTask> anTasks = new List<AnTask>();
 
 				for (int i = 0, length = cells.Count; i < length; i = i + 7)

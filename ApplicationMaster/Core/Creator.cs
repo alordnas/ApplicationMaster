@@ -51,7 +51,7 @@ namespace Casamia.Core
 				return;
 			}
 
-            TaskWorker worker = new TaskWorker(Constants.TASK_NAME_CREATEPROJECT);
+			TaskWorker worker = new TaskWorker(Constants.TASK_NAME_CREATEPROJECT);
 
 			worker.OnCompleteAll = () =>
 			{
@@ -61,8 +61,8 @@ namespace Casamia.Core
 			TaskWorker svnChecker = new TaskWorker(null);
 
 			CommonTask.SvnCheckDiff(svnChecker, Path.GetDirectoryName(projectPath),
-                   () =>
-                   {
+				   () =>
+				   {
 					   if (IsDesignMode(WorkSpaceManager.Instance.Current.Ext))
 					   {
 						   worker.AddTask(GetCreateDesignUnityTask(projectPath));
@@ -72,9 +72,9 @@ namespace Casamia.Core
 						   worker.AddTask(GetCreateFurnitureUnityTask(projectPath));
 					   }
 
-                       worker.Run();
-                   },
-                   () =>
+					   worker.Run();
+				   },
+				   () =>
 				   {
 					   if (IsDesignMode(WorkSpaceManager.Instance.Current.Ext))
 					   {
@@ -84,45 +84,36 @@ namespace Casamia.Core
 					   {
 						   worker.AddTask(GetImportFurnitureUnityTask(projectPath));
 					   }
-                       worker.Run();
-                   });
+					   worker.Run();
+				   });
 
 			svnChecker.Run();
 		}
 
 		private AnTask GetCreateDesignUnityTask(string projectPath)
 		{
-			AnTask anTask = Newtonsoft.Json.JsonConvert.DeserializeObject<AnTask>(
-				Properties.Settings.Default.TASK_CREATE_UNITY_DESIGN_PROJECT
-				);
+			AnTask anTask = TaskManager.GetEmbeddedTask("AddDesignUnityProject");
 			TaskManager.NormalizeTask(anTask, projectPath);
 			return anTask;
 		}
 
 		private AnTask GetImportDesignUnityTask(string projectPath)
 		{
-			string text = Properties.Settings.Default.TASK_IMPORT_UNITY_DESIGN_PROJECT;
-			AnTask anTask = Newtonsoft.Json.JsonConvert.DeserializeObject<AnTask>(
-				text
-				);
+			AnTask anTask = TaskManager.GetEmbeddedTask("ImportDesignUnityProject");
 			TaskManager.NormalizeTask(anTask, projectPath);
 			return anTask;
 		}
-		
+
 		private AnTask GetCreateFurnitureUnityTask(string projectPath)
 		{
-			AnTask anTask = Newtonsoft.Json.JsonConvert.DeserializeObject<AnTask>(
-				Properties.Settings.Default.TASK_CREATE_UNITY_FURNITURE_PROJECT
-				);
+			AnTask anTask = TaskManager.GetEmbeddedTask("AddFurnitureUnityProject");
 			TaskManager.NormalizeTask(anTask, projectPath);
 			return anTask;
 		}
 
 		private AnTask GetImportFurnitureUnityTask(string projectPath)
 		{
-			AnTask anTask = Newtonsoft.Json.JsonConvert.DeserializeObject<AnTask>(
-				Properties.Settings.Default.TASK_IMPORT_UNITY_FURNITURE_PROJECT
-				);
+			AnTask anTask = TaskManager.GetEmbeddedTask("ImportFurnitureUnityProject");
 			TaskManager.NormalizeTask(anTask, projectPath);
 			return anTask;
 		}
