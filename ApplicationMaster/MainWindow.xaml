@@ -6,46 +6,43 @@
         xmlns:core ="clr-namespace:Casamia.Core"
 		xmlns:casamiaConvert="clr-namespace:Casamia.Converter"
 		Title="{Binding Source={x:Static core:WorkSpaceManager.Instance} , Mode=OneWay, Path=WorkSpace, StringFormat=WorkSpace - \{0\}}"
-        Height="900" Width="1360" WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" BorderBrush="Gray"
-		BorderThickness="1" Background="#2d2d30"
-        Foreground ="Black"  KeyDown="Window_KeyDown" KeyUp="Window_KeyUp" Closing="Window_Closing" Loaded="Window_Loaded" Icon="Images/Logo.ico">
+		WindowStyle="ThreeDBorderWindow" 
+		WindowStartupLocation="CenterScreen" 		
+        KeyDown="Window_KeyDown"
+		KeyUp="Window_KeyUp" 
+		Closing="Window_Closing" 
+		Loaded="Window_Loaded" 
+		Icon="Images/Logo.ico">
 
 	<Window.Resources>
 		<data:InputData  x:Key="inputData"/>
-		<MenuItem x:Key="createProject_MenuItem" Header="创建新项目"  x:Name="creatProject_MenuItem" Click="createUnity_MenuItem_Click" Background="Beige">
+		<MenuItem x:Key="createProject_MenuItem" Header="创建新项目"  x:Name="creatProject_MenuItem" Click="createUnity_MenuItem_Click">
 			<MenuItem.Icon>
 				<Image Width="20" Height="20"/>
 			</MenuItem.Icon>
 		</MenuItem>
-		<MenuItem x:Key="svnUpdata_MenuItem" Header="Svn 更新"  Background="Beige">
+		<MenuItem x:Key="svnUpdata_MenuItem" Header="Svn 更新"  >
 			<MenuItem.Icon>
 				<Image Width="20" Height="20" Source="Images/ParentFolder.png" />
 			</MenuItem.Icon>
 		</MenuItem>
-		<MenuItem x:Key="openExplorer_MenuItem" x:Name ="openExplorer_MenuItem"  Header="在浏览器中打开" Click="openExplorer_MenuItem_Click" Background="Beige">
+		<MenuItem x:Key="openExplorer_MenuItem" x:Name ="openExplorer_MenuItem"  Header="在浏览器中打开" Click="openExplorer_MenuItem_Click" >
 			<MenuItem.Icon>
 				<Image Width="20" Height="20" Source="Images/folder.jpg" />
 			</MenuItem.Icon>
 		</MenuItem>
-		<MenuItem x:Key="expand_MenuItem" Header="展开" Click="expand_MenuItem_Click" Background="Beige">
+		<MenuItem x:Key="expand_MenuItem" Header="展开" Click="expand_MenuItem_Click" >
 			<MenuItem.Icon>
 				<Image Width="20" Height="20" />
 			</MenuItem.Icon>
 		</MenuItem>
-		<MenuItem x:Key="shrink_MenuItem" Header="收起" Click="shrink_MenuItem_Click" Background="Beige">
+		<MenuItem x:Key="shrink_MenuItem" Header="收起" Click="shrink_MenuItem_Click" >
 			<MenuItem.Icon>
 				<Image Width="20" Height="20" />
 			</MenuItem.Icon>
 		</MenuItem>
-		<MenuItem x:Key="checkout_MenuItem"  x:Name="checkoutSelected_MenuItem" Click="checkoutSelected_MenuItem_Click" Background="Beige">
+		<MenuItem x:Key="checkout_MenuItem"  x:Name="checkoutSelected_MenuItem" Click="checkoutSelected_MenuItem_Click" >
 		</MenuItem>
-		<Style TargetType="MenuItem">
-			<Style.Setters>
-				<Setter Property="Background" Value="#2d2d30"></Setter>
-				<Setter Property="BorderThickness" Value="0"></Setter>
-				<!--<Setter Property="" Value=""></Setter>-->
-			</Style.Setters>
-		</Style>
 
 
 		<Style TargetType="DataGridRow">
@@ -87,102 +84,81 @@
 		<casamiaConvert:ProgressConverter x:Key="progressConverter" />
 
 	</Window.Resources>
-	<Grid>
+	<Grid >
 		<Grid.RowDefinitions>
-			<RowDefinition Height="0.04*"/>
-			<RowDefinition Height="0.03*"/>
-			<RowDefinition Height="0.90*"/>
-			<RowDefinition Height="0.03*"/>
+			<RowDefinition Height="Auto" MinHeight="20"/>
+			<RowDefinition Height="1*"/>
+			<RowDefinition Height="Auto" MinHeight="16"/>
 		</Grid.RowDefinitions>
 
-		<!--title bar-->
-		<Grid>
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="0.5*"/>
-				<ColumnDefinition Width="0.5*"/>
-			</Grid.ColumnDefinitions>
-			<!--title-->
-			<TextBlock HorizontalAlignment="Left" Height="30"  Width="500" FontSize="15" Foreground="Gray" Margin="12,2,0,0">
-                    <Run Language="zh-cn" Text="{Binding Title}"/>
-			</TextBlock>
-		</Grid>
+		<Menu Grid.Row="0" >
+			<MenuItem x:Name="dir_MenuItem" Header="工作集" Padding="0">
+				<MenuItem.ItemsSource>
+					<CompositeCollection>
+						<CollectionContainer Collection="{Binding Source={x:Static core:WorkSpaceManager.Instance }, Mode=OneWay, Path=WorkSpaces}"></CollectionContainer>
+					</CompositeCollection>
+				</MenuItem.ItemsSource>
+				<MenuItem.ItemContainerStyle>
+					<Style TargetType="MenuItem">
+						<Setter Property="MenuItem.Header" Value="{Binding Name}"/>
+						<EventSetter Event="Click" Handler="OnWorkspaceClick"></EventSetter>
+					</Style>
+				</MenuItem.ItemContainerStyle>
+			</MenuItem>
+			<MenuItem x:Name="edit_MenuItem" Header="编辑" HorizontalContentAlignment="Center">
+				<MenuItem  x:Name="openDir_MenuItem" Header ="更改..."  Click="openDir_MenuItem_Click"/>
+				<MenuItem x:Name="preference_MenuItem" Header="设定"  Click="preference_MenuItem_Click"/>
+				<MenuItem x:Name="selectAll_MenuItem" Header="全选(Ctrl + A)"  Click="selectAll_MenuItem_Click"/>
+				<MenuItem x:Name="selectNone_MenuItem" Header="撤选(Ctrl + N)"  Click="selectNone_MenuItem_Click"/>
+				<Separator />
+				<MenuItem x:Name="exportDir_MenuItem" Header="导出列表"  Click="exportDir_MenuItem_Click"/>
+				<MenuItem x:Name="importDir_MenuItem" Header="导入列表"  Click="importDir_MenuItem_Click"/>
+				<Separator />
+				<MenuItem x:Name="expand_MenuItem" Header="展开(Ctrl + E)" Click="expand_MenuItem_Click"/>
+				<MenuItem x:Name="shrink_MenuItem" Header="收起(Ctrl + S)"  Click="shrink_MenuItem_Click"/>
 
-		<StackPanel Grid.Row="1" Orientation="Horizontal" FlowDirection="LeftToRight">
-			<!--Menu-->
-			<Menu Margin="5,0" Background="Transparent" Foreground="Orange">
-				
-				<MenuItem x:Name="dir_MenuItem" Header="工作集" Padding="0">
-					<MenuItem.ItemsSource>
-						<CompositeCollection>
-							<CollectionContainer Collection="{Binding Source={x:Static core:WorkSpaceManager.Instance }, Mode=OneWay, Path=WorkSpaces}"></CollectionContainer>
-						</CompositeCollection>
-					</MenuItem.ItemsSource>
-					<MenuItem.ItemContainerStyle>
-						<Style TargetType="MenuItem">
-							<Setter Property="MenuItem.Header" Value="{Binding Name}"/>
-							<EventSetter Event="Click" Handler="OnWorkspaceClick"></EventSetter>
-							<Setter Property="Background" Value="#2d2d30"></Setter>
-						</Style>
-					</MenuItem.ItemContainerStyle>
-				</MenuItem>
-				<MenuItem x:Name="edit_MenuItem" Header="编辑" HorizontalContentAlignment="Center">
-					<MenuItem  x:Name="openDir_MenuItem" Header ="更改..."  Click="openDir_MenuItem_Click"/>
-					<MenuItem x:Name="preference_MenuItem" Header="设定"  Click="preference_MenuItem_Click"/>
-					<MenuItem x:Name="selectAll_MenuItem" Header="全选(Ctrl + A)"  Click="selectAll_MenuItem_Click"/>
-					<MenuItem x:Name="selectNone_MenuItem" Header="撤选(Ctrl + N)"  Click="selectNone_MenuItem_Click"/>
-					<Separator Background="Transparent" />
-					<MenuItem x:Name="exportDir_MenuItem" Header="导出列表"  Click="exportDir_MenuItem_Click"/>
-					<MenuItem x:Name="importDir_MenuItem" Header="导入列表"  Click="importDir_MenuItem_Click"/>
-					<Separator Background="Transparent"/>
-					<MenuItem x:Name="expand_MenuItem" Header="展开(Ctrl + E)" Click="expand_MenuItem_Click"/>
-					<MenuItem x:Name="shrink_MenuItem" Header="收起(Ctrl + S)"  Click="shrink_MenuItem_Click"/>
+			</MenuItem>
+			<MenuItem Header="Unity">
+				<MenuItem x:Name="createUnity_MenuItem" Header="新建项目" Click="createUnity_MenuItem_Click"/>
+			</MenuItem>
 
-				</MenuItem>
-				<MenuItem Header="Unity">
-					<MenuItem x:Name="createUnity_MenuItem" Header="新建项目" Click="createUnity_MenuItem_Click"/>
-				</MenuItem>
+			<MenuItem Header="Svn">
+				<MenuItem x:Name="openSvn_MenuItem" Header="打开Svn"  Click="openSvn_MenuItem_Click"/>
+				<MenuItem x:Name="closeSvn_MenuItem" Header="退出Svn" Click="closeSvn_MenuItem_Click"/>
+				<Separator Background="Transparent"/>
+				<MenuItem x:Name="checkout_MenuItem" Header="检出选中"  Click="checkout_MenuItem_Click"/>
+			</MenuItem>
 
-				<MenuItem Header="Svn">
-					<MenuItem x:Name="openSvn_MenuItem" Header="打开Svn"  Click="openSvn_MenuItem_Click"/>
-					<MenuItem x:Name="closeSvn_MenuItem" Header="退出Svn" Click="closeSvn_MenuItem_Click"/>
-					<Separator Background="Transparent"/>
-					<MenuItem x:Name="checkout_MenuItem" Header="检出选中"  Click="checkout_MenuItem_Click"/>
-				</MenuItem>
-
-				<MenuItem x:Name="task_MenuItem" Header="任务">
-					<MenuItem.ItemsSource>
-						<CompositeCollection>
-							<MenuItem x:Name="taskManager_MenuItem" Header="管理..." Click="taskManager_MenuItem_Click"/>
-							<CollectionContainer Collection="{Binding Source={x:Static core:TaskManager.ProtoTasks }, Mode=OneWay}"></CollectionContainer>
-						</CompositeCollection>
-					</MenuItem.ItemsSource>
-					<MenuItem.ItemContainerStyle>
-						<Style TargetType="MenuItem">
-							<Setter Property="MenuItem.Header" Value="{Binding}"/>
-							<EventSetter Event="Click" Handler="OnProtoTaskClick"></EventSetter>
-							<Setter Property="Background" Value="#2d2d30"></Setter>
-						</Style>
-					</MenuItem.ItemContainerStyle>
-				</MenuItem>
-				<!--<MenuItem x:Name="task_MenuItem" Header="任务">
+			<MenuItem x:Name="task_MenuItem" Header="任务">
+				<MenuItem.ItemsSource>
+					<CompositeCollection>
+						<MenuItem x:Name="taskManager_MenuItem" Header="管理..." Click="taskManager_MenuItem_Click"/>
+						<CollectionContainer Collection="{Binding Source={x:Static core:TaskManager.ProtoTasks }, Mode=OneWay}"></CollectionContainer>
+					</CompositeCollection>
+				</MenuItem.ItemsSource>
+				<MenuItem.ItemContainerStyle>
+					<Style TargetType="MenuItem">
+						<Setter Property="MenuItem.Header" Value="{Binding}"/>
+						<EventSetter Event="Click" Handler="OnProtoTaskClick"></EventSetter>
+					</Style>
+				</MenuItem.ItemContainerStyle>
+			</MenuItem>
+			<!--<MenuItem x:Name="task_MenuItem" Header="任务">
 					<MenuItem x:Name="taskManager_MenuItem" Header="管理..." Click="taskManager_MenuItem_Click"/>
 				</MenuItem>-->
-				<MenuItem Header="帮助">
-					<MenuItem Header="帮助手册"  />
-				</MenuItem>
-			</Menu>
-		</StackPanel>
+			<MenuItem Header="帮助">
+				<MenuItem Header="帮助手册"  />
+			</MenuItem>
+		</Menu>
 
-
-
-		<Border Grid.Row="2" BorderBrush="Transparent" BorderThickness="10">
+		<Border Grid.Row="1">
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="0.9*"/>
 					<RowDefinition Height="0.1*"/>
 				</Grid.RowDefinitions>
 
-				<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2,0" Background="WhiteSmoke" >
+				<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2,0"  >
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="0.5*"/>
 						<ColumnDefinition Width="Auto"/>
@@ -194,7 +170,7 @@
 							<RowDefinition Height="28"/>
 							<RowDefinition />
 						</Grid.RowDefinitions>
-						<Border BorderBrush="White">
+						<Border >
 							<Grid HorizontalAlignment="Stretch">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="1*"/>
@@ -202,22 +178,51 @@
 								</Grid.ColumnDefinitions>
 								<TextBox x:Name = "dir_TextBox"  Grid.Column="0" Text="{Binding Source={x:Static core:WorkSpaceManager.Instance} , Mode=OneWay, Path=WorkingPath}"  FontSize="15" Background="Transparent"
 								  IsEnabled="False"/>
-								<ProgressBar Grid.Column="0" Value="{Binding Percent}" Foreground="#20FF66F3" Orientation="Horizontal" IsIndeterminate="False"  Background="Transparent" BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-								<Button x:Name="exchangeUser_Button" Grid.Column="1" Style="{DynamicResource ResourceKey=ExchangeButtonStyle}"  Click="exchangeUser_Button_Click" ToolTip="切换">
+								<ProgressBar Grid.Column="0" 
+											 Value="{Binding Percent}" 
+											 Orientation="Horizontal" 
+											 IsIndeterminate="False"   
+											 BorderThickness="0" 
+											 HorizontalAlignment="Stretch" 
+											 VerticalAlignment="Stretch" 
+											 Visibility="Hidden"/>
+								<Button x:Name="exchangeUser_Button" 
+										Grid.Column="1" 
+										Style="{DynamicResource ResourceKey=ExchangeButtonStyle}"  
+										Click="exchangeUser_Button_Click" 
+										ToolTip="切换">
 								</Button>
 							</Grid>
 						</Border>
 
-						<Border Grid.Row="1" Grid.Column="0" BorderBrush="White" BorderThickness ="5,0,5,5">
-							<TreeView x:Name="dir_TreeView" Background="Beige" AllowDrop="True" DragEnter="dir_TreeView_DragEnter" MouseRightButtonDown="dir_TreeView_MouseRightButtonDown">
+						<Border Grid.Row="1" Grid.Column="0"  BorderThickness ="5,0,5,5">
+							<TreeView x:Name="dir_TreeView"  
+									  AllowDrop="True" 
+									  DragEnter="dir_TreeView_DragEnter" 
+									  MouseRightButtonDown="dir_TreeView_MouseRightButtonDown">
 								<TreeView.ItemTemplate>
-									<HierarchicalDataTemplate DataType="{x:Type data:TreeNode}" ItemsSource="{Binding  Path = children}">
-										<StackPanel x:Name="treeItem_StackPanel" Margin="-2,0,0,0" Orientation="Horizontal" Height="15" MouseRightButtonDown="treeItem_StackPanel_MouseRightButtonDown">
-											<CheckBox ToolTip="{Binding filePath}" FontSize="14" FontFamily="微软雅黑" Tag="{Binding children}" 
-                                              IsChecked="{Binding isChecked, Mode=TwoWay}" PreviewMouseDown="CheckBox_PreviewMouseDown"
-                                              Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" >
-												<StackPanel x:Name ="item_StackPanel" Orientation="Horizontal" MouseLeftButtonDown="item_StackPanel_MouseLeftButtonDown">
-													<Image VerticalAlignment="Center" Height="20" Width="20" Source="{Binding icon}" ></Image>
+									<HierarchicalDataTemplate DataType="{x:Type data:TreeNode}" 
+															  ItemsSource="{Binding Path = children}">
+										<StackPanel x:Name="treeItem_StackPanel" 
+													Margin="-2,0,0,0" 
+													Orientation="Horizontal" 
+													Height="15" 
+													MouseRightButtonDown="treeItem_StackPanel_MouseRightButtonDown">
+											<CheckBox ToolTip="{Binding filePath}" 
+													  FontSize="14"
+													  FontFamily="微软雅黑" 
+													  Tag="{Binding children}" 
+													  IsChecked="{Binding isChecked, Mode=TwoWay}" 
+													  PreviewMouseDown="CheckBox_PreviewMouseDown"
+													  Checked="CheckBox_Checked" 
+													  Unchecked="CheckBox_Unchecked" >
+												<StackPanel x:Name ="item_StackPanel" 
+															Orientation="Horizontal" 
+															MouseLeftButtonDown="item_StackPanel_MouseLeftButtonDown">
+													<Image VerticalAlignment="Center" 
+														   Height="20" 
+														   Width="20"
+														   Source="{Binding icon}"/>
 													<TextBlock x:Name="fileName_TextBlock" Text="{Binding fileName}" Margin="0,-2,0,-2" ></TextBlock>
 												</StackPanel>
 											</CheckBox>
@@ -230,7 +235,7 @@
 					<GridSplitter Grid.Column="1" Width="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 					</GridSplitter>
 
-					<Border Grid.Column="2" BorderBrush="WhiteSmoke" BorderThickness="5" >
+					<Border Grid.Column="2"  BorderThickness="5" >
 						<Grid>
 							<Grid.RowDefinitions>
 								<RowDefinition Height="0.75*"/>
@@ -239,7 +244,7 @@
 							</Grid.RowDefinitions>
 
 
-							<TabControl Background="Beige">
+							<TabControl >
 								<!--<ScrollViewer>-->
 								<TabItem Header="当前" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
 									<Grid>
@@ -250,7 +255,7 @@
 											<RowDefinition Height="0.4*"/>
 										</Grid.RowDefinitions>
 
-										<GroupBox Header="任务" Background="WhiteSmoke" BorderBrush="Gray" BorderThickness="2">
+										<GroupBox Header="任务"   BorderThickness="2">
 											<DataGrid x:Name="task_DataGrid" Margin="5" ItemsSource="{Binding}" AutoGenerateColumns="False" 
 												  CanUserAddRows="False" IsReadOnly="True" SelectedCellsChanged="taskDataGrid_SelectedCellsChanged">
 												<DataGrid.Columns>
@@ -274,7 +279,7 @@
 										<GridSplitter Grid.Row="2" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 										</GridSplitter>
 
-										<GroupBox Grid.Row="3" Header="细节" Background="WhiteSmoke" BorderBrush="Gray" BorderThickness="2">
+										<GroupBox Grid.Row="3" Header="细节"   BorderThickness="2">
 											<DataGrid x:Name="commandDataGrid" Margin="5"  ItemsSource="{Binding}" AutoGenerateColumns="False" 
 												  CanUserAddRows="False">
 
@@ -347,7 +352,7 @@
 										<ComboBox x:Name="log_ComboBox" HorizontalAlignment="Right" VerticalAlignment="Top" Width="120" Margin="0,-27,0,0" Height="20" 
 												  ItemsSource="{Binding}" SelectionChanged="log_ComboBox_SelectionChanged"/>
 
-										<GroupBox  Header="{Binding ElementName=log_ComboBox,Path=Text}" Background="WhiteSmoke" BorderBrush="Gray" BorderThickness="2">
+										<GroupBox  Header="{Binding ElementName=log_ComboBox,Path=Text}"   BorderThickness="2">
 											<DataGrid x:Name="taskLog_DataGrid" Margin="5" ItemsSource="{Binding}" AutoGenerateColumns="False" 
 												  CanUserAddRows="False" IsReadOnly="True" SelectedCellsChanged="taskLog_DataGrid_SelectedCellsChanged">
 												<DataGrid.Columns>
@@ -377,7 +382,7 @@
 										<GridSplitter Grid.Row="1" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 										</GridSplitter>
 
-										<GroupBox Grid.Row="2" Header="细节" Background="WhiteSmoke" BorderBrush="Gray" BorderThickness="2">
+										<GroupBox Grid.Row="2" Header="细节"   BorderThickness="2">
 											<DataGrid x:Name="subTaskLog_DataGrid" Margin="5"  ItemsSource="{Binding}" AutoGenerateColumns="False" 
 												  CanUserAddRows="False" IsReadOnly="True">
 
@@ -436,9 +441,9 @@
 							<GridSplitter Grid.Row="1" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 							</GridSplitter>
 
-							<GroupBox Grid.Row="2" Header="显示" Background="WhiteSmoke" BorderBrush="Gray" BorderThickness="2" Margin="5,5,0,5">
+							<GroupBox Grid.Row="2" Header="显示"   BorderThickness="2" Margin="5,5,0,5">
 
-								<Border BorderBrush="CadetBlue" BorderThickness="1" Margin="5" CornerRadius="0">
+								<Border  BorderThickness="1" Margin="5" CornerRadius="0">
 									<Grid>
 										<Grid.ColumnDefinitions>
 											<ColumnDefinition Width="Auto" MinWidth="100"/>
@@ -483,9 +488,15 @@
 
 				</Grid>
 
-				<Border  Grid.Row="1" Background="Beige" Margin="2,0" BorderBrush="WhiteSmoke" BorderThickness="2" >
+				<Border  Grid.Row="1"  Margin="2,0"  BorderThickness="2" >
 					<Grid x:Name="quickExec_Grid">
-						<TextBox x:Name="quickExec_Textbox" Background="Black" Foreground="Green" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="25" FontSize="14" FontFamily="Trebuchet MS" Margin="1" >
+						<TextBox x:Name="quickExec_Textbox"  
+								 HorizontalAlignment="Stretch" 
+								 VerticalAlignment="Bottom"
+								 Height="25"
+								 FontSize="14"
+								 FontFamily="Trebuchet MS" 
+								 Margin="1,0,1,8" >
 						</TextBox>
 					</Grid>
 				</Border>
@@ -493,7 +504,7 @@
 
 			</Grid>
 		</Border>
-		<Grid Grid.Row="3">
+		<Grid Grid.Row="2" >
 			<TextBlock x:Name="status_TextBlock" Text="{Binding}" Foreground="White" Margin="12,0">
 			</TextBlock>
 		</Grid>

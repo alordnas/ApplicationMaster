@@ -27,7 +27,7 @@
 			<Button x:Name="minimizeButton" Height="15" Width="22" Style="{DynamicResource ResourceKey=MinimizeButtonStyle}" VerticalAlignment="Top" Click="minimizeButton_Click"/>
 		</StackPanel>
 
-		<Border Grid.Row ="1" BorderBrush="#2d2d30" BorderThickness="10,0,10,10" Margin="1" Background="Beige" >
+		<Border Grid.Row ="1" BorderBrush="#2d2d30" BorderThickness="10,0,10,10" Margin="1"  >
 			<Grid DataContext="{StaticResource caseData}">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="42"/>

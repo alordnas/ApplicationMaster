@@ -52,14 +52,14 @@
 			{
 				"Executor" : "%EXE_APP_CMD%",
 				"Status" : 0,
-				"Argument" : "mkdir \"%SELECTED_PROJECT%\\Maps\"",
+				"Argument" : "/C mkdir  \"%SELECTED_PROJECT%\\Maps\"",
 				"Timeout" : "-00:00:01",
 				"Description" : "create Maps directory."
 			},
 			{
 				"Executor" : "%EXE_APP_CMD%",
 				"Status" : 0,
-				"Argument" : "mkdir \"%SELECTED_PROJECT%\\Reference\"",
+				"Argument" : "/C mkdir  \"%SELECTED_PROJECT%\\Reference\"",
 				"Timeout" : "-00:00:01",
 				"Description" : "create Reference directory."
 			},
@@ -130,14 +130,14 @@
 			{
 				"Executor" : "%EXE_APP_CMD%",
 				"Status" : 0,
-				"Argument" : "mkdir \"%SELECTED_PROJECT%\\Maps\"",
+				"Argument" : "/C mkdir  \"%SELECTED_PROJECT%\\Maps\"",
 				"Timeout" : "-00:00:01",
 				"Description" : "create Maps directory."
 			},
 			{
 				"Executor" : "%EXE_APP_CMD%",
 				"Status" : 0,
-				"Argument" : "mkdir \"%SELECTED_PROJECT%\\Reference\"",
+				"Argument" : "/C mkdir  \"%SELECTED_PROJECT%\\Reference\"",
 				"Timeout" : "-00:00:01",
 				"Description" : "create Reference directory."
 			},
@@ -180,7 +180,7 @@
 			{
 				"Executor" : "%EXE_APP_CMD%",
 				"Status" : 0,
-				"Argument" : "mkdir \"%SELECTED_PROJECT%\\reference\"",
+				"Argument" : "/C mkdir  \"%SELECTED_PROJECT%\\reference\"",
 				"Timeout" : "-00:00:01",
 				"Description" : "create Reference directory."
 			},
@@ -248,7 +248,7 @@
 			{
 				"Executor" : "%EXE_APP_CMD%",
 				"Status" : 0,
-				"Argument" : "mkdir \"%SELECTED_PROJECT%\\reference\"",
+				"Argument" : "/C mkdir  \"%SELECTED_PROJECT%\\reference\"",
 				"Timeout" : "-00:00:01",
 				"Description" : "create Reference directory."
 			},
