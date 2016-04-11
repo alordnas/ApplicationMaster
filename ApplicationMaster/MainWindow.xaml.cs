@@ -49,21 +49,11 @@ namespace Casamia
 				LogManager.Instance.SetLogger(new MyConsole(LogGrid));
 				LogManager.Instance.AllowLevel = Log.level.Error | Log.level.Infomation | Log.level.Waring;
 
-				if (!File.Exists(Util.RUNNER_CONFIG_FILE))
-				{
-					XMLManage.WriteDafaultConfigText(Util.RUNNER_CONFIG_FILE);
-				}
-
-				InputData.Current = (InputData)FindResource(INPUT_DATA);
-
 				this.SourceInitialized += MainWindow_SourceInitialized;
 				filterListBox.ItemsSource = Enum.GetValues(typeof(Casamia.Logging.Log.level));
 				CommonMethod.SetTitle();
 				MyLog.Initialize();
 				MyWorker.Initialize();
-				MyUser.Initialize();
-				
-				ExecutorManager.Instance.Save();
 				task_DataGrid.ItemsSource = activeTasks;
 				TaskManager.ActivateTask += (AnTask anTask) =>
 				{
@@ -72,6 +62,7 @@ namespace Casamia
 						activeTasks.Add(anTask);
 					}));
 				};
+				RefreshWholeTree();
 			}
 			catch (Exception e)
 			{
@@ -262,7 +253,7 @@ namespace Casamia
 
 			TreeHelper.SetChildrenChecked(node, true);
 
-			if (MyUser.OnSvn)
+			if (!WorkSpaceManager.Instance.IsLocal)
 			{
 				status_TextBlock.Text = string.Format("已选：{0}", TreeHelper.GetSelectedLeaves(TreeNode.SvnRoot).Count);
 			}
@@ -277,7 +268,7 @@ namespace Casamia
 				{
 					List<TreeNode> projects = null;
 
-					if (MyUser.OnSvn)
+					if (!WorkSpaceManager.Instance.IsLocal)
 					{
 						projects = TreeHelper.GetALLLeaves(TreeNode.SvnRoot);
 					}
@@ -317,7 +308,7 @@ namespace Casamia
 
 			TreeHelper.SetChildrenChecked(node, false);
 
-			if (MyUser.OnSvn)
+			if (!WorkSpaceManager.Instance.IsLocal)
 			{
 				status_TextBlock.Text = string.Format("已选：{0}", TreeHelper.GetSelectedLeaves(TreeNode.SvnRoot).Count);
 			}
@@ -422,13 +413,13 @@ namespace Casamia
 
 		private void openSvn_MenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			MyUser.OnSvn = true;
+			WorkSpaceManager.Instance.IsLocal = false;
 			SvnMenu.OpenSvn();
 		}
 
 		private void closeSvn_MenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			MyUser.OnSvn = false;
+			WorkSpaceManager.Instance.IsLocal = true;
 			RefreshWholeTree();
 		}
 
@@ -455,7 +446,7 @@ namespace Casamia
 
 		private void createUnity_MenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (MyUser.OnSvn)
+			if (!WorkSpaceManager.Instance.IsLocal)
 			{
 				LogManager.Instance.LogError("创建项目时需要你退出SVN模式");
 				return;
@@ -488,18 +479,7 @@ namespace Casamia
 		{
 			MyLog.ChangeLogText(log_ComboBox.SelectedValue.ToString());
 		}
-
-		private void exchangeUser_Button_Click(object sender, RoutedEventArgs e)
-		{
-			MyUser.SwitchUserJob();
-
-			if (CreateCaseData.Current != null)
-			{
-				CreateCaseData.Current.ParentPath = WorkSpaceManager.Instance.WorkingPath;
-			}
-		}
-
-
+		
 		private ContextMenu GetContextMenu_Level_Svn()
 		{
 			ContextMenu parent = new ContextMenu();
@@ -700,11 +680,6 @@ namespace Casamia
 			}
 		}
 
-		private void openModel_MenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			MyUser.SwitchToModeller();
-		}
-
 		private void dir_TreeView_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
 		{
 			TreeView treeView = sender as TreeView;
@@ -770,7 +745,7 @@ namespace Casamia
 		{
 			TreeNode node = (sender as StackPanel).DataContext as TreeNode;
 
-			if (!MyUser.OnSvn)
+			if (!!WorkSpaceManager.Instance.IsLocal)
 			{
 				if (node.isProject)
 				{

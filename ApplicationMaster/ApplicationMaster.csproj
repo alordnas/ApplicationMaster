@@ -114,7 +114,6 @@
     <Compile Include="MyFacility\MyWorker.cs" />
     <Compile Include="DataSource\Constants.cs" />
     <Compile Include="DataSource\CreateCaseData.cs" />
-    <Compile Include="DataSource\InputData.cs" />
     <Compile Include="Job.cs" />
     <Compile Include="Menu\CommandMenu.cs" />
     <Compile Include="Menu\CommonMethod.cs" />
@@ -123,7 +122,6 @@
     <Compile Include="Menu\HelpMenu.cs" />
     <Compile Include="Menu\SvnMenu.cs" />
     <Compile Include="Menu\UnityMenu.cs" />
-    <Compile Include="DataSource\OutputData.cs" />
     <Compile Include="ReferenceWindow.xaml.cs">
       <DependentUpon>ReferenceWindow.xaml</DependentUpon>
     </Compile>
@@ -139,10 +137,6 @@
     <Compile Include="Parameter.cs" />
     <Compile Include="DataSource\TreeNode.cs" />
     <Compile Include="TreeType.cs" />
-    <Compile Include="User.xaml.cs">
-      <DependentUpon>User.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MyFacility\MyUser.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="Watcher.cs" />
     <Compile Include="Win32.cs" />
@@ -198,10 +192,6 @@
     <Page Include="Themes\WhistlerBlue.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="User.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

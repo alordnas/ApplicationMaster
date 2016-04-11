@@ -207,7 +207,7 @@ namespace Casamia.Core
 			process.StartInfo.FileName = command.Exe;
 			process.StartInfo.Arguments = command.Argument;
 			process.StartInfo.UseShellExecute = false;
-			process.StartInfo.CreateNoWindow = false;
+			process.StartInfo.CreateNoWindow = true;
 			process.StartInfo.RedirectStandardOutput = true;
 			process.StartInfo.RedirectStandardError = true;
 			process.StartInfo.UseShellExecute = false;

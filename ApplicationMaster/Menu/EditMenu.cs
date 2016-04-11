@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Casamia.Core;
 
 namespace Casamia.Menu
 {
@@ -15,7 +16,7 @@ namespace Casamia.Menu
     {
         public static void SelectAll(bool check)
         {
-			if (MyUser.OnSvn)
+			if (!WorkSpaceManager.Instance.IsLocal)
 			{
 				if (TreeNode.SvnRoot != null)
 				{
@@ -74,19 +75,10 @@ namespace Casamia.Menu
 			if (!string.IsNullOrEmpty(filePath))
 			{
 				CommonMethod.ImportSelectedProjects(filePath);
-
 				MainWindow mainWindow = App.Current.MainWindow as MainWindow;
-
 				ExpandTree(mainWindow.dir_TreeView,true);
-
-				if (MyUser.OnSvn)
-				{
-					mainWindow.status_TextBlock.Text = string.Format("已选：{0}", TreeHelper.GetSelectedLeaves(TreeNode.SvnRoot).Count);
-				}
-				else
-				{
-					mainWindow.status_TextBlock.Text = string.Format("已选：{0}", TreeHelper.GetSelectedLeaves(TreeNode.Root).Count);
-				}
+				mainWindow.status_TextBlock.Text = string.Format("已选：{0}", TreeHelper.GetSelectedLeaves(
+					WorkSpaceManager.Instance.IsLocal ? TreeNode.Root : TreeNode.SvnRoot).Count);
 			}
 		}
     }

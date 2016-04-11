@@ -28,13 +28,12 @@ namespace Casamia
 
         private void InitializeCaseData(string parentPath)
         {
-            CreateCaseData.Current = (CreateCaseData)FindResource("caseData");
+			CreateCaseData.Current = (CreateCaseData)FindResource("caseData");
 
-            CreateCaseData.Current.ParentPath = parentPath;
+			CreateCaseData.Current.ParentPath = parentPath;
 
-			CreateCaseData.Current.ProjectStyle = MyUser.GetUserName();
 
-        }
+		}
 
         private void closeButton_Click(object sender, RoutedEventArgs e)
         {

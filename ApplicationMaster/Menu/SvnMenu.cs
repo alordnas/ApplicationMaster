@@ -30,15 +30,11 @@ namespace Casamia.Menu
 			mianWindow.dir_TreeView.ItemsSource = TreeNode.SvnRoot.children;
 			LogManager.Instance.LogInfomation("正在加载：{0}...", WorkSpaceManager.Instance.WorkingPath);
 
-			InputData.Current.Percent = 0;
-
 			Build(
 				TreeNode.SvnRoot,
 				() =>
 				{
 					StartChecking();
-					InputData.Current.Percent = 100;
-					InputData.Current.Percent = 0;
 					LogManager.Instance.LogInfomation("完成加载：{0}", WorkSpaceManager.Instance.WorkingPath);
 				},
 				WorkSpaceManager.Instance.WorkingDepth
@@ -95,11 +91,7 @@ namespace Casamia.Menu
 											HandleTask(worker, child, deep, curDeep);
 										}
 									}
-									if (curDeep == deep)
-									{
-										InputData.Current.Percent += InputData.Current.Percent < 90 ? 2 : 0;
-									}
-									else
+									if (curDeep != deep)
 									{
 										worker.OnCompleteAll = null;
 									}
@@ -184,7 +176,7 @@ namespace Casamia.Menu
 
 		public static void CheckoutSelectedProjects()
 		{
-			if (MyUser.OnSvn)
+			if (!WorkSpaceManager.Instance.IsLocal)
 			{
 				List<TreeNode> projects = TreeHelper.GetSelectedLeaves(TreeNode.SvnRoot);
 

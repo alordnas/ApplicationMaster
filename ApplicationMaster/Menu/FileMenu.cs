@@ -1,4 +1,4 @@
-﻿using Casamia.MyFacility;
+﻿using Casamia.Core;
 
 namespace Casamia.Menu
 {
@@ -22,15 +22,8 @@ namespace Casamia.Menu
 
 		private static void SaveDir(string dir)
 		{
-			Parameter parameter = new Parameter();
-
-			string user = MyUser.UserJob == Job.Designer ? Util.DESIGNPATH : Util.PRODUCTPATH;
-
-			parameter.Key = user;
-			parameter.Value = dir;
-
-			XMLManage.SaveParameter(parameter);
-
+			WorkSpaceManager.Instance.Current.LocalUrl = dir;
+			WorkSpaceManager.Instance.Save();
 		}
 
 

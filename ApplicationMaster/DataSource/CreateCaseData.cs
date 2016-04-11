@@ -170,28 +170,6 @@ namespace Casamia.Model
 			CreateCaseData.Current.CreateThesePath = "";
 
 			string url = string.Empty;
-			switch (MyUser.UserJob)
-			{
-				case Job.Designer:
-					url = XMLManage.GetString(Util.DESIGNURL);
-					CreateCaseData.Current.ProjectStyle = Constants.Design;
-					CreateCaseData.Current.CreateThesePath += string.Format(Util.PROJECT_PATH_PLACEHOLDER + "/Maps;");
-					CreateCaseData.Current.CreateThesePath += string.Format(Util.PROJECT_PATH_PLACEHOLDER + "/Reference;");
-					CreateCaseData.Current.PackagePath = Util.Design_Package_Path;
-					break;
-				case Job.Modeler:
-					url = XMLManage.GetString(Util.PRODUCTURL);
-					CreateCaseData.Current.ProjectStyle = Constants.Modelling;
-					CreateCaseData.Current.CreateThesePath += string.Format(Util.PROJECT_PATH_PLACEHOLDER + "/reference;");
-					CreateCaseData.Current.PackagePath = Util.Model_Package_Path;
-					break;
-				case Job.UnKnow:
-					break;
-				default:
-					break;
-			}
-
-
 			string subPath = CreateCaseData.Current.ParentPath.Replace(
 				TreeHelper.RectifyPath(WorkSpaceManager.Instance.WorkingPath),
 				""
