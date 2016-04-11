@@ -15,7 +15,7 @@ namespace Casamia
     /// <summary>
     /// Interaction logic for CreateProjectWindow.xaml
     /// </summary>
-    public partial class CreateProjectWindow : Window
+	public partial class CreateProjectWindow : Window
     {
         public static CreateProjectWindow Current;
 

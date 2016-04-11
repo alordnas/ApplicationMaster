@@ -154,10 +154,9 @@
 		<Border Grid.Row="1">
 			<Grid>
 				<Grid.RowDefinitions>
-					<RowDefinition Height="0.9*"/>
-					<RowDefinition Height="0.1*"/>
+					<RowDefinition Height="1*"/>
+					<RowDefinition Height="Auto" MinHeight="35"/>
 				</Grid.RowDefinitions>
-
 				<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2,0"  >
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="0.5*"/>
@@ -188,7 +187,6 @@
 											 Visibility="Hidden"/>
 								<Button x:Name="exchangeUser_Button" 
 										Grid.Column="1" 
-										Style="{DynamicResource ResourceKey=ExchangeButtonStyle}"  
 										Click="exchangeUser_Button_Click" 
 										ToolTip="切换">
 								</Button>
@@ -481,13 +479,9 @@
 								</Border>
 							</GroupBox>
 						</Grid>
-
 					</Border>
-
-
-
 				</Grid>
-
+				
 				<Border  Grid.Row="1"  Margin="2,0"  BorderThickness="2" >
 					<Grid x:Name="quickExec_Grid">
 						<TextBox x:Name="quickExec_Textbox"  
@@ -500,8 +494,7 @@
 						</TextBox>
 					</Grid>
 				</Border>
-
-
+				
 			</Grid>
 		</Border>
 		<Grid Grid.Row="2" >

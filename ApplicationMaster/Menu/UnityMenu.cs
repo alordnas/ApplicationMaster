@@ -14,7 +14,7 @@ namespace Casamia.Menu
             {
                 CreateProjectWindow.Current = new CreateProjectWindow(parentPath);
 
-                CreateProjectWindow.Current.Show();
+				CreateProjectWindow.Current.ShowDialog();
             }
            
         }
