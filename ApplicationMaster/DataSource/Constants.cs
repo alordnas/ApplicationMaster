@@ -1,5 +1,5 @@
 ﻿
-namespace Casamia.DataSource
+namespace Casamia.Model
 {
     public static class Constants
     {

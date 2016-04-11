@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace Casamia.DataSource
+namespace Casamia.Model
 {
     public class InputData : INotifyPropertyChanged
     {

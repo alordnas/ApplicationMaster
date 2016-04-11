@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace Casamia.DataSource
+namespace Casamia.Model
 {
 	public class AnTask : INotifyPropertyChanged, ICloneable
 	{

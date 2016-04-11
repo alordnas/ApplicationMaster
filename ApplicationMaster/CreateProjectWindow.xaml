@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Casamia.CreateProjectWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:data="clr-namespace:Casamia.DataSource"
+        xmlns:data="clr-namespace:Casamia.Model"
         Height="342" Width="620" WindowStyle="None" AllowsTransparency ="True" WindowStartupLocation="CenterScreen" BorderBrush="Gray"
 		BorderThickness="1" Background="#2d2d30" Topmost="True"
         MouseLeftButtonDown="Window_MouseLeftButtonDown" Closed="Window_Closed" Icon="Images/Logo.ico">

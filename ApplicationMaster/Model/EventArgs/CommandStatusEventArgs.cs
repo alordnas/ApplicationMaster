@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using Casamia.DataSource;
+using Casamia.Model;
 
 namespace Casamia.Model.EventArgs
 {

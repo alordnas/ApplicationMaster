@@ -16,6 +16,18 @@ namespace Casamia.Model
 
 		#region PROPERTIES
 
+		public AnTask CreateProjectTask
+		{
+			get;
+			set;
+		}
+
+		public AnTask ImportProjectTask
+		{
+			get;
+			set;
+		}
+
 		public string Ext
 		{
 			get { return ext; }

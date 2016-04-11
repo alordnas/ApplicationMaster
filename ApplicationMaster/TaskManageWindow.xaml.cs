@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 
 using Casamia.Core;
-using Casamia.DataSource;
+using Casamia.Model;
 using Casamia.Logging;
 using Casamia.Model;
 

@@ -93,7 +93,7 @@
     <Compile Include="Core\CommonTask.cs" />
     <Compile Include="Core\TaskManager.cs" />
     <Compile Include="Core\WorkSpaceManager.cs" />
-    <Compile Include="DataSource\AnTask.cs" />
+    <Compile Include="Model\AnTask.cs" />
     <Compile Include="Log\ILogger.cs" />
     <Compile Include="Log\Log.cs" />
     <Compile Include="Log\LogManager.cs" />
@@ -101,8 +101,8 @@
     <Compile Include="Model\EventArgs\CommandEventArgs.cs" />
     <Compile Include="Model\EventArgs\CommandStatusEventArgs.cs" />
     <Compile Include="Model\Executor.cs" />
-    <Compile Include="DataSource\Command.cs" />
-    <Compile Include="DataSource\CommandStatus.cs" />
+    <Compile Include="Model\Command.cs" />
+    <Compile Include="Model\CommandStatus.cs" />
     <Compile Include="Model\WorkSpace.cs" />
     <Compile Include="MyFacility\MyConsole.cs" />
     <Compile Include="MyFacility\MyHotkeys.cs" />

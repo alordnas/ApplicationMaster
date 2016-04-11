@@ -1,5 +1,5 @@
 ﻿using Casamia.MyFacility;
-using Casamia.DataSource;
+using Casamia.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,16 +18,6 @@ namespace Casamia.Core
 		string projectPath;
 
 		string svnRoot;
-
-		bool IsDesignMode(string type)
-		{
-			return type.Contains("designer");
-		}
-
-		bool IsFurnitureMode(string type)
-		{
-			return type.Contains("modeler");
-		}
 
 		public void Create()
 		{
@@ -63,57 +53,29 @@ namespace Casamia.Core
 			CommonTask.SvnCheckDiff(svnChecker, Path.GetDirectoryName(projectPath),
 				   () =>
 				   {
-					   if (IsDesignMode(WorkSpaceManager.Instance.Current.Ext))
-					   {
-						   worker.AddTask(GetCreateDesignUnityTask(projectPath));
-					   }
-					   else if (IsFurnitureMode(WorkSpaceManager.Instance.Current.Ext))
-					   {
-						   worker.AddTask(GetCreateFurnitureUnityTask(projectPath));
-					   }
+					   worker.AddTask(GetCreateUnityTask(projectPath));
 
 					   worker.Run();
 				   },
 				   () =>
 				   {
-					   if (IsDesignMode(WorkSpaceManager.Instance.Current.Ext))
-					   {
-						   worker.AddTask(GetImportDesignUnityTask(projectPath));
-					   }
-					   else if (IsFurnitureMode(WorkSpaceManager.Instance.Current.Ext))
-					   {
-						   worker.AddTask(GetImportFurnitureUnityTask(projectPath));
-					   }
+					   worker.AddTask(GetImportUnityTask(projectPath));
 					   worker.Run();
 				   });
 
 			svnChecker.Run();
 		}
-
-		private AnTask GetCreateDesignUnityTask(string projectPath)
+		
+		private AnTask GetImportUnityTask(string projectPath)
 		{
-			AnTask anTask = TaskManager.GetEmbeddedTask("AddDesignUnityProject");
+			AnTask anTask = WorkSpaceManager.Instance.Current.ImportProjectTask.Clone() as AnTask;
 			TaskManager.NormalizeTask(anTask, projectPath);
 			return anTask;
 		}
 
-		private AnTask GetImportDesignUnityTask(string projectPath)
+		private AnTask GetCreateUnityTask(string projectPath)
 		{
-			AnTask anTask = TaskManager.GetEmbeddedTask("ImportDesignUnityProject");
-			TaskManager.NormalizeTask(anTask, projectPath);
-			return anTask;
-		}
-
-		private AnTask GetCreateFurnitureUnityTask(string projectPath)
-		{
-			AnTask anTask = TaskManager.GetEmbeddedTask("AddFurnitureUnityProject");
-			TaskManager.NormalizeTask(anTask, projectPath);
-			return anTask;
-		}
-
-		private AnTask GetImportFurnitureUnityTask(string projectPath)
-		{
-			AnTask anTask = TaskManager.GetEmbeddedTask("ImportFurnitureUnityProject");
+			AnTask anTask = WorkSpaceManager.Instance.Current.CreateProjectTask.Clone() as AnTask;
 			TaskManager.NormalizeTask(anTask, projectPath);
 			return anTask;
 		}

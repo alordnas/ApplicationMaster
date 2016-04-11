@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Casamia.Core;
 
-namespace Casamia.DataSource
+namespace Casamia.Model
 {
     public class CreateCaseData : INotifyPropertyChanged
     {
@@ -133,23 +133,8 @@ namespace Casamia.DataSource
 				if (subPath[i] == '/' && i != length - 1)
 					deep++;
 			}
-			switch (MyUser.UserJob)
-			{
-				case Job.Designer:
-					if (deep == 2)
-						return true;
-					break;
-				case Job.Modeler:
-					if (deep == 0)
-						return true;
-					break;
-				case Job.UnKnow:
-					break;
-				default:
-					break;
-			}
 
-			return false;
+			return WorkSpaceManager.Instance.Current.UrlDepth - deep == 1;
 		}
 
 

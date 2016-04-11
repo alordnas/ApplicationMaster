@@ -11,7 +11,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 
 using Casamia.Core;
-using Casamia.DataSource;
+using Casamia.Model;
 using Casamia.Logging;
 using Casamia.Menu;
 using Casamia.MyFacility;
@@ -55,9 +55,8 @@ namespace Casamia
 				}
 
 				InputData.Current = (InputData)FindResource(INPUT_DATA);
-				
+
 				this.SourceInitialized += MainWindow_SourceInitialized;
-				this.MouseLeftButtonDown += MainWindow_MouseLeftButtonDown;
 				filterListBox.ItemsSource = Enum.GetValues(typeof(Casamia.Logging.Log.level));
 				CommonMethod.SetTitle();
 				MyLog.Initialize();
@@ -330,16 +329,6 @@ namespace Casamia
 		}
 
 
-		//Function above is for resize 
-		void MainWindow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-		{
-			if (e.OriginalSource is Grid || e.OriginalSource is Border || e.OriginalSource is Window)
-			{
-				WindowInteropHelper wih = new WindowInteropHelper(this);
-				Win32.SendMessage(wih.Handle, Win32.WM_NCLBUTTONDOWN, (int)Win32.HitTest.HTCAPTION, 0);
-				return;
-			}
-		}
 		void MainWindow_SourceInitialized(object sender, EventArgs e)
 		{
 			HwndSource source = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
@@ -412,11 +401,6 @@ namespace Casamia
 					}
 				}
 			}
-		}
-
-		private void clearConsole_MenuItem_Click(object sender, RoutedEventArgs e)
-		{
-
 		}
 
 		private void openDir_MenuItem_Click(object sender, RoutedEventArgs e)
@@ -684,31 +668,16 @@ namespace Casamia
 
 		private void openExplorer_MenuItem_Click(object sender, RoutedEventArgs e)
 		{
+			string path = WorkSpaceManager.Instance.Current.ToLocalPath(selectedNode.filePath);
 			if (selectedNode != null)
 			{
-				if (MyUser.OnSvn)
-				{
-					string localPath = CommonMethod.SvnToLocalPath(selectedNode.filePath);
-
-					if (Directory.Exists(localPath))
-					{
-						CommonMethod.OpenExplorer(localPath);
-					}
-					else
-					{
-						LogManager.Instance.LogError("还没有检出：{0}", selectedNode.filePath);
-					}
-				}
-				else
-				{
-					CommonMethod.OpenExplorer(selectedNode.filePath);
-				}
+				CommonMethod.OpenExplorer(path);
 			}
 			else
 			{
 				LogManager.Instance.LogError(
 					Constants.Path_No_Exist_Error,
-					WorkSpaceManager.Instance.WorkingPath
+					path
 					);
 			}
 		}
@@ -746,32 +715,7 @@ namespace Casamia
 			{
 				if (treeView.ContextMenu == null || !treeView.ContextMenu.HasItems)
 				{
-					switch (MyUser.UserJob)
-					{
-						case Job.Designer:
-							if (MyUser.OnSvn)
-							{
-
-							}
-							else
-							{
-								treeView.ContextMenu = GetContextMenu_Level_Design();
-							}
-							break;
-						case Job.Modeler:
-							if (MyUser.OnSvn)
-							{
-							}
-							else
-							{
-								treeView.ContextMenu = GetContextMenu_Level_Modelling();
-							}
-							break;
-						case Job.UnKnow:
-							break;
-						default:
-							break;
-					}
+					treeView.ContextMenu = GetContextMenu_Level_Design();
 				}
 			}
 		}

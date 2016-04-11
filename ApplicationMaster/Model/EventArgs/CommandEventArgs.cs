@@ -1,4 +1,4 @@
-﻿using Casamia.DataSource;
+﻿using Casamia.Model;
 
 namespace Casamia.Model.EventArgs
 {

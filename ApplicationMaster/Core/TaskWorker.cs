@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Text;
 
-using Casamia.DataSource;
+using Casamia.Model;
 using Casamia.Logging;
 
 namespace Casamia.Core

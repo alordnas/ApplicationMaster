@@ -7,7 +7,7 @@ using System.Windows.Media.Imaging;
 using Newtonsoft.Json;
 
 using Casamia.Core;
-using Casamia.DataSource;
+using Casamia.Model;
 using Casamia.Logging;
 using Casamia.Model.EventArgs;
 using Casamia.MyFacility;
@@ -157,7 +157,7 @@ namespace Casamia.Menu
 					{
 						string filePath = filePaths[i];
 
-						string local = CommonMethod.SvnToLocalPath(filePath);
+						string local = WorkSpaceManager.Instance.Current.ToLocalPath(filePath);
 
 						if (Directory.Exists(TreeHelper.RectifyPath(local)))
 						{

@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using Casamia.Core;
 
 
-namespace Casamia.DataSource
+namespace Casamia.Model
 {
     public class TreeNode : INotifyPropertyChanged
     {

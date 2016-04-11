@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-using Casamia.DataSource;
+using Casamia.Model;
 using Casamia.Logging;
 using Casamia.Model.EventArgs;
 

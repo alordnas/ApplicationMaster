@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
-using Casamia.DataSource;
+using Casamia.Model;
 
 namespace Casamia.Converter
 {

@@ -2,7 +2,7 @@
 using System.IO;
 using System.Security.Permissions;
 
-using Casamia.DataSource;
+using Casamia.Model;
 using Casamia.Logging;
 
 namespace Casamia

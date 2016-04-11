@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.IO;
 
-using Casamia.DataSource;
+using Casamia.Model;
 using Casamia.Logging;
 
 namespace Casamia.MyFacility

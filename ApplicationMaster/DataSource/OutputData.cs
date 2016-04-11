@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Casamia.DataSource
+namespace Casamia.Model
 {
     public class OutputData : INotifyPropertyChanged
     {

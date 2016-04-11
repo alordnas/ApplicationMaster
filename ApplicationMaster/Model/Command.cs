@@ -6,7 +6,7 @@ using Casamia.Core;
 using Casamia.Model;
 using Casamia.Model.EventArgs;
 
-namespace Casamia.DataSource
+namespace Casamia.Model
 {
 	public class Command : ICloneable, INotifyPropertyChanged
 	{
