@@ -90,6 +90,13 @@ namespace Casamia.Core
 				if (current != value)
 				{
 					current = value;
+					int lastIdx = workSpaces.IndexOf(current);
+					if (lastIdx > 0 && lastIdx < workSpaces.Count)
+					{
+						// the first one is loaded default ,
+						workSpaces.Move(lastIdx, 0);
+						Save();
+					}
 					FireChanged("WorkSpace");
 					FireChanged("WorkingPath");
 				}
@@ -181,7 +188,5 @@ namespace Casamia.Core
 		}
 
 		#endregion FUNCTION
-
-
 	}
 }
