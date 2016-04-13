@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace Casamia.Model
 {
@@ -12,13 +13,26 @@ namespace Casamia.Model
 		private string name;
 		private DateTime startTime;
 		private CommandStatus status;
-		[Newtonsoft.Json.JsonProperty]
-		private List<Command> commandList = new List<Command>();
+		
+		private ObservableCollection<Command> commandList = new ObservableCollection<Command>();
+
 		private TimeSpan timeCost;
 
 		#endregion VARIABLE
 
 		#region PROPERTIES
+
+		public ObservableCollection<Command> CommandList
+		{
+			get
+			{
+				return commandList;
+			}
+			set
+			{
+				commandList = value;
+			}
+		}
 
 		public TimeSpan TimeCost
 		{
@@ -78,7 +92,9 @@ namespace Casamia.Model
 		{
 			get
 			{
-				return commandList.ToArray();
+				Command[] commands = new Command[commandList.Count];
+				commandList.CopyTo(commands, 0);
+				return commands;
 			}
 		}
 
@@ -96,12 +112,28 @@ namespace Casamia.Model
 
 		public void AddCommand(Command command)
 		{
-			commandList.Add(command);
-			command.StatusChanged += command_StatusChanged;
+			if (null != command)
+			{
+				commandList.Add(command);
+				command.StatusChanged += command_StatusChanged;
+			}
+		}
+
+		public void RemoveCommand(Command command)
+		{
+			if (null != command)
+			{
+				commandList.Remove(command);
+				command.StatusChanged -= command_StatusChanged;
+			}
 		}
 
 		public void Clear()
 		{
+			foreach (var item in Commands)
+			{
+				item.StatusChanged -= command_StatusChanged;
+			}
 			commandList.Clear();
 		}
 
@@ -110,8 +142,9 @@ namespace Casamia.Model
 			foreach (var item in commands)
 			{
 				item.StatusChanged += command_StatusChanged;
+				commandList.Add(item);
 			}
-			commandList.AddRange(commands);
+			
 		}
 
 		public object Clone()

@@ -126,6 +126,9 @@
       <DependentUpon>ReferenceWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
+    <Compile Include="TaskEditor.xaml.cs">
+      <DependentUpon>TaskEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TaskManageWindow.xaml.cs">
       <DependentUpon>TaskManageWindow.xaml</DependentUpon>
     </Compile>
@@ -158,6 +161,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ReferenceWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TaskEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

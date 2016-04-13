@@ -122,7 +122,9 @@ namespace Casamia
 		private void BuildTree(TreeNode parent)
 		{
 			if (parent.isDeepLimited || parent.isProject)
+			{
 				return;
+			}
 
 			string anyError = TreeHelper.CauseError(parent.filePath);
 
@@ -765,7 +767,7 @@ namespace Casamia
 
 		private void preference_MenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			new ReferenceWindow().Show();
+			new ReferenceWindow().ShowDialog();
 		}
 
 		private void taskManager_MenuItem_Click(object sender, RoutedEventArgs e)

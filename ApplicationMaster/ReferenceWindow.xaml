@@ -1,110 +1,107 @@
 ﻿<Window x:Class="Casamia.ReferenceWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Height="342" Width="620" WindowStyle="None" AllowsTransparency ="True" WindowStartupLocation="CenterScreen" BorderBrush="Gray"
-		BorderThickness="1" Background="#2d2d30" Topmost="True"
-        MouseLeftButtonDown="Window_MouseLeftButtonDown" Icon="Images/Logo.ico">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="0.1*"/>
-            <RowDefinition Height="0.9*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <TextBlock HorizontalAlignment="Left" Height="30"  Width="130" FontSize="15" Foreground="Gray" Margin="10,3,0,0">
+        Height="342" Width="620" 
+		WindowStyle="ToolWindow" 
+		WindowStartupLocation="CenterScreen"
+		BorderThickness="1"        
+		Icon="Images/Logo.ico">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="0.1*"/>
+			<RowDefinition Height="0.9*"/>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition/>
+		</Grid.ColumnDefinitions>
+		<TextBlock HorizontalAlignment="Left" Height="30"  Width="130" FontSize="15"  Margin="10,3,0,0">
                     <Run Language="zh-cn" Text="高级"/>
-        </TextBlock>
+		</TextBlock>
 
-        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0,7,10,0">
-            <Button x:Name="closeButton" Height="15" Width="22" Style="{DynamicResource ResourceKey=ColseButtonStyle}" VerticalAlignment="Top" Click="closeButton_Click"/>
-            <Button x:Name="minimizeButton" Height="15" Width="22" Style="{DynamicResource ResourceKey=MinimizeButtonStyle}" VerticalAlignment="Top" Click="minimizeButton_Click"/>
-        </StackPanel>
+		<Border Grid.Row ="1"  BorderThickness="10,0,10,10" Margin="1"  >
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="42"/>
+					<RowDefinition Height="42"/>
+					<RowDefinition Height="42"/>
+					<RowDefinition Height="42"/>
+					<RowDefinition Height="42"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="42"/>
+				</Grid.RowDefinitions>
 
-        <Border Grid.Row ="1" BorderBrush="#2d2d30" BorderThickness="10,0,10,10" Margin="1"  >
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="42"/>
-                    <RowDefinition Height="42"/>
-                    <RowDefinition Height="42"/>
-                    <RowDefinition Height="42"/>
-                    <RowDefinition Height="42"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="42"/>
-                </Grid.RowDefinitions>
-
-                <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                    <TextBlock Height="30" HorizontalAlignment="Right" Width="62" FontSize="12" Margin="10,10,5,0" Foreground="Black">
+				<StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+					<TextBlock Height="30" HorizontalAlignment="Right" Width="62" FontSize="12" Margin="10,10,5,0" >
                         <Run Language="zh-cn" Text="使用者     ："/>
-                    </TextBlock>
-                    <ComboBox x:Name="userJob" Width="70"  BorderThickness="1" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Margin="2,8"
+					</TextBlock>
+					<ComboBox x:Name="userJob" Width="70"  BorderThickness="1" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Margin="2,8"
                                      FontSize="11" SelectionChanged="userJob_SelectionChanged">
-                    </ComboBox>
-                </StackPanel>
-                
-                <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                    <TextBlock Height="30" HorizontalAlignment="Right" Width="62" FontSize="12" Margin="10,10,5,0" Foreground="Black">
+					</ComboBox>
+				</StackPanel>
+
+				<StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+					<TextBlock Height="30" HorizontalAlignment="Right" Width="62" FontSize="12" Margin="10,10,5,0" >
                         <Run Language="zh-cn" Text="设计 Svn  ："/>
-                    </TextBlock>
-                    <TextBox x:Name="designSvnPath" Width="400"  BorderThickness="1" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Margin="2,8"
+					</TextBlock>
+					<TextBox x:Name="designSvnPath" Width="400"  BorderThickness="1" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Margin="2,8"
                                      FontSize="11" IsEnabled="False" >
-                    </TextBox>
-                    <Button x:Name="change1" Content="修改" Width="40" Height="20" Margin="2,0,2,5"  Click="change1_Click">
-                    </Button>
-                </StackPanel>
+					</TextBox>
+					<Button x:Name="change1" Content="修改" Width="40" Height="20" Margin="2,0,2,5"  Click="change1_Click">
+					</Button>
+				</StackPanel>
 
-                <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                    <TextBlock Height="30" HorizontalAlignment="Right" Width="62" FontSize="12" Margin="10,10,5,0" Foreground="Black">
+				<StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+					<TextBlock Height="30" HorizontalAlignment="Right" Width="62" FontSize="12" Margin="10,10,5,0" >
                         <Run Language="zh-cn" Text="产品 Svn  ："/>
-                    </TextBlock>
-                    <TextBox x:Name="modellingSvnPath" Width="400"  BorderThickness="1" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Margin="2,8"
+					</TextBlock>
+					<TextBox x:Name="modellingSvnPath" Width="400"  BorderThickness="1" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Margin="2,8"
                                      FontSize="11" IsEnabled="False" >
-                    </TextBox>
-                    <Button x:Name="change2" Content="修改" Width="40" Height="20" Margin="2,0,2,5" Click="change2_Click" >
-                    </Button>
-                </StackPanel>
+					</TextBox>
+					<Button x:Name="change2" Content="修改" Width="40" Height="20" Margin="2,0,2,5" Click="change2_Click" >
+					</Button>
+				</StackPanel>
 
-                <StackPanel Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                    <TextBlock Height="30" HorizontalAlignment="Right" Width="62" FontSize="12" Margin="10,10,5,0" Foreground="Black">
+				<StackPanel Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+					<TextBlock Height="30" HorizontalAlignment="Right" Width="62" FontSize="12" Margin="10,10,5,0" >
                         <Run Language="zh-cn" Text="引用Unity："/>
-                    </TextBlock>
-                    <TextBox x:Name="unityExePath" Width="400"  BorderThickness="1" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Margin="2,8"
+					</TextBlock>
+					<TextBox x:Name="unityExePath" Width="400"  BorderThickness="1" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Margin="2,8"
                                      FontSize="11" IsEnabled="False" >
-                    </TextBox>
-                    <Button x:Name="change3" Content="修改" Width="40" Height="20" Margin="2,0,2,5" Click="change3_Click" >
-                    </Button>
-                </StackPanel>
+					</TextBox>
+					<Button x:Name="change3" Content="修改" Width="40" Height="20" Margin="2,0,2,5" Click="change3_Click" >
+					</Button>
+				</StackPanel>
 
-                <StackPanel Grid.Row="4" Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                    <TextBlock Height="30" HorizontalAlignment="Right" Width="62" FontSize="12" Margin="10,10,5,0" Foreground="Black">
+				<StackPanel Grid.Row="4" Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+					<TextBlock Height="30" HorizontalAlignment="Right" Width="62" FontSize="12" Margin="10,10,5,0" >
                         <Run Language="zh-cn" Text="引用 Svn  ："/>
-                    </TextBlock>
-                    <TextBox x:Name="svnExePath" Width="400"  BorderThickness="1" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Margin="2,8"
+					</TextBlock>
+					<TextBox x:Name="svnExePath" Width="400"  BorderThickness="1" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Margin="2,8"
                                      FontSize="11" IsEnabled="False" >
-                    </TextBox>
-                    <Button x:Name="change4" Content="修改" Width="40" Height="20" Margin="2,0,2,5" Click="change4_Click" >
-                    </Button>
-                </StackPanel>
-                
-                <StackPanel Grid.Row="5" Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                    <TextBlock Height="30" HorizontalAlignment="Right" Width="90" FontSize="12" Margin="10,10,5,0" Foreground="Black">
-                        <Run Language="zh-cn" Text="最大等待时间  ："/>
-                    </TextBlock>
-                    <TextBox x:Name="timeoutSetting" Width="100"  BorderThickness="1" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Margin="2,8"
-                                     FontSize="11" TextChanged="timeoutSetting_TextChanged">
-                    </TextBox>
-                    <TextBlock Height="30" HorizontalAlignment="Right" Width="65" FontSize="12" Margin="2,10,0,0" Foreground="Black">
-                        <Run Language="zh-cn" Text="毫秒（ms）"/>
-                    </TextBlock>
-                    <Button x:Name="change5" Content="应用" Width="40" Height="20" Margin="0,0,2,5"  Visibility="Hidden" Click="change5_Click">
-                    </Button>
-                </StackPanel>
+					</TextBox>
+					<Button x:Name="change4" Content="修改" Width="40" Height="20" Margin="2,0,2,5" Click="change4_Click" >
+					</Button>
+				</StackPanel>
 
-                <StackPanel Grid.Row="6" Orientation="Horizontal" FlowDirection="RightToLeft">
-                    <Button x:Name="cancel_Button" Content="确定" Width="50" Height="22"  IsDefault="True" IsCancel="True" Margin="10" Click="cancel_Button_Click">
-                    </Button>
-                </StackPanel>
-            </Grid>
-        </Border>
-    </Grid>
+				<StackPanel Grid.Row="5" Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+					<TextBlock Height="30" HorizontalAlignment="Right" Width="90" FontSize="12" Margin="10,10,5,0" >
+                        <Run Language="zh-cn" Text="最大等待时间  ："/>
+					</TextBlock>
+					<TextBox x:Name="timeoutSetting" Width="100"  BorderThickness="1" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Margin="2,8"
+                                     FontSize="11" TextChanged="timeoutSetting_TextChanged">
+					</TextBox>
+					<TextBlock Height="30" HorizontalAlignment="Right" Width="65" FontSize="12" Margin="2,10,0,0" >
+                        <Run Language="zh-cn" Text="毫秒（ms）"/>
+					</TextBlock>
+					<Button x:Name="change5" Content="应用" Width="40" Height="20" Margin="0,0,2,5"  Visibility="Hidden" Click="change5_Click">
+					</Button>
+				</StackPanel>
+
+				<StackPanel Grid.Row="6" Orientation="Horizontal" FlowDirection="RightToLeft">
+					<Button x:Name="cancel_Button" Content="确定" Width="50" Height="22"  IsDefault="True" IsCancel="True" Margin="10" Click="cancel_Button_Click">
+					</Button>
+				</StackPanel>
+			</Grid>
+		</Border>
+	</Grid>
 </Window>
