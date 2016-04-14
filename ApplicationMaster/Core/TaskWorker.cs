@@ -250,7 +250,6 @@ namespace Casamia.Core
 				isTimeout = !process.WaitForExit((int)actualTimeout);
 			}
 
-			command.TimeCost = DateTime.Now - command.StartTime;
 			return isTimeout;
 		}
 	}

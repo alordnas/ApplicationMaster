@@ -20,6 +20,8 @@ namespace Casamia.Model
 
 		#region VARIABLE
 
+		private StringBuilder transientLogBuilder = new StringBuilder();
+		private int transientCounter = 0;
 		private StringBuilder logBuilder = new StringBuilder();
 		private StringBuilder errorBuilder = new StringBuilder();
 		private string _exe;
@@ -37,6 +39,14 @@ namespace Casamia.Model
 		#region PROPERTIES
 
 		public event PropertyChangedEventHandler PropertyChanged;
+
+		public Executor TheExecutor
+		{
+			get
+			{
+				return ExecutorManager.Instance.GetByPlaceHolder(_executor);
+			}
+		}
 
 		public string Description
 		{
@@ -85,7 +95,7 @@ namespace Casamia.Model
 			}
 		}
 
-		public string Output
+		public string Result
 		{
 			get
 			{
@@ -94,23 +104,44 @@ namespace Casamia.Model
 					return logBuilder.ToString();
 				}
 			}
+		}
+
+		public string Output
+		{
+			get
+			{
+				lock (transientLogBuilder)
+				{
+					return transientLogBuilder.ToString();
+				}
+			}
 			set
 			{
 				if (!string.IsNullOrEmpty(value))
 				{
-					lock (logBuilder)
+					if (transientCounter < 10)
 					{
-						logBuilder.AppendLine(value);
+						transientCounter++;
+						transientLogBuilder.AppendLine(value);
+						lock (logBuilder)
+						{
+							logBuilder.AppendLine(value);
+						}
+						OnPropertyChanged("TimeCost");
+						if (null != CommandFeedbackReceived)
+						{
+							CommandFeedbackReceived(
+								this,
+								new CommandEventArgs(value, CommandStatus.Running)
+								);
+						}
+						OnPropertyChanged("Output");
 					}
-					OnPropertyChanged("TimeCost");
-					if (null != CommandFeedbackReceived)
+					else
 					{
-						CommandFeedbackReceived(
-							this, 
-							new CommandEventArgs(value, CommandStatus.Running)
-							);
+						transientCounter = 0;
+						transientLogBuilder.Clear();
 					}
-					OnPropertyChanged("Output");
 				}
 			}
 		}
@@ -194,14 +225,9 @@ namespace Casamia.Model
 
 		public TimeSpan TimeCost
 		{
-			get { return timeCost; }
-			set
+			get
 			{
-				if (timeCost != value)
-				{
-					timeCost = value;
-					OnPropertyChanged("TimeCost");
-				}
+				return timeCost = (DateTime.Now - StartTime);
 			}
 		}
 
@@ -253,7 +279,14 @@ namespace Casamia.Model
 
 		public override string ToString()
 		{
-			return string.Format("{0} {1} {2}", Executor, Argument, Timeout);
+			if (string.IsNullOrEmpty(description))
+			{
+				return string.Format("{0} {1} {2}", Executor, Argument, Timeout);
+			}
+			else
+			{
+				return description;
+			}
 		}
 
 		#endregion PUBLIC

@@ -11,7 +11,8 @@ namespace Casamia.Model
 		private string name;
 		private int urlDepth;
 		private string ext;
-
+		private string description;
+		
 		#endregion VARIABLE
 
 		#region PROPERTIES
@@ -82,6 +83,21 @@ namespace Casamia.Model
 				{
 					urlDepth = value;
 					OnPropertyChanged("UrlDepth");
+				}
+			}
+		}
+
+		public string Description
+		{
+			get { return description; }
+			set
+			{
+
+				if (!string.Equals(value, description, System.StringComparison.OrdinalIgnoreCase))
+				{
+					description = value;
+
+					OnPropertyChanged("Description");
 				}
 			}
 		}

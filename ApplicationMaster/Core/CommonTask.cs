@@ -44,6 +44,8 @@ namespace Casamia.Core
 
 		public static void RunTask(AnTask anTask, string[] projectPaths)
 		{
+			if (null == anTask) return;
+			
 			TaskWorker worker = new TaskWorker(anTask.Name);
 
 			worker.OnCompleteAll = () =>
@@ -66,7 +68,7 @@ namespace Casamia.Core
 			}
 			else
 			{
-				worker.AddTask(anTask);
+				worker.AddTask(anTask.Clone() as AnTask);
 			}
 			worker.Run();
 		}

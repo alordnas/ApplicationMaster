@@ -109,6 +109,10 @@ namespace Casamia.Core
 			{
 				return workSpaces;
 			}
+			set
+			{
+				workSpaces = value;
+			}
 		}
 
 		#endregion PROPERTIES

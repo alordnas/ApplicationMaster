@@ -59,5 +59,14 @@ namespace Casamia.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 路径：{0} 未找到.
+        /// </summary>
+        internal static string ERROR_PATH_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("ERROR_PATH_NOT_FOUND", resourceCulture);
+            }
+        }
     }
 }

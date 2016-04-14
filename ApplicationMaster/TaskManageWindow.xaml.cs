@@ -20,28 +20,35 @@ namespace Casamia
 		public TaskManageWindow()
 		{
 			InitializeComponent();
-
 		}
 
-		#region EVENT_HANDLER
-
-		private void task_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		protected override void OnClosed(EventArgs e)
 		{
-			AnTask anTask = task_ListBox.SelectedValue as AnTask;
+			base.OnClosed(e);
+			TaskManager.SaveProtoTasks();
 		}
 
-		private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		private void addTask_Button_Click(object sender, RoutedEventArgs e)
 		{
-			DragMove();
+			string taskName = string.Format("Task #{0}", TaskManager.ProtoTasks.Count);
+			AnTask anTask = new AnTask()
+			{
+				Name = taskName,
+			};
+			TaskManager.AddProtoTask(anTask);
+			TaskManager.SaveProtoTasks();
+			task_ListBox.ItemsSource = TaskManager.ProtoTasks;
 		}
 
-		private void exit_Button_Click(object sender, RoutedEventArgs e)
+		private void deleteTask_Button_Click(object sender, RoutedEventArgs e)
 		{
-			Close();
+			AnTask anTask = task_ListBox.SelectedItem as AnTask;
+			if (null != anTask)
+			{
+				TaskManager.RemoveProtoTask(anTask);
+				TaskManager.SaveProtoTasks();
+				task_ListBox.ItemsSource = TaskManager.ProtoTasks;
+			}
 		}
-
-		#endregion EVENT_HANDLER
-
-
 	}
 }

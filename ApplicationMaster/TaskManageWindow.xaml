@@ -7,7 +7,6 @@
 		WindowStyle="ToolWindow" 
 		WindowStartupLocation="CenterScreen" 
 		BorderThickness="1" 
-        MouseLeftButtonDown="Window_MouseLeftButtonDown" 
 		Icon="Images/Logo.ico">
 	<Grid>
 		<Grid.RowDefinitions>
@@ -17,7 +16,15 @@
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition/>
 		</Grid.ColumnDefinitions>
-		<TextBlock HorizontalAlignment="Left" Height="30"  Width="130" FontSize="15"  Margin="10,3,0,0"><Run Language="zh-cn" Text="任务管理器"/></TextBlock>
+		<TextBlock 
+			HorizontalAlignment="Left" 
+			Height="30"  
+			Width="130" 
+			FontSize="15"  
+			Margin="10,3,0,0"
+			>
+			<Run Language="zh-cn" Text="任务管理器"/>
+		</TextBlock>
 
 		<Border Grid.Row ="1"  BorderThickness="10,0,10,10" Margin="1"  >
 			<Grid>
@@ -26,7 +33,7 @@
 					<ColumnDefinition/>
 				</Grid.ColumnDefinitions>
 
-				<GroupBox Header="任务列表" Margin="5" >
+				<GroupBox Grid.Column="0" Header="任务列表" Margin="5" >
 					<Grid Margin="10">
 						<Grid.RowDefinitions>
 							<RowDefinition />
@@ -35,22 +42,31 @@
 							<ColumnDefinition/>
 						</Grid.ColumnDefinitions>
 
-						<ListBox x:Name="task_ListBox" 
+						<ListBox 
+							x:Name="task_ListBox" 
 							ItemsSource="{Binding Source={x:Static core:TaskManager.ProtoTasks}}" 
-							Grid.ColumnSpan="2" 
-							SelectionChanged="task_ListBox_SelectionChanged">
+							Grid.ColumnSpan="2"
+							SelectedIndex="0">
 							<ListBox.ItemTemplate>
 								<DataTemplate>
 									<TextBlock Text="{Binding Name}" />
 								</DataTemplate>
 							</ListBox.ItemTemplate>
 						</ListBox>
-
-
 					</Grid>
 				</GroupBox>
 
-				<local:TaskEditor Grid.Column="1" Height="Auto" Width="Auto" DataContext="{Binding ElementName=task_ListBox, Path=SelectedItem}"/>
+
+				<StackPanel Grid.Column="1"  Orientation="Vertical">
+
+					<local:TaskEditor
+					Height="Auto" 
+					Width="Auto" 
+					DataContext="{Binding ElementName=task_ListBox, Path=SelectedItem}"
+					/>
+					<Button x:Name="addTask_Button" Margin="5" Width="60" Content="新建" Click="addTask_Button_Click"/>
+					<Button x:Name="deleteTask_Button" Margin="5" Width="60" Content="删除" Click="deleteTask_Button_Click"/>
+				</StackPanel>
 
 			</Grid>
 		</Border>

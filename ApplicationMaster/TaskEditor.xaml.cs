@@ -33,19 +33,6 @@ namespace Casamia
 
 		#region EVENTHANDLER
 
-		private void addTask_Button_Click(object sender, RoutedEventArgs e)
-		{
-			string taskName = string.Format("Task #{0}", TaskManager.ProtoTasks.Count);
-			AnTask anTask = new AnTask()
-			{
-				Name = taskName,
-			};
-			TaskManager.AddProtoTask(anTask);
-			TaskManager.SaveProtoTasks();
-			this.DataContext = anTask;
-		}
-
-
 		private void addSubTask_Button_Click(object sender, RoutedEventArgs e)
 		{
 			AnTask anTask = DataContext as AnTask;
@@ -61,36 +48,7 @@ namespace Casamia
 				anTask.AddCommand(command);
 			}
 		}
-
-
-		private bool CheckSubTask()
-		{
-			if (null == exe_ComboBox.SelectedItem)
-			{
-				LogManager.Instance.LogError("[运行程序]选项不能为空");
-				exe_ComboBox.Focus();
-				return false;
-			}
-
-			if (string.IsNullOrWhiteSpace(arg_Combox.Text))
-			{
-				LogManager.Instance.LogError("[参数]选项不能为空");
-				arg_Combox.Focus();
-				return false;
-			}
-			return true;
-		}
 		
-		private void deleteTask_Button_Click(object sender, RoutedEventArgs e)
-		{
-			AnTask anTask = DataContext as AnTask;
-			if (null != anTask)
-			{
-				TaskManager.RemoveProtoTask(anTask);
-				TaskManager.SaveProtoTasks();
-			}
-		}
-
 		private void deleteSubTask_Button_Click(object sender, RoutedEventArgs e)
 		{
 			AnTask anTask = DataContext as AnTask;

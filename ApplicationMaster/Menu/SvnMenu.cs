@@ -81,7 +81,7 @@ namespace Casamia.Menu
 						{
 							case CommandStatus.Completed:
 								{
-									ObservableCollection<TreeNode> children = ParseListOutPut(root, command.Output);
+									ObservableCollection<TreeNode> children = ParseListOutPut(root, command.Result);
 
 									if (curDeep < deep)
 									{
