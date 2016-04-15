@@ -444,30 +444,28 @@
 											<Button Content="Clear" VerticalAlignment="Top" Click="Button_Click" Height="20" DockPanel.Dock="Top" Width="70" />
 											<ListBox Name="filterListBox" ItemsSource="{Binding}" SelectionMode="Multiple" SelectionChanged="lb_SelectionChanged" Width="auto" Height="auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
 										</DockPanel>
-										<ScrollViewer  Grid.Column="1" CanContentScroll="True" Width="auto" Height="auto" HorizontalAlignment="Stretch">
-											<DataGrid x:Name="LogGrid"  ItemsSource="{Binding}" AutoGenerateColumns="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" AlternationCount="2" AlternatingRowBackground="#FFFBE7E7" >
-												<DataGrid.Columns>
-													<DataGridTextColumn Binding="{Binding Date, StringFormat=\{0:HH:mm:ss\}}"  Header="时间" IsReadOnly="True"/>
-													<DataGridTemplateColumn>
-														<DataGridTemplateColumn.HeaderTemplate>
-															<DataTemplate>
-																<TextBlock Text="消息" />
-															</DataTemplate>
-														</DataGridTemplateColumn.HeaderTemplate>
-														<DataGridTemplateColumn.CellTemplate>
-															<DataTemplate>
-																<TextBlock Text="{Binding Message}">
-																	<TextBlock.ToolTip>
-																		<TextBlock Text="{Binding Message}"></TextBlock>
-																	</TextBlock.ToolTip>
+										<DataGrid x:Name="LogGrid" Grid.Column="1"  ItemsSource="{Binding}" AutoGenerateColumns="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+											<DataGrid.Columns>
+												<DataGridTextColumn Binding="{Binding Date, StringFormat=\{0:HH:mm:ss\}}"  Header="时间" IsReadOnly="True"/>
+												<DataGridTemplateColumn>
+													<DataGridTemplateColumn.HeaderTemplate>
+														<DataTemplate>
+															<TextBlock Text="消息" />
+														</DataTemplate>
+													</DataGridTemplateColumn.HeaderTemplate>
+													<DataGridTemplateColumn.CellTemplate>
+														<DataTemplate>
+															<TextBlock Text="{Binding Message}">
+																<TextBlock.ToolTip>
+																	<TextBlock Text="{Binding Message}"></TextBlock>
+																</TextBlock.ToolTip>
 																</TextBlock>
-															</DataTemplate>
-														</DataGridTemplateColumn.CellTemplate>
-													</DataGridTemplateColumn>
-													<DataGridTextColumn Binding="{Binding Level}" Header="级别" IsReadOnly="True" Visibility="Hidden"/>
-												</DataGrid.Columns>
-											</DataGrid>
-										</ScrollViewer>
+														</DataTemplate>
+													</DataGridTemplateColumn.CellTemplate>
+												</DataGridTemplateColumn>
+												<DataGridTextColumn Binding="{Binding Level}" Header="级别" IsReadOnly="True" Visibility="Hidden"/>
+											</DataGrid.Columns>
+										</DataGrid>
 									</Grid>
 								</Border>
 							</GroupBox>

@@ -13,8 +13,8 @@
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="1*" />
 			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="200" />
 			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
 
@@ -35,23 +35,26 @@
 			<TextBox x:Name="describe_TextBox" 
 										 Text="{Binding Description}" 
 										 Margin="0,5" 
-										 Width="500" 
-										 IsEnabled="True" >
-			</TextBox>
+										 IsEnabled="True" Width="200" />
 		</StackPanel>
-
-		<Label Grid.Row="2" Content="命令列表：" Margin="5,0"/>
 		
-		<ScrollViewer Grid.Row="3" Margin="10">
-			<ListBox x:Name="commandListBox"
+		<Grid Grid.Row="2">
+			<Label  Content="命令列表" VerticalAlignment="Center" HorizontalAlignment="Left" />
+		</Grid>
+		<StackPanel Grid.Row="3" Orientation="Horizontal" FlowDirection="RightToLeft" Margin="10,0">
+			<Button x:Name="addSubTask_Button" 
+									Content="添加"
+									Click="addSubTask_Button_Click" />
+
+			<Button x:Name="deleteSubTask_Button" Content="删除" Click="deleteSubTask_Button_Click" />
+			<Button x:Name="clearSubTask_Button" Content="清空" Click="clearSubTask_Button_Click" />
+		</StackPanel>
+		<ListBox x:Name="commandListBox"
 					 ItemsSource="{Binding Path=CommandList}"
 					 IsSynchronizedWithCurrentItem="True"
+					 Grid.Row="4"
 					 />
-		</ScrollViewer>
-		<StackPanel Grid.Row="4" Orientation="Horizontal" FlowDirection="RightToLeft" Margin="10,0">
-			<Button x:Name="deleteSubTask_Button" Width="56" Margin="0,5,20,5" Content="删除" Click="deleteSubTask_Button_Click"/>
-			<Button x:Name="clearSubTask_Button" Width="56" Margin="0,5,20,5" Content="清空" Click="clearSubTask_Button_Click"/>
-		</StackPanel>
+
 		<GroupBox Grid.Row="5" Header="命令详细" Margin="10,0" >
 			<Grid>
 				<Grid.RowDefinitions>
@@ -113,16 +116,6 @@
 							Width="90"  
 							/>
 					<Label Margin="0,8" Content="秒"/>
-				</StackPanel>
-
-				<StackPanel 
-						Grid.Row="3" 
-						Orientation="Horizontal" 
-						FlowDirection="RightToLeft">
-					<Button x:Name="addSubTask_Button" 
-									Content="添加到执行列表"
-									Width="120" 
-									Click="addSubTask_Button_Click" />
 				</StackPanel>
 			</Grid>
 		</GroupBox>

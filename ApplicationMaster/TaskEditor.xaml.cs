@@ -13,9 +13,7 @@ namespace Casamia
 	/// Interaction logic for TaskEditor.xaml
 	/// </summary>
 	public partial class TaskEditor : UserControl
-	{
-		
-		ObservableCollection<Command> currentCommands = new ObservableCollection<Command>();
+	{	
 		public TaskEditor()
 		{
 			InitializeComponent();
@@ -23,7 +21,6 @@ namespace Casamia
 			{
 				exe_ComboBox.SelectedIndex = 0;
 			}
-			//commandListBox.ItemsSource = currentCommands;
 		}
 
 		#region PUBLIC
@@ -37,12 +34,15 @@ namespace Casamia
 		{
 			AnTask anTask = DataContext as AnTask;
 			Executor executor = exe_ComboBox.SelectedItem as Executor;
+			TimeSpan timeSpan = new TimeSpan(0, 0, -1);
+			
 			if (null != anTask && null != executor)
 			{
 				Command command = new Command()
 				{
 					Executor = executor.PlaceHolder,
-					Timeout = new TimeSpan(0, 0, -1),
+					Timeout = timeSpan,
+					Argument=arg_Combox.Text,
 				};
 				commandListBox.SelectedItem = command;
 				anTask.AddCommand(command);

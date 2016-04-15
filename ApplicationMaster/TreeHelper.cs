@@ -36,6 +36,10 @@ namespace Casamia
 
 		public static string RectifyPath(string _path)
 		{
+			if(string.IsNullOrEmpty(_path))
+			{
+				return string.Empty;
+			}
 			string path = _path.Replace("\\", "/");
 
 			while (path.EndsWith("/") && path.Length > 0)

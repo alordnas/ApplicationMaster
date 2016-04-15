@@ -8,12 +8,11 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
 
 using Casamia.Core;
-using Casamia.Model;
 using Casamia.Logging;
 using Casamia.Menu;
+using Casamia.Model;
 using Casamia.MyFacility;
 
 namespace Casamia
@@ -364,7 +363,6 @@ namespace Casamia
 
 			if ((e.KeyboardDevice.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
 			{
-
 				MyHotkeys.OnCtrlKeyDown(e.Key);
 			}
 

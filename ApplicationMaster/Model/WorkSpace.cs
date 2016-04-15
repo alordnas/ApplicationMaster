@@ -129,6 +129,11 @@ namespace Casamia.Model
 			return path.Replace(url, localUrl);
 		}
 
+		public override string ToString()
+		{
+			return name;
+		}
+
 		#endregion PUBLIC
 
 		public event PropertyChangedEventHandler PropertyChanged;

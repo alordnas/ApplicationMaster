@@ -50,5 +50,6 @@ namespace Casamia
 				task_ListBox.ItemsSource = TaskManager.ProtoTasks;
 			}
 		}
+
 	}
 }

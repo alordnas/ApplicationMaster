@@ -3,7 +3,7 @@
 	<Application.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="Themes\ExpressionLight.xaml" />
+				<ResourceDictionary Source="Themes\ExpressionDark.xaml" />
 				<!--
 				<ResourceDictionary Source="Themes\BureauBlack.xaml" />
                 <ResourceDictionary Source="Themes\BureauBlue.xaml" />

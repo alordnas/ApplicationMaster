@@ -142,13 +142,16 @@ namespace Casamia.Core
 				string localPath = WorkSpaceManager.Instance.Current.ToLocalPath(path);
 				foreach (var command in anTask.Commands)
 				{
-					command.Argument = command.Argument.Replace(
-						Util.PROJECT_PATH_PLACEHOLDER,
-						localPath
-						).Replace(
-						Util.PROJECT_URL_PLACEHOLDER,
-						svnPath
-						);
+					if (!string.IsNullOrEmpty(command.Argument))
+					{
+						command.Argument = command.Argument.Replace(
+							Util.PROJECT_PATH_PLACEHOLDER,
+							localPath
+							).Replace(
+							Util.PROJECT_URL_PLACEHOLDER,
+							svnPath
+							);
+					}
 				}
 			}
 		}
