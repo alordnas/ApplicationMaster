@@ -245,8 +245,7 @@ namespace Casamia.Core
 			}
 			else
 			{
-				int _systemTimeout = MyFacility.MyWorker.timeout < 0 ? int.MaxValue : MyFacility.MyWorker.timeout;
-				actualTimeout = Math.Min(command.Timeout.TotalMilliseconds, _systemTimeout);
+				actualTimeout = Math.Min(command.Timeout.TotalMilliseconds, int.MaxValue);
 				isTimeout = !process.WaitForExit((int)actualTimeout);
 			}
 

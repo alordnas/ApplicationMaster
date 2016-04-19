@@ -52,7 +52,7 @@ namespace Casamia
 				filterListBox.ItemsSource = Enum.GetValues(typeof(Casamia.Logging.Log.level));
 				CommonMethod.SetTitle();
 				MyLog.Initialize();
-				MyWorker.Initialize();
+				
 				task_DataGrid.ItemsSource = activeTasks;
 				TaskManager.ActivateTask += (AnTask anTask) =>
 				{
@@ -206,22 +206,7 @@ namespace Casamia
 		#endregion
 
 		#region <<Window Events>>
-		private void closeButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (MyWorker.IsBusy)
-			{
-				MessageBoxResult result = MessageBox.Show("任务未完成，确定退出吗？", "提示", MessageBoxButton.YesNo);
-				if (result == MessageBoxResult.Yes)
-				{
-					Application.Current.Shutdown();
-				}
-			}
-			else
-			{
-				Application.Current.Shutdown();
-			}
-		}
-
+		
 		void OnProtoTaskClick(object sender, RoutedEventArgs e)
 		{
 			AnTask anTask = (sender as MenuItem).Header as AnTask;
@@ -765,7 +750,12 @@ namespace Casamia
 
 		private void preference_MenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			new ReferenceWindow().ShowDialog();
+			new WorkspaceWindow().ShowDialog();
+		}
+
+		private void executors_MenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			new ExecutorsWindow().ShowDialog();
 		}
 
 		private void taskManager_MenuItem_Click(object sender, RoutedEventArgs e)

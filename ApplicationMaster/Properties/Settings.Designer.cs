@@ -25,30 +25,6 @@ namespace Casamia.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("3")]
-        public int DESIGN_SVN_DEPTH {
-            get {
-                return ((int)(this["DESIGN_SVN_DEPTH"]));
-            }
-            set {
-                this["DESIGN_SVN_DEPTH"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public int FURNITURE_SVN_DEPTH {
-            get {
-                return ((int)(this["FURNITURE_SVN_DEPTH"]));
-            }
-            set {
-                this["FURNITURE_SVN_DEPTH"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("workspace.config")]
         public string WORKSPACE_CONFIG_PATH {
             get {

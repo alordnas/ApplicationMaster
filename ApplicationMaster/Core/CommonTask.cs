@@ -94,7 +94,7 @@ namespace Casamia.Core
 			if (spaceIndex < 0)
 			{
 				commandString = commandString.ToLower();
-				string exe = XMLManage.GetString(commandString);
+				string exe = string.Empty;
 				if (exe != null && exe.EndsWith(".exe"))
 				{
 					command.Argument = null;
@@ -110,7 +110,7 @@ namespace Casamia.Core
 			else
 			{
 				string executor = commandString.Substring(0, spaceIndex);
-				string exe = XMLManage.GetString(executor.ToLower());
+				string exe = string.Empty;
 				if (exe != null && exe.EndsWith(".exe"))
 				{
 					string argment = commandString.Substring(spaceIndex, commandString.Length - spaceIndex);

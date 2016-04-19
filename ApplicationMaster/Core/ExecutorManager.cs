@@ -43,6 +43,10 @@ namespace Casamia.Core
 			{
 				return executors;
 			}
+			set
+			{
+				executors = value;
+			}
 		}
 
 		#endregion PROPERTIES

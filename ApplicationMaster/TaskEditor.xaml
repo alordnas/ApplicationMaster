@@ -3,9 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300"
-			 xmlns:core ="clr-namespace:Casamia.Core" Height="Auto" Width="Auto" Padding="10"
+             mc:Ignorable="d"
+			 xmlns:core ="clr-namespace:Casamia.Core" Padding="10"
 			 >
 
 	<Grid Margin="10">
@@ -37,7 +36,7 @@
 										 Margin="0,5" 
 										 IsEnabled="True" Width="200" />
 		</StackPanel>
-		
+
 		<Grid Grid.Row="2">
 			<Label  Content="命令列表" VerticalAlignment="Center" HorizontalAlignment="Left" />
 		</Grid>
@@ -55,7 +54,7 @@
 					 Grid.Row="4"
 					 />
 
-		<GroupBox Grid.Row="5" Header="命令详细" Margin="10,0" >
+		<GroupBox Grid.Row="5" Header="命令详细">
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto"/>

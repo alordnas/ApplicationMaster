@@ -36,7 +36,7 @@ namespace Casamia.Core
 			{
 				Casamia.Logging.LogManager.Instance.LogError(
 					Constants.Path_Already_Exist_Error,
-					XMLManage.GetString(Util.UNITY)
+					projectPath
 					);
 				return;
 			}

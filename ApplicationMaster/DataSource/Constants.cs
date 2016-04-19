@@ -11,13 +11,6 @@ namespace Casamia.Model
         public static string title_l = " - Local";
 		public static string title_s = " - Svn";
 
-		public static readonly string Modelling = " 建模 ";
-		public static readonly string Design = " 设计 ";
-
-        public static readonly string Modeller = " 建模师 ";
-        public static readonly string Designer = " 设计师 ";
-
-		public static readonly string TASK_NAME_COMMAND = "命令";
         public static readonly string TASK_NAME_CREATEPROJECT = "创建项目";
 
 

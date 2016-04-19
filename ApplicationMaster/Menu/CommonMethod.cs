@@ -15,25 +15,6 @@ namespace Casamia.Menu
 
 		public static void SetTitle()
 		{
-			string title = string.Empty;
-			if ((MyWorker.bgWorker != null) && MyWorker.bgWorker.IsBusy)
-			{
-				title = string.Format(
-					"{0} (正在运行){1}",
-					WorkSpaceManager.Instance.Current.Name,
-					WorkSpaceManager.Instance.IsLocal ? Constants.title_l : Constants.title_s
-					);
-			}
-			else
-			{
-				title = string.Format(
-					"{0}{1}",
-					WorkSpaceManager.Instance.Current.Name,
-					WorkSpaceManager.Instance.IsLocal ? Constants.title_l : Constants.title_s
-					);
-			}
-
-			//mainWindow.Title = title ;
 		}
 
 		public static string OpenFileDlg()

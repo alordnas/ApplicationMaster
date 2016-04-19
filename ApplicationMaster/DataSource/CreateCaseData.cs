@@ -59,19 +59,6 @@ namespace Casamia.Model
         }
 
 
-		private string _projectStyle = "";
-		public string ProjectStyle 
-		{
-			get 
-			{
-				return _projectStyle;
-			}
-			set 
-			{
-				_projectStyle = value;
-				Notify("ProjectStyle");
-			}
-		}
 
 
         private string _svnRootPath = "";
@@ -103,26 +90,6 @@ namespace Casamia.Model
             }
         }
 
-        private string _packagePath;
-        public string PackagePath
-        {
-            get
-            {
-                return _packagePath;
-            }
-            set
-            {
-                
-                _packagePath = value;
-
-                Parameter parameter = new Parameter();
-                parameter.Key = Util.SAVED_PACKAGE_DIR;
-                parameter.Value = value;
-                XMLManage.SaveParameter(parameter);
-                Notify("PackagePath");
-            }
-        }
-
 
 		public bool IsGoodFolder()
 		{
@@ -148,22 +115,6 @@ namespace Casamia.Model
 			return string.Format("{0}/{1}", ParentPath, ProjectName);
 		}
 
-
-		public string[] GetPathsNeedCreated(string projectPath) 
-		{
-			if (CreateThesePath != null)
-			{
-				string _o_path = CreateThesePath.Replace(Util.PROJECT_PATH_PLACEHOLDER, projectPath);
-				return _o_path.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-			}
-
-			return new string[0];
-		}
-
-		public string GetImportPackagePath() 
-		{
-			return string.Format("{0}{1}", AppDomain.CurrentDomain.BaseDirectory, PackagePath.TrimStart(new char[]{'/','\\'}));
-		}
 
 		public void RefreshPorjectInfo()
 		{

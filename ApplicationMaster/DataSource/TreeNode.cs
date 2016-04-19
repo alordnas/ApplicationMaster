@@ -146,7 +146,7 @@ namespace Casamia.Model
 		{
 			get 
 			{
-				return Util.TREE_DEEP_LITIM <= deep;
+				return WorkSpaceManager.Instance.Current.UrlDepth <= deep;
 			}
 		}
 

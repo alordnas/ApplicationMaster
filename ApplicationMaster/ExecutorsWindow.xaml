@@ -1,0 +1,22 @@
+﻿<Window xmlns:Casamia="clr-namespace:Casamia"  x:Class="Casamia.ExecutorsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ExecutorsWindow" 
+		xmlns:core="clr-namespace:Casamia.Core"
+		xmlns:converter="clr-namespace:Casamia.Converter" WindowStyle="ToolWindow" 
+		
+		>
+	<Grid >
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="20"></RowDefinition>
+			<RowDefinition Height="1*"></RowDefinition>
+		</Grid.RowDefinitions>
+		<StackPanel Grid.Row="0" Orientation="Horizontal" FlowDirection="RightToLeft">
+			<Button Content="Remove" Click="buttonRemoveClick" ></Button>
+			<Button Content="Add" Click="buttonAddClick"></Button>
+			<ComboBox x:Name="executorsCombo" SelectedIndex="0" ItemsSource="{Binding Source={x:Static core:ExecutorManager.Instance}, Path=Executors}" DisplayMemberPath="Name" ></ComboBox>
+		</StackPanel >
+		<Casamia:ExecutorEditor Grid.Row="2" DataContext="{Binding ElementName=executorsCombo, Path=SelectedItem}" />
+	</Grid>
+</Window>

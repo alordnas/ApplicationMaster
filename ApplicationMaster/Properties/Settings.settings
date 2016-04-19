@@ -2,12 +2,6 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Casamia.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="DESIGN_SVN_DEPTH" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">3</Value>
-    </Setting>
-    <Setting Name="FURNITURE_SVN_DEPTH" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">1</Value>
-    </Setting>
     <Setting Name="WORKSPACE_CONFIG_PATH" Type="System.String" Scope="User">
       <Value Profile="(Default)">workspace.config</Value>
     </Setting>

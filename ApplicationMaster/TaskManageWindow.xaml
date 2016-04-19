@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:core ="clr-namespace:Casamia.Core"
         xmlns:local="clr-namespace:Casamia" x:Class="Casamia.TaskManageWindow"
-        Height="560" Width="840" 
 		WindowStyle="ToolWindow" 
 		WindowStartupLocation="CenterScreen" 
 		BorderThickness="1" 
@@ -20,21 +19,20 @@
 			HorizontalAlignment="Left" 
 			Height="30"  
 			Width="130" 
-			FontSize="15"  
-			Margin="10,3,0,0"
+			FontSize="15"
 			>
 			<Run Language="zh-cn" Text="任务管理器"/>
 		</TextBlock>
 
-		<Border Grid.Row ="1"  BorderThickness="10,0,10,10" Margin="1"  >
+		<Border Grid.Row ="1">
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="150"/>
 					<ColumnDefinition/>
 				</Grid.ColumnDefinitions>
 
-				<GroupBox Grid.Column="0" Header="任务列表" Margin="5" >
-					<Grid Margin="10">
+				<GroupBox Grid.Column="0" Header="任务列表" >
+					<Grid>
 						<Grid.RowDefinitions>
 							<RowDefinition />
 						</Grid.RowDefinitions>
@@ -65,8 +63,8 @@
 					DataContext="{Binding ElementName=task_ListBox, Path=SelectedItem}"
 					/>
 					</ScrollViewer>
-					<Button x:Name="addTask_Button" Margin="5" Width="60" Content="新建" Click="addTask_Button_Click"/>
-					<Button x:Name="deleteTask_Button" Margin="5" Width="60" Content="删除" Click="deleteTask_Button_Click"/>
+					<Button x:Name="addTask_Button" Content="新建" Click="addTask_Button_Click"/>
+					<Button x:Name="deleteTask_Button" Content="删除" Click="deleteTask_Button_Click"/>
 				</StackPanel>
 
 			</Grid>

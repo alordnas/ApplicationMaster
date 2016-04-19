@@ -85,14 +85,20 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Compile Include="Converter\CasamiaConverter.cs" />
+    <Compile Include="Converter\CommonConverter.cs" />
     <Compile Include="Core\ExecutorManager.cs" />
     <Compile Include="Core\SilentWorker.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Core\SvnWatcher.cs" />
     <Compile Include="Core\CommonTask.cs" />
     <Compile Include="Core\TaskManager.cs" />
     <Compile Include="Core\WorkSpaceManager.cs" />
+    <Compile Include="ExecutorEditor.xaml.cs">
+      <DependentUpon>ExecutorEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ExecutorsWindow.xaml.cs">
+      <DependentUpon>ExecutorsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model\AnTask.cs" />
     <Compile Include="Log\ILogger.cs" />
     <Compile Include="Log\Log.cs" />
@@ -111,10 +117,8 @@
     <Compile Include="Core\TaskWorker.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="MyFacility\MyWorker.cs" />
     <Compile Include="DataSource\Constants.cs" />
     <Compile Include="DataSource\CreateCaseData.cs" />
-    <Compile Include="Job.cs" />
     <Compile Include="Menu\CommandMenu.cs" />
     <Compile Include="Menu\CommonMethod.cs" />
     <Compile Include="Menu\EditMenu.cs" />
@@ -122,8 +126,8 @@
     <Compile Include="Menu\HelpMenu.cs" />
     <Compile Include="Menu\SvnMenu.cs" />
     <Compile Include="Menu\UnityMenu.cs" />
-    <Compile Include="ReferenceWindow.xaml.cs">
-      <DependentUpon>ReferenceWindow.xaml</DependentUpon>
+    <Compile Include="WorkspaceWindow.xaml.cs">
+      <DependentUpon>WorkspaceWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="TaskEditor.xaml.cs">
@@ -133,18 +137,22 @@
       <DependentUpon>TaskManageWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="TreeHelper.cs" />
-    <Compile Include="CommandParse.cs" />
     <Compile Include="CreateProjectWindow.xaml.cs">
       <DependentUpon>CreateProjectWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Parameter.cs" />
     <Compile Include="DataSource\TreeNode.cs" />
-    <Compile Include="TreeType.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="Watcher.cs" />
     <Compile Include="Win32.cs" />
-    <Compile Include="XMLManage.cs" />
     <Page Include="CreateProjectWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ExecutorEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ExecutorsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -160,7 +168,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ReferenceWindow.xaml">
+    <Page Include="WorkspaceWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

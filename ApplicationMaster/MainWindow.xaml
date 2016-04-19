@@ -91,10 +91,13 @@
 		</Grid.RowDefinitions>
 
 		<Menu Grid.Row="0" >
-			<MenuItem x:Name="dir_MenuItem" Header="工作集" Padding="0">
+			<MenuItem x:Name="dir_MenuItem" Header="工作集">
 				<MenuItem.ItemsSource>
 					<CompositeCollection>
+						<MenuItem x:Name="preference_MenuItem" Header="设定"  Click="preference_MenuItem_Click"/>
+						<Separator></Separator>
 						<CollectionContainer Collection="{Binding Source={x:Static core:WorkSpaceManager.Instance }, Mode=OneWay, Path=WorkSpaces}"></CollectionContainer>
+						
 					</CompositeCollection>
 				</MenuItem.ItemsSource>
 				<MenuItem.ItemContainerStyle>
@@ -104,9 +107,10 @@
 					</Style>
 				</MenuItem.ItemContainerStyle>
 			</MenuItem>
-			<MenuItem x:Name="edit_MenuItem" Header="编辑" HorizontalContentAlignment="Center">
+			<MenuItem x:Name="edit_MenuItem" Header="编辑" >
 				<MenuItem  x:Name="openDir_MenuItem" Header ="更改..."  Click="openDir_MenuItem_Click"/>
-				<MenuItem x:Name="preference_MenuItem" Header="设定"  Click="preference_MenuItem_Click"/>
+				<MenuItem Header="程序设定"  Click="executors_MenuItem_Click"/>
+				<Separator></Separator>
 				<MenuItem x:Name="selectAll_MenuItem" Header="全选(Ctrl + A)"  Click="selectAll_MenuItem_Click"/>
 				<MenuItem x:Name="selectNone_MenuItem" Header="撤选(Ctrl + N)"  Click="selectNone_MenuItem_Click"/>
 				<Separator />
@@ -124,7 +128,7 @@
 			<MenuItem Header="Svn">
 				<MenuItem x:Name="openSvn_MenuItem" Header="打开Svn"  Click="openSvn_MenuItem_Click"/>
 				<MenuItem x:Name="closeSvn_MenuItem" Header="退出Svn" Click="closeSvn_MenuItem_Click"/>
-				<Separator Background="Transparent"/>
+				<Separator />
 				<MenuItem x:Name="checkout_MenuItem" Header="检出选中"  Click="checkout_MenuItem_Click"/>
 			</MenuItem>
 
@@ -142,9 +146,6 @@
 					</Style>
 				</MenuItem.ItemContainerStyle>
 			</MenuItem>
-			<!--<MenuItem x:Name="task_MenuItem" Header="任务">
-					<MenuItem x:Name="taskManager_MenuItem" Header="管理..." Click="taskManager_MenuItem_Click"/>
-				</MenuItem>-->
 			<MenuItem Header="帮助">
 				<MenuItem Header="帮助手册"  />
 			</MenuItem>

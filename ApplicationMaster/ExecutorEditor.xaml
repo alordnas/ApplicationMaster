@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="Casamia.ExecutorEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+			 xmlns:converter="clr-namespace:Casamia.Converter"
+             d:DesignHeight="300" d:DesignWidth="300">
+	<UserControl.Resources >
+		<converter:DebugConverter  x:Key="debugConverter"></converter:DebugConverter>
+		<converter:StringArrayToStringConvert x:Key="arrayConverter"></converter:StringArrayToStringConvert>
+	</UserControl.Resources>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" MaxWidth="300"></ColumnDefinition>
+			<ColumnDefinition Width="20"></ColumnDefinition>
+			<ColumnDefinition Width="1*"></ColumnDefinition>
+		</Grid.ColumnDefinitions>
+		<Grid Grid.Column="0" FlowDirection="RightToLeft">
+			<StackPanel FlowDirection="LeftToRight" >
+				<TextBlock Text="{DynamicResource CONTROL_EXECUTOR_NAME}" />
+				<TextBox Text="{Binding Path=Name, Converter={StaticResource debugConverter}}" />
+				<Separator></Separator>
+				<TextBlock Text="{DynamicResource CONTROL_EXECUTOR_DESCRIPTION}" />
+				<TextBox Text="{Binding Path=Description}"  ToolTip="{Binding Path=Description}"/>
+				<Separator></Separator>
+				<TextBlock Text="{DynamicResource CONTROL_EXECUTOR_PATH}" />
+				<TextBox Text="{Binding Path=Path}" ToolTip="{Binding Path=Path}" />
+				<Separator></Separator>
+				<TextBlock Text="{DynamicResource CONTROL_EXECUTOR_PLACEHOLDER}" />
+				<TextBlock Text="{Binding Path=PlaceHolder}" />
+				<Separator></Separator>
+			</StackPanel>
+		</Grid>
+		<Grid Grid.Column="2">
+			<StackPanel>
+				<TextBlock Text="{DynamicResource CONTROL_EXECUTOR_POTENTIALPARAMETERS}" />
+				<TextBox Text="{Binding Path=PotentialParameters, Converter={StaticResource arrayConverter}}" AcceptsReturn="True" TextWrapping="Wrap" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
+			</StackPanel>
+		</Grid>
+	</Grid>
+</UserControl>

@@ -20,18 +20,6 @@ namespace Casamia
 	class TreeHelper
 	{
 
-		public static bool IsOnControl(string dir)
-		{
-			//if (File.Exists(XMLManage.GetString(Util.SVN)))
-			//{
-			//	string diff = BackgroundWorkManager.SvnChecking_Diff(dir);
-
-			//	return string.IsNullOrEmpty(diff);
-			//}
-
-			return false;
-		}
-
 
 
 		public static string RectifyPath(string _path)
@@ -214,15 +202,6 @@ namespace Casamia
 
 				InvertSelection(child);
 			}
-		}
-
-		public static void SetChildrenExpanded(TreeNode parent, bool expanded)
-		{
-			//foreach (TreeNode child in parent.children)
-			//{
-			//    child.is = isChecked;
-			//    SetChildrenChecked(child, isChecked);
-			//}
 		}
 
 		public static TreeNode FindChild(TreeNode parent, string dir)

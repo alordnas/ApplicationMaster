@@ -88,4 +88,34 @@ namespace Casamia.Converter
 			throw new NotImplementedException();
 		}
 	}
+
+	class StringArrayToStringConvert : IValueConverter
+	{
+		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		{
+			if (null != value)
+			{
+
+				string[] values = value as string[];
+				return string.Join(System.Environment.NewLine, values);
+			}
+			else
+			{
+				return value;
+			}
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		{
+			if (null != value)
+			{
+				string str = value as string;
+				return str.Split(new string[] { System.Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+			}
+			else
+			{
+				return value;
+			}
+		}
+	}
 }
