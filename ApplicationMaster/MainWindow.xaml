@@ -10,8 +10,6 @@
 		WindowStartupLocation="CenterScreen"
 		KeyDown="Window_KeyDown"
 		KeyUp="Window_KeyUp" 
-		Closing="Window_Closing" 
-		Loaded="Window_Loaded" 
 		Icon="Images/Logo.ico">
 
 	<Window.Resources>
@@ -136,12 +134,14 @@
 				<MenuItem.ItemsSource>
 					<CompositeCollection>
 						<MenuItem x:Name="taskManager_MenuItem" Header="管理..." Click="taskManager_MenuItem_Click"/>
-						<CollectionContainer Collection="{Binding Source={x:Static core:TaskManager.ProtoTasks }, Mode=OneWay}"></CollectionContainer>
+						<CollectionContainer Collection="{Binding Source={x:Static core:TaskManager.ProtoTasks }, Mode=OneWay}">
+							
+						</CollectionContainer>
 					</CompositeCollection>
 				</MenuItem.ItemsSource>
 				<MenuItem.ItemContainerStyle>
 					<Style TargetType="MenuItem">
-						<Setter Property="MenuItem.Header" Value="{Binding}"/>
+						<Setter Property="MenuItem.Header" Value="{Binding Name}"/>
 						<EventSetter Event="Click" Handler="OnProtoTaskClick"></EventSetter>
 					</Style>
 				</MenuItem.ItemContainerStyle>
@@ -241,10 +241,10 @@
 								<TabItem Header="当前" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
 									<Grid>
 										<Grid.RowDefinitions>
-											<RowDefinition Height="0.6*" />
+											<RowDefinition Height="1*" />
 											<RowDefinition Height="30" />
 											<RowDefinition Height="Auto"/>
-											<RowDefinition Height="0.4*"/>
+											<RowDefinition Height="Auto"/>
 										</Grid.RowDefinitions>
 
 										<GroupBox Header="任务"   BorderThickness="2">

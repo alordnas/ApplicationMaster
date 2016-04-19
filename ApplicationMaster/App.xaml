@@ -4,7 +4,7 @@
 
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="Themes\ExpressionDark.xaml" />
+				<ResourceDictionary Source="Themes\BureauBlue.xaml" />
 				<!--
 				<ResourceDictionary Source="Themes\BureauBlack.xaml" />
                 <ResourceDictionary Source="Themes\BureauBlue.xaml" />
@@ -24,11 +24,11 @@
 			<System:String x:Key="WINDOW_HEADER_SETTING_WORKSPACES">工作集</System:String>
 			<System:String x:Key="WINDOW_HEADER_SETTING_EXECUTORS">程序集</System:String>
 
-			<!--
+			
 			<Style TargetType="Window">
 				<Setter Property="Padding" Value="20"></Setter>
 
-				<Setter Property="Template">
+				<!--<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate TargetType="Window">
 							<Border  Padding="15,10,15,10">
@@ -36,7 +36,7 @@
 							</Border>
 						</ControlTemplate>
 					</Setter.Value>
-				</Setter>
+				</Setter>-->
 				<Setter Property="SizeToContent" Value="WidthAndHeight"></Setter>
 			</Style>
 			<Style TargetType="local:ExecutorsWindow" BasedOn="{StaticResource {x:Type Window}}" />
@@ -44,7 +44,7 @@
 			<Style TargetType="local:MainWindow" BasedOn="{StaticResource {x:Type Window}}" />
 			<Style TargetType="local:WorkspaceWindow" BasedOn="{StaticResource {x:Type Window}}" />
 			<Style TargetType="local:TaskManageWindow" BasedOn="{StaticResource {x:Type Window}}" />
-			-->
+			
 
 		</ResourceDictionary>
 

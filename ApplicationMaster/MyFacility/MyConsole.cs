@@ -1,15 +1,7 @@
-﻿using Casamia.Model;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Documents;
-using System.Windows.Media;
+﻿using System;
+using System.Collections.ObjectModel;
 
 using Casamia.Logging;
-using System.Collections.ObjectModel;
 
 namespace Casamia.MyFacility
 {

@@ -53,7 +53,11 @@ namespace Casamia.Model
 			get { return description; }
 			set
 			{
-				description = value;
+				if (!string.Equals(description, value))
+				{
+					description = value;
+					OnPropertyChanged("Description");
+				}
 			}
 		}
 		public string Exe
@@ -275,18 +279,6 @@ namespace Casamia.Model
 				startTime = DateTime.MinValue,
 			};
 			return command;
-		}
-
-		public override string ToString()
-		{
-			if (string.IsNullOrEmpty(description))
-			{
-				return string.Format("{0} {1} {2}", Executor, Argument, Timeout);
-			}
-			else
-			{
-				return description;
-			}
 		}
 
 		#endregion PUBLIC

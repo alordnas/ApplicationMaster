@@ -12,11 +12,6 @@ namespace Casamia.Menu
 {
 	public class CommonMethod
 	{
-
-		public static void SetTitle()
-		{
-		}
-
 		public static string OpenFileDlg()
 		{
 			Microsoft.Win32.OpenFileDialog openFileDlg = new Microsoft.Win32.OpenFileDialog();

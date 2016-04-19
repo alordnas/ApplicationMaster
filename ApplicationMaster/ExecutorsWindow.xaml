@@ -3,19 +3,30 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="ExecutorsWindow" 
 		xmlns:core="clr-namespace:Casamia.Core"
-		xmlns:converter="clr-namespace:Casamia.Converter" WindowStyle="ToolWindow" 
-		
+		xmlns:converter="clr-namespace:Casamia.Converter" 
+		WindowStyle="ToolWindow" 
 		>
+	<Window.Resources>
+		<Style TargetType="Grid">
+			<Setter Property="Margin" Value="10,3" />
+		</Style>
+	</Window.Resources>
 	<Grid >
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="20"></RowDefinition>
+			<RowDefinition Height="15"></RowDefinition>
 			<RowDefinition Height="1*"></RowDefinition>
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0" Orientation="Horizontal" FlowDirection="RightToLeft">
 			<Button Content="Remove" Click="buttonRemoveClick" ></Button>
 			<Button Content="Add" Click="buttonAddClick"></Button>
-			<ComboBox x:Name="executorsCombo" SelectedIndex="0" ItemsSource="{Binding Source={x:Static core:ExecutorManager.Instance}, Path=Executors}" DisplayMemberPath="Name" ></ComboBox>
+			<ComboBox x:Name="executorsCombo" SelectedIndex="0" ItemsSource="{Binding Source={x:Static core:ExecutorManager.Instance}, Path=Executors}" IsReadOnly="True" IsSynchronizedWithCurrentItem="True" >
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Name}" FontSize="16"></TextBlock>
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
 		</StackPanel >
 		<Casamia:ExecutorEditor Grid.Row="2" DataContext="{Binding ElementName=executorsCombo, Path=SelectedItem}" />
 	</Grid>

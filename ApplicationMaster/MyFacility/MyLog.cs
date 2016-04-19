@@ -10,8 +10,8 @@ using Casamia.Logging;
 
 namespace Casamia.MyFacility
 {
-    public class MyLog
-    {
+	public class MyLog
+	{
 		static string[] logFilePaths;
 
 
@@ -21,7 +21,7 @@ namespace Casamia.MyFacility
 
 		public static List<AnTask> LogTasks
 		{
-			get 
+			get
 			{
 				if (mainWindow.log_ComboBox.SelectedIndex == 0)
 					return todayLogTasks;
@@ -35,40 +35,40 @@ namespace Casamia.MyFacility
 		private static List<AnTask> noTodayLogTasks = new List<AnTask>();
 
 
-		public static void Initialize() 
-        {
+		public static void Initialize()
+		{
 
-            todayLogFilePath = GetTodayLogPath();
+			todayLogFilePath = GetTodayLogPath();
 
-            if (!File.Exists(todayLogFilePath))
-            {
-                if (!Directory.Exists(Util.Log_Folder))
-                {
-                    Directory.CreateDirectory(Util.Log_Folder);
-                }
+			if (!File.Exists(todayLogFilePath))
+			{
+				if (!Directory.Exists(Util.Log_Folder))
+				{
+					Directory.CreateDirectory(Util.Log_Folder);
+				}
 
 				WriteLog(todayLogFilePath);
-            }
+			}
 
 			todayLogTasks = ReadLog(todayLogFilePath);
 
-            logFilePaths = Directory.GetFiles(Util.Log_Folder, "*.txt", SearchOption.AllDirectories);
+			logFilePaths = Directory.GetFiles(Util.Log_Folder, "*.txt", SearchOption.AllDirectories);
 
 			List<string> logfileNames = new List<string>();
 
-            for (int i = logFilePaths.Length - 1; i >= 0; i--)
-            {
-				 logfileNames.Add(Path.GetFileNameWithoutExtension(logFilePaths[i]));
-            }
+			for (int i = logFilePaths.Length - 1; i >= 0; i--)
+			{
+				logfileNames.Add(Path.GetFileNameWithoutExtension(logFilePaths[i]));
+			}
 
 			mainWindow.log_ComboBox.ItemsSource = logfileNames;
 
 			mainWindow.log_ComboBox.SelectedIndex = 0;
 
-        }
+		}
 
 
-		private static void WriteLog(string filePath) 
+		private static void WriteLog(string filePath)
 		{
 			using (FileStream stream = File.OpenWrite(filePath))
 			{
@@ -123,7 +123,7 @@ namespace Casamia.MyFacility
 			}
 		}
 
-		private static List<AnTask> ReadLog(string filePath) 
+		private static List<AnTask> ReadLog(string filePath)
 		{
 			List<AnTask> _logTasks = new List<AnTask>();
 
@@ -185,30 +185,30 @@ namespace Casamia.MyFacility
 		}
 
 
-		private static string GetTodayLogPath() 
-        {
-            return string.Format("{0}/{1}-{2}-{3}.txt", 
-                Util.Log_Folder, 
-                DateTime.Today.Year,
-                DateTime.Today.Month < 10 ? "0" + DateTime.Today.Month.ToString() : DateTime.Today.Month.ToString(),
-                DateTime.Today.Day < 10 ? "0" + DateTime.Today.Day.ToString() : DateTime.Today.Day.ToString());
-        }
+		private static string GetTodayLogPath()
+		{
+			return string.Format(
+				"{0}/{1}.txt",
+				Util.Log_Folder,
+				DateTime.Now.ToString("yyyyMMdd")
+				);
+		}
 
 
-		public static void ChangeLogText(string fileName) 
-        {
-            string logFilePath = string.Format("{0}/{1}.txt", Util.Log_Folder, fileName);
+		public static void ChangeLogText(string fileName)
+		{
+			string logFilePath = string.Format("{0}/{1}.txt", Util.Log_Folder, fileName);
 
-            if (logFilePath != todayLogFilePath)
-            {
+			if (logFilePath != todayLogFilePath)
+			{
 				WriteLog(todayLogFilePath);
 
-                if (File.Exists(logFilePath))
-                {
+				if (File.Exists(logFilePath))
+				{
 					noTodayLogTasks = ReadLog(logFilePath);
-					
-                }
-            }
+
+				}
+			}
 			else
 			{
 				if (!File.Exists(todayLogFilePath))
@@ -217,16 +217,16 @@ namespace Casamia.MyFacility
 
 				todayLogTasks = ReadLog(todayLogFilePath);
 			}
-        }
+		}
 
-		public static void Save() 
-        {
+		public static void Save()
+		{
 			WriteLog(todayLogFilePath);
-        }
+		}
 
 		public static void Append(AnTask anTask)
-        {
+		{
 			todayLogTasks.Add(anTask);
-        }
-    }
+		}
+	}
 }

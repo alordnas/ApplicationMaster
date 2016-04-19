@@ -34,15 +34,26 @@ namespace Casamia
 		{
 			AnTask anTask = DataContext as AnTask;
 			Executor executor = exe_ComboBox.SelectedItem as Executor;
+			if(null == executor && exe_ComboBox.HasItems)
+			{
+				executor = exe_ComboBox.Items[0] as Executor;
+			}
+
+			if(null ==executor)
+			{
+				return;
+			}
+
 			TimeSpan timeSpan = new TimeSpan(0, 0, -1);
-			
-			if (null != anTask && null != executor)
+
+			if (null != anTask)
 			{
 				Command command = new Command()
 				{
 					Executor = executor.PlaceHolder,
 					Timeout = timeSpan,
 					Argument=arg_Combox.Text,
+					Description = "decribe what it does.",
 				};
 				commandListBox.SelectedItem = command;
 				anTask.AddCommand(command);

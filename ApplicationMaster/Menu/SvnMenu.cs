@@ -19,8 +19,6 @@ namespace Casamia.Menu
 		static MainWindow mianWindow = App.Current.MainWindow as MainWindow;
 		public static void OpenSvn()
 		{
-			CommonMethod.SetTitle();
-
 			TreeNode.SvnRoot = new TreeNode(null);
 			TreeNode.SvnRoot.isRoot = true;
 			TreeNode.SvnRoot.IsSvnNode = true;

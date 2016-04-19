@@ -22,10 +22,6 @@ namespace Casamia
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-
-		readonly string OUTPUT_DATA = "outputData";
-		readonly string INPUT_DATA = "inputData";
-
 		public readonly int cornerWidth = 8;
 		public Point mousePoint = new Point();
 		public readonly int customBorderThickness = 7;
@@ -38,7 +34,6 @@ namespace Casamia
 
 		public TreeNode selectedNode = null;
 
-		static System.Threading.Mutex _mutex;
 		public MainWindow()
 		{
 			try
@@ -50,7 +45,6 @@ namespace Casamia
 
 				this.SourceInitialized += MainWindow_SourceInitialized;
 				filterListBox.ItemsSource = Enum.GetValues(typeof(Casamia.Logging.Log.level));
-				CommonMethod.SetTitle();
 				MyLog.Initialize();
 				
 				task_DataGrid.ItemsSource = activeTasks;
@@ -70,10 +64,6 @@ namespace Casamia
 			}
 		}
 
-		private void Window_Loaded(object sender, RoutedEventArgs e)
-		{
-			
-		}
 		private void lb_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			Log.level newlevel = Log.level.None;
@@ -510,33 +500,6 @@ namespace Casamia
 			return parent;
 		}
 
-
-		private ContextMenu GetContextMenu_Level_Modelling()
-		{
-			ContextMenu parent = new ContextMenu();
-
-			MenuItem item = FindResource("createProject_MenuItem") as MenuItem;
-			if (item.Parent != null)
-			{
-				ContextMenu oldParent = item.Parent as ContextMenu;
-
-				oldParent.Items.Clear();
-			}
-			parent.Items.Add(item);
-
-			item = FindResource("openExplorer_MenuItem") as MenuItem;
-			if (item.Parent != null)
-			{
-				ContextMenu oldParent = item.Parent as ContextMenu;
-
-				oldParent.Items.Clear();
-			}
-			parent.Items.Add(item);
-
-			return parent;
-		}
-
-
 		private ContextMenu GetContextMenu_Level_Design()
 		{
 			ContextMenu parent = new ContextMenu();
@@ -768,11 +731,6 @@ namespace Casamia
 			SvnMenu.CheckoutSelectedProjects();
 		}
 
-		private void MenuItem_Click_1(object sender, RoutedEventArgs e)
-		{
-
-		}
-
 		private void checkoutSelected_MenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			SvnMenu.CheckoutProjects(new string[] { selectedNode.filePath });
@@ -810,10 +768,6 @@ namespace Casamia
 			}
 		}
 
-		private void Window_Closing(object sender, CancelEventArgs e)
-		{
-			MyLog.Save();
-		}
 
 		private void taskLog_DataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
 		{
@@ -838,14 +792,6 @@ namespace Casamia
 			{
 				subTaskLog_DataGrid.DataContext = null;
 			}
-		}
-
-		private void checkOutput_TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-		{
-		}
-
-		private void checkError_TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-		{
 		}
 
 		private void stopTask_Button_Click(object sender, RoutedEventArgs e)

@@ -57,14 +57,10 @@
 
 				<StackPanel Grid.Column="1"  Orientation="Vertical">
 					<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-						<local:TaskEditor
-					Height="Auto" 
-					Width="Auto" 
-					DataContext="{Binding ElementName=task_ListBox, Path=SelectedItem}"
-					/>
+						<local:TaskEditor DataContext="{Binding ElementName=task_ListBox, Path=SelectedItem}" />
 					</ScrollViewer>
-					<Button x:Name="addTask_Button" Content="新建" Click="addTask_Button_Click"/>
-					<Button x:Name="deleteTask_Button" Content="删除" Click="deleteTask_Button_Click"/>
+					<Button Content="新建" Click="addTask_Button_Click"/>
+					<Button Content="删除" Click="deleteTask_Button_Click"/>
 				</StackPanel>
 
 			</Grid>
