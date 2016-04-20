@@ -40,6 +40,7 @@ namespace Casamia.Model
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
+		[Newtonsoft.Json.JsonIgnore]
 		public Executor TheExecutor
 		{
 			get
