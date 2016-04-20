@@ -37,7 +37,7 @@
 						</ControlTemplate>
 					</Setter.Value>
 				</Setter>-->
-				<Setter Property="SizeToContent" Value="WidthAndHeight"></Setter>
+				<Setter Property="SizeToContent" Value="Manual"></Setter>
 			</Style>
 			<Style TargetType="local:ExecutorsWindow" BasedOn="{StaticResource {x:Type Window}}" />
 			<Style TargetType="local:CreateProjectWindow" BasedOn="{StaticResource {x:Type Window}}" />

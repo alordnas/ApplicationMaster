@@ -18,6 +18,10 @@
 			<Setter Property="VerticalAlignment" Value="Center" />
 			<Setter Property="Margin" Value="10" />
 		</Style>
+
+		<Style TargetType="TextBox">
+			<Setter Property="VerticalAlignment" Value="Center"></Setter>
+		</Style>
 	</Window.Resources>
 	<ScrollViewer Padding="10" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
 		<Grid>
