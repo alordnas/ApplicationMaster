@@ -20,38 +20,25 @@ namespace Casamia.Model
 
         #region VARIABLE
 
-        private StringBuilder transientLogBuilder = new StringBuilder();
-        private int transientCounter = 0;
-        private StringBuilder logBuilder = new StringBuilder();
-        private StringBuilder errorBuilder = new StringBuilder();
-        private string _exe;
-        private string _executor;
         private string argument = string.Empty;
-        private DateTime startTime;
-        private TimeSpan timeCost;
-        private TimeSpan timeout;
         private CommandStatus status = CommandStatus.Waiting;
-
+        StringBuilder logBuilder = new StringBuilder();
+        StringBuilder errorBuilder = new StringBuilder();
 
         #endregion
 
         #region PROPERTIES
-        
+
         public string Description
         {
             get;
             set;
         }
-        public string Exe
+
+        public TimeSpan Timeout
         {
-            get
-            {
-                return _exe;
-            }
-            private set
-            {
-                _exe = value;
-            }
+            get;
+            set;
         }
 
         public string Executor
@@ -71,44 +58,19 @@ namespace Casamia.Model
             }
         }
 
-        public string Output
+        public void Output(string message)
         {
-            get
+            if (!string.IsNullOrEmpty(message))
             {
-                lock (transientLogBuilder)
+                if (null != CommandFeedbackReceived)
                 {
-                    return transientLogBuilder.ToString();
+                    CommandFeedbackReceived(
+                        this,
+                        new CommandEventArgs(message, CommandStatus.Running)
+                        );
                 }
             }
-            set
-            {
-                if (!string.IsNullOrEmpty(value))
-                {
-                    if (transientCounter < 10)
-                    {
-                        transientCounter++;
-                        transientLogBuilder.AppendLine(value);
-                        lock (logBuilder)
-                        {
-                            logBuilder.AppendLine(value);
-                        }
-                        OnPropertyChanged("TimeCost");
-                        if (null != CommandFeedbackReceived)
-                        {
-                            CommandFeedbackReceived(
-                                this,
-                                new CommandEventArgs(value, CommandStatus.Running)
-                                );
-                        }
-                        OnPropertyChanged("Output");
-                    }
-                    else
-                    {
-                        transientCounter = 0;
-                        transientLogBuilder.Clear();
-                    }
-                }
-            }
+            logBuilder.Append(message);
         }
 
         public string ErrorLog
@@ -133,7 +95,6 @@ namespace Casamia.Model
                         ErrorOccur(this, new CommandEventArgs(value, Status));
                     }
                     Status = CommandStatus.Error;
-                    OnPropertyChanged("Error");
                 }
             }
         }
@@ -141,53 +102,25 @@ namespace Casamia.Model
 
         public CommandStatus Status
         {
-            get { return status; }
+            get
+            {
+                return status;
+            }
             set
             {
-                if (status != value)
+                if (value != status)
                 {
                     CommandStatus oldStatus = status;
                     status = value;
-                    if (oldStatus == CommandStatus.Waiting && status != CommandStatus.Running)
-                    {
-                        StartTime = DateTime.Now;
-                    }
                     if (null != StatusChanged)
                     {
                         StatusChanged(this, new CommandStatusEventArgs(oldStatus, status));
                     }
-                    OnPropertyChanged("Status");
                 }
             }
         }
 
         public string Argument
-        {
-            get;
-            set;
-        }
-
-        public TimeSpan Timeout
-        {
-            get;
-            set;
-        }
-
-
-		public TimeSpan TimeCost
-		{
-			get
-			{
-				// TODO : wrong .
-				if (status == CommandStatus.Running)
-				{
-					timeCost = (DateTime.Now - StartTime);
-				}
-				return timeCost;
-			}
-		}
-
-        public DateTime StartTime
         {
             get;
             set;
@@ -220,8 +153,6 @@ namespace Casamia.Model
         public void Reset()
         {
             Status = CommandStatus.Waiting;
-            timeCost = TimeSpan.MinValue;
-            startTime = DateTime.MinValue;
             lock (logBuilder)
             {
                 logBuilder.Clear();
@@ -236,29 +167,12 @@ namespace Casamia.Model
         {
             Command command = new Command()
             {
-                timeout = this.timeout,
                 status = CommandStatus.Waiting,
-                _exe = this._exe,
-                _executor = this._executor,
-                argument = this.argument,
-                startTime = DateTime.MinValue,
             };
             return command;
         }
 
         #endregion PUBLIC
-
-        #region FUNCTION
-
-        void OnPropertyChanged(string name)
-        {
-            if (null != PropertyChanged)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
-            }
-        }
-
-        #endregion FUNCTION
 
     }
 }

@@ -100,16 +100,9 @@ namespace Casamia.MyFacility
 
 								writer.Write(subTask.ErrorLog == null ? string.Empty : subTask.ErrorLog);
 
-								writer.Write(subTask.Output == null ? string.Empty : subTask.Output);
-
-								writer.Write(subTask.StartTime.ToString());
-
 								writer.Write((int)(subTask.Status));
 								// used to be system timeout.
 								writer.Write(0);
-
-								writer.Write((long)subTask.TimeCost.TotalMilliseconds);
-
 								writer.Write((int)subTask.Timeout.TotalSeconds);
 							}
 						}
@@ -153,9 +146,7 @@ namespace Casamia.MyFacility
 								subTask.Argument = reader.ReadString();
 
 								subTask.ErrorLog = reader.ReadString();
-
-								subTask.Output = reader.ReadString();
-
+                                
 								// starttime
 								reader.ReadString();
 

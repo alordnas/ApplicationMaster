@@ -19,6 +19,12 @@ namespace Casamia.ViewModel
         RelayCommand removeCommand;
         bool isSelected;
         private Executor executor;
+        private DateTime startTime;
+        private TimeSpan duration;
+        private StringBuilder transientLogBuilder = new StringBuilder();
+        private int transientCounter = 0;
+        private StringBuilder logBuilder = new StringBuilder();
+        private StringBuilder errorBuilder = new StringBuilder();
 
         #endregion // Fields
 
@@ -28,6 +34,29 @@ namespace Casamia.ViewModel
         {
             _command = command;
             commandCollection = commands;
+            _command.CommandFeedbackReceived += _command_CommandFeedbackReceived;
+            _command.StatusChanged += _command_StatusChanged;
+            _command.ErrorOccur += _command_ErrorOccur;
+        }
+
+        private void _command_ErrorOccur(object sender, Model.EventArgs.CommandEventArgs e)
+        {
+            OnPropertyChanged("Error");
+        }
+
+        private void _command_StatusChanged(object sender, Model.EventArgs.CommandStatusEventArgs e)
+        {
+            if (e.OldStatus != CommandStatus.Running && e.NewStatus == CommandStatus.Running)
+            {
+                startTime = DateTime.Now;
+                OnPropertyChanged("StartTime");
+            }
+            OnPropertyChanged("Status");
+        }
+
+        private void _command_CommandFeedbackReceived(object sender, Model.EventArgs.CommandEventArgs e)
+        {
+            Output = e.Message;
         }
 
         #endregion // Constructor
@@ -48,6 +77,14 @@ namespace Casamia.ViewModel
                     _command.Argument = value;
                     base.OnPropertyChanged("Argument");
                 }
+            }
+        }
+
+        public TimeSpan Duration
+        {
+            get
+            {
+                return duration;
             }
         }
 
@@ -79,47 +116,84 @@ namespace Casamia.ViewModel
             }
             private set
             {
-                if (executor != value)
+                if (executor != value && !string.Equals(executor.PlaceHolder, _command.Executor))
                 {
                     executor = value;
+                    _command.Executor = executor.PlaceHolder;
                     base.OnPropertyChanged("Executor");
                 }
             }
         }
 
-        public string ExecutorPlaceHolder
+        public string Output
         {
             get
             {
-                return _command.Executor;
-            }
-            set
-            {
-                if (!string.Equals(_command.Executor, value))
+                lock (transientLogBuilder)
                 {
-                    Executor executor = ExecutorManager.Instance.GetByPlaceHolder(value);
-                    if (null == executor)
+                    return transientLogBuilder.ToString();
+                }
+            }
+            private set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    if (transientCounter < 10)
                     {
-                        Logging.LogManager.Instance.LogError(
-                            "{0} cannot find corresponding application",
-                            value
-                            );
+                        if (_command.Status == CommandStatus.Running)
+                        {
+                            duration = DateTime.Now - startTime;
+                        }
+                        OnPropertyChanged("Duration");
+                        OnPropertyChanged("Output");
                     }
                     else
                     {
-                        _command.Executor = value;
-                        base.OnPropertyChanged("ExecutorPlaceHolder");
-                        Executor = executor;
+                        transientCounter = 0;
+                        transientLogBuilder.Clear();
                     }
+
+                    transientCounter++;
+                    transientLogBuilder.AppendLine(value);
                 }
+            }
+        }
+
+        public string Error
+        {
+            get
+            {
+                return _command.ErrorLog;
+            }
+        }
+
+        public CommandStatus Status
+        {
+            get
+            {
+                return _command.Status;
+            }
+        }
+
+        public DateTime StartTime
+        {
+            get
+            {
+                return startTime;
+            }
+        }
+
+        public TimeSpan TimeCost
+        {
+            get
+            {
+                return duration;
             }
         }
 
         #endregion // Custom Properties
 
         #region Properties
-
-
 
         public override string DisplayName
         {

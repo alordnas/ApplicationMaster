@@ -92,6 +92,9 @@
     <Content Include="workspace.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Compile Include="CommandEditor.xaml.cs">
+      <DependentUpon>CommandEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converter\CasamiaConverter.cs" />
     <Compile Include="Converter\CommonConverter.cs" />
     <Compile Include="Core\ExecutorManager.cs" />
@@ -155,6 +158,10 @@
     <Compile Include="Util.cs" />
     <Compile Include="Watcher.cs" />
     <Compile Include="Win32.cs" />
+    <Page Include="CommandEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CreateProjectWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
