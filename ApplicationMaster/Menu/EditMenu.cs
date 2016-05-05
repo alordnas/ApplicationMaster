@@ -18,9 +18,9 @@ namespace Casamia.Menu
         {
 			if (!WorkSpaceManager.Instance.IsLocal)
 			{
-				if (TreeNode.SvnRoot != null)
+				if (TreeNode.Root != null)
 				{
-					TreeHelper.SetChildrenChecked(TreeNode.SvnRoot, check);
+					TreeHelper.SetChildrenChecked(TreeNode.Root, check);
 				}
 			}
 			else
@@ -78,7 +78,7 @@ namespace Casamia.Menu
 				MainWindow mainWindow = App.Current.MainWindow as MainWindow;
 				ExpandTree(mainWindow.dir_TreeView,true);
 				mainWindow.status_TextBlock.Text = string.Format("已选：{0}", TreeHelper.GetSelectedLeaves(
-					WorkSpaceManager.Instance.IsLocal ? TreeNode.Root : TreeNode.SvnRoot).Count);
+					WorkSpaceManager.Instance.IsLocal ? TreeNode.Root : TreeNode.Root).Count);
 			}
 		}
     }

@@ -26,23 +26,6 @@ namespace Casamia.Model
 			}
 		}
 
-
-		public static TreeNode _svnRoot;
-
-		public static TreeNode SvnRoot 
-		{
-			get 
-			{
-				return _svnRoot;
-			}
-			set 
-			{
-
-				_svnRoot = value;
-
-			}
-		}
-
 		public static TreeNode LastCheckedNode = null;
 
 		private TreeNode _parent;

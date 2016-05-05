@@ -47,6 +47,13 @@ namespace Casamia.Model
 			{
 				return ExecutorManager.Instance.GetByPlaceHolder(_executor);
 			}
+			set
+			{
+				if(null != value)
+				{
+					Executor = value.PlaceHolder;
+				}
+			}
 		}
 
 		public string Description
@@ -232,7 +239,12 @@ namespace Casamia.Model
 		{
 			get
 			{
-				return timeCost = (DateTime.Now - StartTime);
+				// TODO : wrong .
+				if (status == CommandStatus.Running)
+				{
+					timeCost = (DateTime.Now - StartTime);
+				}
+				return timeCost;
 			}
 		}
 

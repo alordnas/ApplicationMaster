@@ -231,7 +231,7 @@ namespace Casamia
 
 			if (!WorkSpaceManager.Instance.IsLocal)
 			{
-				status_TextBlock.Text = string.Format("已选：{0}", TreeHelper.GetSelectedLeaves(TreeNode.SvnRoot).Count);
+				status_TextBlock.Text = string.Format("已选：{0}", TreeHelper.GetSelectedLeaves(TreeNode.Root).Count);
 			}
 			else
 			{
@@ -246,7 +246,7 @@ namespace Casamia
 
 					if (!WorkSpaceManager.Instance.IsLocal)
 					{
-						projects = TreeHelper.GetALLLeaves(TreeNode.SvnRoot);
+						projects = TreeHelper.GetALLLeaves(TreeNode.Root);
 					}
 					else
 					{
@@ -286,7 +286,7 @@ namespace Casamia
 
 			if (!WorkSpaceManager.Instance.IsLocal)
 			{
-				status_TextBlock.Text = string.Format("已选：{0}", TreeHelper.GetSelectedLeaves(TreeNode.SvnRoot).Count);
+				status_TextBlock.Text = string.Format("已选：{0}", TreeHelper.GetSelectedLeaves(TreeNode.Root).Count);
 			}
 			else
 			{

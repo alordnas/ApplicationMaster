@@ -126,6 +126,8 @@
     <Compile Include="Menu\HelpMenu.cs" />
     <Compile Include="Menu\SvnMenu.cs" />
     <Compile Include="Menu\UnityMenu.cs" />
+    <Compile Include="ViewModel\AnTaskViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="WorkspaceWindow.xaml.cs">
       <DependentUpon>WorkspaceWindow.xaml</DependentUpon>
     </Compile>

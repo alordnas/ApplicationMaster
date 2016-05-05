@@ -19,17 +19,17 @@ namespace Casamia.Menu
 		static MainWindow mianWindow = App.Current.MainWindow as MainWindow;
 		public static void OpenSvn()
 		{
-			TreeNode.SvnRoot = new TreeNode(null);
-			TreeNode.SvnRoot.isRoot = true;
-			TreeNode.SvnRoot.IsSvnNode = true;
-			TreeNode.SvnRoot.filePath = WorkSpaceManager.Instance.WorkingPath;
-			mianWindow.selectedNode = TreeNode.SvnRoot;
+			TreeNode.Root = new TreeNode(null);
+			TreeNode.Root.isRoot = true;
+			TreeNode.Root.IsSvnNode = true;
+			TreeNode.Root.filePath = WorkSpaceManager.Instance.WorkingPath;
+			mianWindow.selectedNode = TreeNode.Root;
 			mianWindow.dir_TreeView.ItemsSource = null;
-			mianWindow.dir_TreeView.ItemsSource = TreeNode.SvnRoot.children;
+			mianWindow.dir_TreeView.ItemsSource = TreeNode.Root.children;
 			LogManager.Instance.LogInfomation("正在加载：{0}...", WorkSpaceManager.Instance.WorkingPath);
 
 			Build(
-				TreeNode.SvnRoot,
+				TreeNode.Root,
 				() =>
 				{
 					StartChecking();
@@ -134,7 +134,7 @@ namespace Casamia.Menu
 
 			SilentWorker worker = new SilentWorker();
 
-			List<TreeNode> children = TreeHelper.GetALLLeaves(TreeNode.SvnRoot);
+			List<TreeNode> children = TreeHelper.GetALLLeaves(TreeNode.Root);
 
 			string[] filePaths = TreeHelper.GetTreeNodePaths(children);
 
@@ -176,7 +176,7 @@ namespace Casamia.Menu
 		{
 			if (!WorkSpaceManager.Instance.IsLocal)
 			{
-				List<TreeNode> projects = TreeHelper.GetSelectedLeaves(TreeNode.SvnRoot);
+				List<TreeNode> projects = TreeHelper.GetSelectedLeaves(TreeNode.Root);
 
 				string[] svnPaths = TreeHelper.GetTreeNodePaths(projects);
 

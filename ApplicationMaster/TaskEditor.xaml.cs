@@ -84,6 +84,11 @@ namespace Casamia
 			arg_Combox.Text += " " + Util.PROJECT_PATH_PLACEHOLDER;
 			arg_Combox.Text = arg_Combox.Text.Trim();
 		}
+		private void addUrlPath_Button_Click(object sender, RoutedEventArgs e)
+		{
+			arg_Combox.Text += " " + Util.PROJECT_URL_PLACEHOLDER;
+			arg_Combox.Text = arg_Combox.Text.Trim();
+		}
 
 		#endregion EVENTHANDLER
 	}
