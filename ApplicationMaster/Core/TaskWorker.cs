@@ -108,7 +108,7 @@ namespace Casamia.Core
 				{
 					subTask.Status = CommandStatus.Running;
 				}
-				else if (string.IsNullOrEmpty(subTask.Error))
+				else if (string.IsNullOrEmpty(subTask.ErrorLog))
 				{
 					if (e.ProgressPercentage == 0)
 					{
@@ -188,7 +188,7 @@ namespace Casamia.Core
 
 						ReportProgress(isTimeout ? 0 : 1, command);
 
-						if (!string.IsNullOrEmpty(command.Error))
+						if (!string.IsNullOrEmpty(command.ErrorLog))
 							break;
 					}
 					else
@@ -224,7 +224,7 @@ namespace Casamia.Core
 				{
 					if (!string.IsNullOrEmpty(e.Data))
 					{
-						command.Error = e.Data;
+						command.ErrorLog = e.Data;
 					}
 				};
 			
