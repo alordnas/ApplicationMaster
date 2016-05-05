@@ -159,10 +159,7 @@ namespace Casamia
 					{
 						if (onlyProject)
 						{
-							if (child.isProject)
-							{
-								projects.Add(child);
-							}
+							projects.Add(child);
 						}
 						else
 						{

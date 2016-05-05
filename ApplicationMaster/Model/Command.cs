@@ -174,13 +174,18 @@ namespace Casamia.Model
         }
 
 
-        public TimeSpan TimeCost
-        {
-            get
-            {
-                return timeCost = (DateTime.Now - StartTime);
-            }
-        }
+		public TimeSpan TimeCost
+		{
+			get
+			{
+				// TODO : wrong .
+				if (status == CommandStatus.Running)
+				{
+					timeCost = (DateTime.Now - StartTime);
+				}
+				return timeCost;
+			}
+		}
 
         public DateTime StartTime
         {

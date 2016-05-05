@@ -141,7 +141,8 @@
 				</MenuItem.ItemsSource>
 				<MenuItem.ItemContainerStyle>
 					<Style TargetType="MenuItem">
-						<Setter Property="MenuItem.Header" Value="{Binding Name}"/>
+						<Setter Property="MenuItem.Header" Value="{Binding}"/>
+						<Setter Property="DisplayMemberPath" Value="Name"></Setter>
 						<EventSetter Event="Click" Handler="OnProtoTaskClick"></EventSetter>
 					</Style>
 				</MenuItem.ItemContainerStyle>
