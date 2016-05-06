@@ -98,7 +98,7 @@ namespace Casamia.MyFacility
 
 								writer.Write(subTask.Argument == null ? string.Empty : subTask.Argument);
 
-								writer.Write(subTask.Error == null ? string.Empty : subTask.Error);
+								writer.Write(subTask.ErrorLog == null ? string.Empty : subTask.ErrorLog);
 
 								writer.Write(subTask.Output == null ? string.Empty : subTask.Output);
 
@@ -152,7 +152,7 @@ namespace Casamia.MyFacility
 
 								subTask.Argument = reader.ReadString();
 
-								subTask.Error = reader.ReadString();
+								subTask.ErrorLog = reader.ReadString();
 
 								subTask.Output = reader.ReadString();
 
