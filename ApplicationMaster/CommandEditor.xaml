@@ -1,9 +1,10 @@
-﻿<UserControl x:Class="Casamia.CommandEditor"
+﻿<UserControl x:Class="Casamia.View.CommandEditor"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Casamia"
+             xmlns:core="clr-namespace:Casamia.Core"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
@@ -27,9 +28,8 @@
                 <Label Content="运行程序：" Grid.Column="0"/>
                 <ComboBox 
 							ItemsSource="{Binding Source={x:Static  core:ExecutorManager.Instance}, Path=Executors}" 
-							SelectedItem="{Binding ElementName=commandListBox , Path=SelectedItem.TheExecutor}"
+							SelectedItem="{Binding Path=Executor}"
 							x:Name="exe_ComboBox" 
-						Width="auto"
 							Grid.Column="1" IsSynchronizedWithCurrentItem="True">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
@@ -37,23 +37,12 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <ComboBox
-							Text="{Binding ElementName=commandListBox , Path=SelectedItem.Argument}"
-							x:Name="arg_Combox" 
-							ItemsSource="{Binding ElementName=exe_ComboBox , Path=SelectedItem.PotentialParameters}" 
+                <ComboBox Text="{Binding Path=Argument}" x:Name="arg_Combox" ItemsSource="{Binding ElementName=exe_ComboBox , Path=SelectedItem.PotentialParameters}" 
 							IsEditable="True"
 							Grid.Column="2" IsSynchronizedWithCurrentItem="True"
 							/>
-                <Button
-							Grid.Column="3"
-							x:Name="addPath_Button" 
-							Content="+路径占位符" 
-							Click="addPath_Button_Click"/>
-                <Button
-						Grid.Column="4"
-						x:Name="addPath_Button_Copy" 
-						Content="+URL占位符" 
-						Click="addUrlPath_Button_Click"/>
+                <Button Grid.Column="3" Content="+路径占位符" Command="{Binding Path=AddProjectCommand}"/>
+                <Button Grid.Column="4" Content="+URL占位符" Command="{Binding Path=AddUrlCommand}" />
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
@@ -61,12 +50,12 @@
                     <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="描述 " Grid.Column="0" />
-                <TextBox Text="{Binding ElementName=commandListBox , Path=SelectedItem.Description}" Grid.Column="1" />
+                <TextBox Text="{Binding Path=Description}" Grid.Column="1" />
             </Grid>
 
             <StackPanel Grid.Row="2" Orientation="Horizontal">
                 <Label Content="超时："/>
-                <TextBox Text="{Binding ElementName=commandListBox ,Path=SelectedItem.Timeout}"/>
+                <TextBox Text="{Binding Path=Timeout}"/>
                 <Label Content="秒"/>
             </StackPanel>
         </Grid>

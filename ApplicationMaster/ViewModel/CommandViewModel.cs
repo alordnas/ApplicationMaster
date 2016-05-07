@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Collections.ObjectModel;
+using System.Windows.Input;
 
-using Casamia.Model;
 using Casamia.Core;
+using Casamia.Model;
 
 namespace Casamia.ViewModel
 {
@@ -14,9 +12,8 @@ namespace Casamia.ViewModel
         #region Fields
 
         readonly Command _command;
-        readonly ObservableCollection<Command> commandCollection;
-        RelayCommand addCommand;
-        RelayCommand removeCommand;
+        RelayCommand addUrlCommand;
+        RelayCommand addProjectCommand;
         bool isSelected;
         private Executor executor;
         private DateTime startTime;
@@ -30,10 +27,9 @@ namespace Casamia.ViewModel
 
         #region Constructor
 
-        public CommandViewModel(Command command, ObservableCollection<Command> commands)
+        public CommandViewModel(Command command)
         {
             _command = command;
-            commandCollection = commands;
             _command.CommandFeedbackReceived += _command_CommandFeedbackReceived;
             _command.StatusChanged += _command_StatusChanged;
             _command.ErrorOccur += _command_ErrorOccur;
@@ -60,7 +56,6 @@ namespace Casamia.ViewModel
         }
 
         #endregion // Constructor
-
 
         #region Custom Properties
 
@@ -192,6 +187,44 @@ namespace Casamia.ViewModel
         }
 
         #endregion // Custom Properties
+
+        #region Presentation Properties
+
+        public ICommand AddUrlCommand
+        {
+            get
+            {
+                if (null == addUrlCommand)
+                {
+                    addUrlCommand = new RelayCommand(
+                        (par) =>
+                        {
+                            this.Argument = string.Format("{0} {1}", this.Argument, Util.PROJECT_URL_PLACEHOLDER);
+                        }
+                        );
+                }
+                return addUrlCommand;
+            }
+        }
+        
+        public ICommand AddProjectCommand
+        {
+            get
+            {
+                if (null == addProjectCommand)
+                {
+                    addProjectCommand = new RelayCommand(
+                        (par) =>
+                        {
+                            this.Argument = string.Format("{0} {1}", this.Argument, Util.PROJECT_PATH_PLACEHOLDER);
+                        }
+                        );
+                }
+                return addProjectCommand;
+            }
+        }
+        
+        #endregion // Presentation Properties
 
         #region Properties
 

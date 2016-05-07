@@ -1,95 +1,15 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
-using Casamia.Core;
-using Casamia.Logging;
-using Casamia.Model;
-
-namespace Casamia
+namespace Casamia.View
 {
-	/// <summary>
-	/// Interaction logic for TaskEditor.xaml
-	/// </summary>
-	public partial class TaskEditor : UserControl
+    /// <summary>
+    /// Interaction logic for TaskEditor.xaml
+    /// </summary>
+    public partial class TaskEditor : UserControl
 	{	
 		public TaskEditor()
 		{
 			InitializeComponent();
-			if (exe_ComboBox.Items.Count > 0)
-			{
-				exe_ComboBox.SelectedIndex = 0;
-			}
 		}
-
-		#region PUBLIC
-		
-		#endregion PUBLIC
-
-
-		#region EVENTHANDLER
-
-		private void addSubTask_Button_Click(object sender, RoutedEventArgs e)
-		{
-			AnTask anTask = DataContext as AnTask;
-			Executor executor = exe_ComboBox.SelectedItem as Executor;
-			if(null == executor && exe_ComboBox.HasItems)
-			{
-				executor = exe_ComboBox.Items[0] as Executor;
-			}
-
-			if(null ==executor)
-			{
-				return;
-			}
-
-			TimeSpan timeSpan = new TimeSpan(0, 0, -1);
-
-			if (null != anTask)
-			{
-				Command command = new Command()
-				{
-					Executor = executor.PlaceHolder,
-					Timeout = timeSpan,
-					Argument=arg_Combox.Text,
-					Description = "decribe what it does.",
-				};
-				commandListBox.SelectedItem = command;
-				anTask.AddCommand(command);
-			}
-		}
-		
-		private void deleteSubTask_Button_Click(object sender, RoutedEventArgs e)
-		{
-			AnTask anTask = DataContext as AnTask;
-			Command command = commandListBox.SelectedItem as Command;
-			if (null != anTask)
-			{
-				anTask.RemoveCommand(command);
-			}
-		}
-
-		private void clearSubTask_Button_Click(object sender, RoutedEventArgs e)
-		{
-			AnTask anTask = DataContext as AnTask;
-			if (null != anTask)
-			{
-				anTask.Clear();
-			}
-		}
-
-		private void addPath_Button_Click(object sender, RoutedEventArgs e)
-		{
-			arg_Combox.Text += " " + Util.PROJECT_PATH_PLACEHOLDER;
-			arg_Combox.Text = arg_Combox.Text.Trim();
-		}
-		private void addUrlPath_Button_Click(object sender, RoutedEventArgs e)
-		{
-			arg_Combox.Text += " " + Util.PROJECT_URL_PLACEHOLDER;
-			arg_Combox.Text = arg_Combox.Text.Trim();
-		}
-
-		#endregion EVENTHANDLER
 	}
 }
