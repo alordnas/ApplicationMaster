@@ -1,20 +1,15 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 
 using Casamia.Core;
-using Casamia.Model;
-using Casamia.Logging;
 using Casamia.Model;
 
 namespace Casamia
 {
-	/// <summary>
-	/// TaskManageWindow.xaml 的交互逻辑
-	/// </summary>
-	public partial class TaskManageWindow : Window
+    /// <summary>
+    /// TaskManageWindow.xaml 的交互逻辑
+    /// </summary>
+    public partial class TaskManageWindow : Window
 	{
 
 		public TaskManageWindow()

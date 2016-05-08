@@ -5,236 +5,134 @@ using System.Collections.ObjectModel;
 
 namespace Casamia.Model
 {
-	public class AnTask : INotifyPropertyChanged, ICloneable
-	{
-		#region VARIABLE
+    public class AnTask : ICloneable
+    {
+        #region VARIABLE
 
-		private string description;
-		private string name;
-		private DateTime startTime;
-		private CommandStatus status;
-		
-		private ObservableCollection<Command> commandList = new ObservableCollection<Command>();
+        private List<Command> commandList = new List<Command>();
 
-		private TimeSpan timeCost;
+        #endregion VARIABLE
 
-		#endregion VARIABLE
+        #region PROPERTIES
 
-		#region PROPERTIES
+        public List<Command> CommandList
+        {
+            get
+            {
+                return commandList;
+            }
+            set
+            {
+                commandList = value;
+            }
+        }
 
-		public ObservableCollection<Command> CommandList
-		{
-			get
-			{
-				return commandList;
-			}
-			set
-			{
-				commandList = value;
-			}
-		}
+        public string Description
+        {
+            get;
+            set;
+        }
+        public string Name
+        {
+            get;
+            set;
+        }
 
-		public TimeSpan TimeCost
-		{
-			get { return timeCost; }
-			private set
-			{
-				if (!TimeSpan.Equals(timeCost, value))
-				{
-					timeCost = value;
-					OnPropertyChanged("TimeCost");
-				}
-			}
-		}
+        [Newtonsoft.Json.JsonIgnore]
+        public Command[] Commands
+        {
+            get
+            {
+                Command[] commands = new Command[commandList.Count];
+                commandList.CopyTo(commands, 0);
+                return commands;
+            }
+        }
 
-		public string Description
-		{
-			get { return description; }
-			set
-			{
-				description = value;
-				OnPropertyChanged("Description");
-			}
-		}
-		public string Name
-		{
-			get { return name; }
-			set
-			{
-				name = value;
-				OnPropertyChanged("Name");
-			}
-		}
+        #endregion PROPERTIES
 
-		public DateTime StartTime
-		{
-			get { return startTime; }
-			private set
-			{
-				if (!DateTime.Equals(startTime, value))
-				{
-					startTime = value;
-					if (null != PropertyChanged)
-					{
-						OnPropertyChanged("StartTime");
-					}
-				}
-			}
-		}
-		public int ID
-		{
-			get;
-			set;
-		}
+        #region PUBLIC
 
-		[Newtonsoft.Json.JsonIgnore]
-		public Command[] Commands
-		{
-			get
-			{
-				Command[] commands = new Command[commandList.Count];
-				commandList.CopyTo(commands, 0);
-				return commands;
-			}
-		}
+        public void AddCommand(Command command)
+        {
+            if (null != command)
+            {
+                commandList.Add(command);
+            }
+        }
 
-		public CommandStatus Status
-		{
-			get
-			{
-				return status;
-			}
-		}
+        public void RemoveCommand(Command command)
+        {
+            if (null != command)
+            {
+                commandList.Remove(command);
+            }
+        }
 
-		#endregion PROPERTIES
+        public void Clear()
+        {
+            commandList.Clear();
+        }
 
-		#region PUBLIC
+        public void AddCommands(IEnumerable<Command> commands)
+        {
+            foreach (var item in commands)
+            {
+                commandList.Add(item);
+            }
 
-		public void AddCommand(Command command)
-		{
-			if (null != command)
-			{
-				commandList.Add(command);
-				command.StatusChanged += command_StatusChanged;
-			}
-		}
+        }
 
-		public void RemoveCommand(Command command)
-		{
-			if (null != command)
-			{
-				commandList.Remove(command);
-				command.StatusChanged -= command_StatusChanged;
-			}
-		}
+        public object Clone()
+        {
+            AnTask anotherTask = new AnTask()
+            {
+                Description = this.Description,
+                Name = this.Name
+            };
 
-		public void Clear()
-		{
-			foreach (var item in Commands)
-			{
-				item.StatusChanged -= command_StatusChanged;
-			}
-			commandList.Clear();
-		}
+            Command[] existCommands = this.Commands;
+            int commandCount = existCommands.Length;
+            Command[] cloneCommands = new Command[commandCount];
+            for (int i = 0; i < commandCount; i++)
+            {
+                Command command = existCommands[i].Clone() as Command;
+                if (null != command)
+                {
+                    cloneCommands[i] = command;
+                }
+            }
+            anotherTask.AddCommands(cloneCommands);
+            return anotherTask;
+        }
 
-		public void AddCommands(IEnumerable<Command> commands)
-		{
-			foreach (var item in commands)
-			{
-				item.StatusChanged += command_StatusChanged;
-				commandList.Add(item);
-			}
-			
-		}
+        #endregion PUBLIC
 
-		public object Clone()
-		{
-			AnTask anotherTask = new AnTask()
-			{
-				description = this.description,
-				name = this.name,
-				status = CommandStatus.Waiting,
-			};
+        #region FUNCTION
 
-			Command[] existCommands = this.Commands;
-			int commandCount = existCommands.Length;
-			Command[] cloneCommands = new Command[commandCount];
-			for (int i = 0; i < commandCount; i++)
-			{
-				Command command = existCommands[i].Clone() as Command;
-				if (null != command)
-				{
-					cloneCommands[i] = command;
-				}
-			}
-			anotherTask.AddCommands(cloneCommands);
-			return anotherTask;
-		}
+        //void command_StatusChanged(object sender, Model.EventArgs.CommandStatusEventArgs e)
+        //{
+        //    if (e.NewStatus == CommandStatus.Completed || e.NewStatus == CommandStatus.Error)
+        //    {
+        //        OnPropertyChanged("Commands");
+        //    }
 
-		#endregion PUBLIC
+        //    if (status == CommandStatus.Waiting && newStatus == CommandStatus.Running)
+        //    {
+        //        StartTime = DateTime.Now;
+        //    }
 
-		#region FUNCTION
+        //    if (newStatus != status)
+        //    {
+        //        status = newStatus;
+        //    }
+        //    if (status != CommandStatus.Waiting)
+        //    {
+        //        TimeCost = (DateTime.Now - startTime);
+        //    }
+        //}
 
-		void command_StatusChanged(object sender, Model.EventArgs.CommandStatusEventArgs e)
-		{
-			if (e.NewStatus == CommandStatus.Completed || e.NewStatus == CommandStatus.Error)
-			{
-				OnPropertyChanged("Commands");
-			}
-			CommandStatus newStatus = GetStatus();
+        #endregion FUNCTION
 
-			if(status == CommandStatus.Waiting && newStatus == CommandStatus.Running)
-			{
-				StartTime = DateTime.Now;
-			}
-
-			if (newStatus != status)
-			{
-				status = newStatus;
-				OnPropertyChanged("Status");
-			}
-			if (status != CommandStatus.Waiting)
-			{
-				TimeCost = (DateTime.Now - startTime);
-			}
-		}
-
-		CommandStatus GetStatus()
-		{
-			if (null == Commands || Commands.Length == 0)
-			{
-				return CommandStatus.Error;
-			}
-			else
-			{
-				for (int i = Commands.Length - 1; i > 0; i--)
-				{
-					Command command = Commands[i];
-					if (null != command && command.Status != CommandStatus.Waiting)
-					{
-						return command.Status;
-					}
-				}
-				return Commands[0].Status;
-			}
-		}
-
-		void OnPropertyChanged(string name)
-		{
-			if (null != PropertyChanged)
-			{
-				PropertyChanged(this, new PropertyChangedEventArgs(name));
-			}
-		}
-
-		public override string ToString()
-		{
-			return this.name;
-		}
-
-		#endregion FUNCTION
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-	}
+    }
 }

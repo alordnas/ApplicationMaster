@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:core ="clr-namespace:Casamia.Core"
         xmlns:local="clr-namespace:Casamia" x:Class="Casamia.TaskManageWindow"
+    xmlns:vw="clr-namespace:Casamia.View"
 		WindowStyle="ToolWindow" 
 		WindowStartupLocation="CenterScreen" 
 		BorderThickness="1" 
@@ -57,7 +58,7 @@
 
 				<StackPanel Grid.Column="1"  Orientation="Vertical">
 					<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-						<local:TaskEditor DataContext="{Binding ElementName=task_ListBox, Path=SelectedItem}" />
+						<vw:TaskEditor DataContext="{Binding ElementName=task_ListBox, Path=SelectedItem}" />
 					</ScrollViewer>
 					<Button Content="新建" Click="addTask_Button_Click"/>
 					<Button Content="删除" Click="deleteTask_Button_Click"/>

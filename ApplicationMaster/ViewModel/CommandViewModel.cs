@@ -14,7 +14,6 @@ namespace Casamia.ViewModel
         readonly Command _command;
         RelayCommand addUrlCommand;
         RelayCommand addProjectCommand;
-        bool isSelected;
         private Executor executor;
         private DateTime startTime;
         private TimeSpan duration;
@@ -183,6 +182,14 @@ namespace Casamia.ViewModel
             get
             {
                 return duration;
+            }
+        }
+
+        public Command Command
+        {
+            get
+            {
+                return _command;
             }
         }
 

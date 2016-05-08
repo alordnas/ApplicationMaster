@@ -13,72 +13,78 @@
 		Icon="Images/Logo.ico">
 
 	<Window.Resources>
-		<MenuItem x:Key="createProject_MenuItem" Header="创建新项目"  x:Name="creatProject_MenuItem" Click="createUnity_MenuItem_Click">
-			<MenuItem.Icon>
-				<Image Width="20" Height="20"/>
-			</MenuItem.Icon>
-		</MenuItem>
-		<MenuItem x:Key="svnUpdata_MenuItem" Header="Svn 更新"  >
-			<MenuItem.Icon>
-				<Image Width="20" Height="20" Source="Images/ParentFolder.png" />
-			</MenuItem.Icon>
-		</MenuItem>
-		<MenuItem x:Key="openExplorer_MenuItem" x:Name ="openExplorer_MenuItem"  Header="在浏览器中打开" Click="openExplorer_MenuItem_Click" >
-			<MenuItem.Icon>
-				<Image Width="20" Height="20" Source="Images/folder.jpg" />
-			</MenuItem.Icon>
-		</MenuItem>
-		<MenuItem x:Key="expand_MenuItem" Header="展开" Click="expand_MenuItem_Click" >
-			<MenuItem.Icon>
-				<Image Width="20" Height="20" />
-			</MenuItem.Icon>
-		</MenuItem>
-		<MenuItem x:Key="shrink_MenuItem" Header="收起" Click="shrink_MenuItem_Click" >
-			<MenuItem.Icon>
-				<Image Width="20" Height="20" />
-			</MenuItem.Icon>
-		</MenuItem>
-		<MenuItem x:Key="checkout_MenuItem"  x:Name="checkoutSelected_MenuItem" Click="checkoutSelected_MenuItem_Click" >
-		</MenuItem>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="MainformResource.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+
+            <MenuItem x:Key="createProject_MenuItem" Header="创建新项目"  x:Name="creatProject_MenuItem" Click="createUnity_MenuItem_Click">
+                <MenuItem.Icon>
+                    <Image Width="20" Height="20"/>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem x:Key="svnUpdata_MenuItem" Header="Svn 更新"  >
+                <MenuItem.Icon>
+                    <Image Width="20" Height="20" Source="Images/ParentFolder.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem x:Key="openExplorer_MenuItem" x:Name ="openExplorer_MenuItem"  Header="在浏览器中打开" Click="openExplorer_MenuItem_Click" >
+                <MenuItem.Icon>
+                    <Image Width="20" Height="20" Source="Images/folder.jpg" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem x:Key="expand_MenuItem" Header="展开" Click="expand_MenuItem_Click" >
+                <MenuItem.Icon>
+                    <Image Width="20" Height="20" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem x:Key="shrink_MenuItem" Header="收起" Click="shrink_MenuItem_Click" >
+                <MenuItem.Icon>
+                    <Image Width="20" Height="20" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem x:Key="checkout_MenuItem"  x:Name="checkoutSelected_MenuItem" Click="checkoutSelected_MenuItem_Click" >
+            </MenuItem>
 
 
-		<Style TargetType="DataGridRow">
-			<Style.Triggers>
-				<!--Trigger for Log dataGrid.-->
-				<DataTrigger Binding="{Binding Level}" Value="Error">
-					<Setter Property="Foreground" Value="Red" />
-				</DataTrigger>
-				<DataTrigger Binding="{Binding Level}" Value="Warning">
-					<Setter Property="Foreground" Value="Yellow" />
-				</DataTrigger>
-				<DataTrigger Binding="{Binding Level}" Value="Infomation">
-					<Setter Property="Foreground" Value="Black" />
-				</DataTrigger>
-				<DataTrigger Binding="{Binding Level}" Value="Verbos">
-					<Setter Property="Foreground" Value="LightGray" />
-				</DataTrigger>
+            <Style TargetType="DataGridRow">
+                <Style.Triggers>
+                    <!--Trigger for Log dataGrid.-->
+                    <DataTrigger Binding="{Binding Level}" Value="Error">
+                        <Setter Property="Foreground" Value="Red" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Level}" Value="Warning">
+                        <Setter Property="Foreground" Value="Yellow" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Level}" Value="Infomation">
+                        <Setter Property="Foreground" Value="Black" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Level}" Value="Verbos">
+                        <Setter Property="Foreground" Value="LightGray" />
+                    </DataTrigger>
 
-				<!--Trigger for TaskStatus-->
-				<DataTrigger Binding="{Binding Status}" Value="Running">
-					<Setter Property="Foreground" Value="Orange" />
-				</DataTrigger>
-				<DataTrigger Binding="{Binding Status}" Value="Error">
-					<Setter Property="Foreground" Value="Red" />
-				</DataTrigger>
-				<DataTrigger Binding="{Binding Status}" Value="Timeout">
-					<Setter Property="Foreground" Value="Yellow" />
-				</DataTrigger>
-				<DataTrigger Binding="{Binding Status}" Value="Completed">
-					<Setter Property="Foreground" Value="Green" />
-				</DataTrigger>
-				<DataTrigger Binding="{Binding Status}" Value="Cancel">
-					<Setter Property="Foreground" Value="LightGray" />
-				</DataTrigger>
-			</Style.Triggers>
-		</Style>
+                    <!--Trigger for TaskStatus-->
+                    <DataTrigger Binding="{Binding Status}" Value="Running">
+                        <Setter Property="Foreground" Value="Orange" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Status}" Value="Error">
+                        <Setter Property="Foreground" Value="Red" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Status}" Value="Timeout">
+                        <Setter Property="Foreground" Value="Yellow" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Status}" Value="Completed">
+                        <Setter Property="Foreground" Value="Green" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Status}" Value="Cancel">
+                        <Setter Property="Foreground" Value="LightGray" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
 
-		<casamiaConvert:EnumDescriptionConverter x:Key="enumDescriptionConverter" />
-		<casamiaConvert:ProgressConverter x:Key="progressConverter" />
+            <casamiaConvert:EnumDescriptionConverter x:Key="enumDescriptionConverter" />
+            <casamiaConvert:ProgressConverter x:Key="progressConverter" />
+        </ResourceDictionary>
 
 	</Window.Resources>
 	<Grid >

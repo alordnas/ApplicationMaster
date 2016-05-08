@@ -3,6 +3,7 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:core="clr-namespace:Casamia.Core"
 		xmlns:local="clr-namespace:Casamia"
+        xmlns:vw="clr-namespace:Casamia.View"
 		Height="Auto"
 		Width="Auto"
 		WindowStyle="ToolWindow"
@@ -104,7 +105,7 @@
 					Grid.Column="0"
 					Text="添加任务"
 					/>
-			<local:TaskEditor  
+			<vw:TaskEditor  
 					Grid.Row="6"
 					Grid.Column="1"
 					DataContext="{Binding ElementName=workspaceCombo, Path=SelectedItem.CreateProjectTask}" />
@@ -114,7 +115,7 @@
 					Grid.Column="0"
 					Text="导入任务"
 					/>
-			<local:TaskEditor  
+			<vw:TaskEditor  
 					Grid.Row="7"
 					Grid.Column="1"
 					DataContext="{Binding ElementName=workspaceCombo, Path=SelectedItem.ImportProjectTask}" />

@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Text;
 
 using Newtonsoft.Json;
 
 using Casamia.Logging;
 using Casamia.Model;
-using System.Text;
 
 namespace Casamia.Core
 {
-	public class ExecutorManager
+    public class ExecutorManager
 	{
 		
 		#region VARIABLE

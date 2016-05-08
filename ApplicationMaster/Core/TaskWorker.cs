@@ -151,12 +151,11 @@ namespace Casamia.Core
                             (object sender, Model.EventArgs.CommandStatusEventArgs e) =>
                             {
                                 LogManager.Instance.LogInfomation(
-                                    "#{4}{0} #{1} changed .{2}->{3}",
+                                    "#{0} #{1} changed .{2}->{3}",
                                     activeTask.Name,
                                     commandIdx,
                                     e.OldStatus,
-                                    e.NewStatus,
-                                    activeTask.ID
+                                    e.NewStatus
                                     );
                             };
                         command.CommandFeedbackReceived +=
@@ -233,7 +232,7 @@ namespace Casamia.Core
                         command.ErrorLog = e.Data;
                     }
                 };
-            
+
             process.Start();
             Logging.LogManager.Instance.LogDebug("{0} {1}", command.Executor, command.Argument);
             process.BeginErrorReadLine();

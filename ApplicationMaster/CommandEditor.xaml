@@ -26,8 +26,8 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Label Content="运行程序：" Grid.Column="0"/>
-                <ComboBox 
-							ItemsSource="{Binding Source={x:Static  core:ExecutorManager.Instance}, Path=Executors}" 
+
+                <ComboBox ItemsSource="{Binding Source={x:Static core:ExecutorManager.Instance}, Path=Executors}"
 							SelectedItem="{Binding Path=Executor}"
 							x:Name="exe_ComboBox" 
 							Grid.Column="1" IsSynchronizedWithCurrentItem="True">

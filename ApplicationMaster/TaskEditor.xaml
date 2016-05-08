@@ -45,19 +45,19 @@
             <Label  Content="命令列表" VerticalAlignment="Center" HorizontalAlignment="Left" />
 
             <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" HorizontalAlignment="Right">
-                <Button Content="添加" Click="addSubTask_Button_Click" />
-                <Button Content="删除" Click="deleteSubTask_Button_Click" />
-                <Button Content="清空" Click="clearSubTask_Button_Click" />
+                <Button Content="添加"  />
+                <Button Content="删除"   />
+                <Button Content="清空"  />
             </StackPanel>
         </Grid>
-        <ListBox x:Name="commandListBox" ItemsSource="{Binding Path=CommandList}" IsSynchronizedWithCurrentItem="True" Grid.Row="4">
+        <ListBox x:Name="commandListBox" ItemsSource="{Binding Path=CommandViewModelCollection}" SelectedItem="{Binding Path=SelectedCommand}" IsSynchronizedWithCurrentItem="True" Grid.Row="4">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Path=Description}"></TextBlock>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <vw:CommandEditor Grid.Row="5" />
+        <vw:CommandEditor Grid.Row="5" DataContext="{Binding Path=SelectedCommand}" />
     </Grid>
 
 </UserControl>
