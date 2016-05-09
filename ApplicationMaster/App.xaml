@@ -1,5 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Application xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="Casamia.App" StartupUri="MainWindow.xaml" xmlns:local="clr-namespace:Casamia" >
+<Application 
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+	xmlns:System="clr-namespace:System;assembly=mscorlib" 
+	xmlns:vw="clr-namespace:Casamia.View"
+	x:Class="Casamia.App" 
+	StartupUri="MainWindow.xaml" 
+	xmlns:local="clr-namespace:Casamia" >
 	<Application.Resources>
 
 		<ResourceDictionary>
@@ -42,8 +49,8 @@
 			<Style TargetType="local:ExecutorsWindow" BasedOn="{StaticResource {x:Type Window}}" />
 			<Style TargetType="local:CreateProjectWindow" BasedOn="{StaticResource {x:Type Window}}" />
 			<Style TargetType="local:MainWindow" BasedOn="{StaticResource {x:Type Window}}" />
-			<Style TargetType="local:WorkspaceWindow" BasedOn="{StaticResource {x:Type Window}}" />
-			<Style TargetType="local:TaskManageWindow" BasedOn="{StaticResource {x:Type Window}}" />
+			<Style TargetType="vw:WorkspaceWindow" BasedOn="{StaticResource {x:Type Window}}" />
+			<Style TargetType="vw:TaskManageWindow" BasedOn="{StaticResource {x:Type Window}}" />
 			
 
 		</ResourceDictionary>

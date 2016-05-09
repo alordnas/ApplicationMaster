@@ -4,7 +4,7 @@ using System.Windows;
 using Casamia.Core;
 using Casamia.Model;
 
-namespace Casamia
+namespace Casamia.View
 {
     /// <summary>
     /// TaskManageWindow.xaml 的交互逻辑
@@ -22,29 +22,5 @@ namespace Casamia
 			base.OnClosed(e);
 			TaskManager.SaveProtoTasks();
 		}
-
-		private void addTask_Button_Click(object sender, RoutedEventArgs e)
-		{
-			string taskName = string.Format("Task #{0}", TaskManager.ProtoTasks.Count);
-			AnTask anTask = new AnTask()
-			{
-				Name = taskName,
-			};
-			TaskManager.AddProtoTask(anTask);
-			TaskManager.SaveProtoTasks();
-			task_ListBox.ItemsSource = TaskManager.ProtoTasks;
-		}
-
-		private void deleteTask_Button_Click(object sender, RoutedEventArgs e)
-		{
-			AnTask anTask = task_ListBox.SelectedItem as AnTask;
-			if (null != anTask)
-			{
-				TaskManager.RemoveProtoTask(anTask);
-				TaskManager.SaveProtoTasks();
-				task_ListBox.ItemsSource = TaskManager.ProtoTasks;
-			}
-		}
-
 	}
 }

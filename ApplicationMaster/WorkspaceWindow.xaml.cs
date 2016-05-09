@@ -7,7 +7,7 @@ using Casamia.Logging;
 using Casamia.MyFacility;
 using Casamia.Core;
 
-namespace Casamia
+namespace Casamia.View
 {
 	/// <summary>
 	/// ReferenceWindow.xaml 的交互逻辑

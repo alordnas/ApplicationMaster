@@ -7,4 +7,10 @@
     <DataTemplate DataType="{x:Type vm:CommandViewModel}">
         <mv:CommandEditor />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:AnTaskViewModel}">
+        <mv:TaskEditor></mv:TaskEditor>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:TaskManageViewModel}">
+        <mv:TaskManageWindow />
+    </DataTemplate>
 </ResourceDictionary>
