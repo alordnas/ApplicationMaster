@@ -294,8 +294,9 @@
         <Setter Property="FontFamily" Value="Trebuchet MS" />
         <Setter Property="FontSize" Value="12" />
         <Setter Property="Padding" Value="3" />
-
-<Setter Property="Template" Value="{DynamicResource ButtonTemplate}" />
+		<Setter Property="VerticalAlignment" Value="Center"></Setter>
+		<Setter Property="HorizontalAlignment" Value="Center"></Setter>
+		<Setter Property="Template" Value="{DynamicResource ButtonTemplate}" />
     </Style>
     
     <ControlTemplate x:Key="ButtonTemplate" TargetType="{x:Type Button}">

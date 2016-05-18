@@ -2,7 +2,7 @@
 
 namespace Casamia.Model
 {
-	public class WorkSpace : INotifyPropertyChanged
+	public class WorkSpace 
 	{
 		#region VARIABLE
 
@@ -29,92 +29,37 @@ namespace Casamia.Model
 			set;
 		}
 
-		public string Ext
-		{
-			get { return ext; }
-			set { ext = value; }
-		}
-
 		public string Url
 		{
-			get { return url; }
-			set
-			{
-				if (!string.Equals(value, url, System.StringComparison.OrdinalIgnoreCase))
-				{
-					url = value;
-					OnPropertyChanged("Url");
-				}
-			}
+			get;
+			set;
 		}
 
 		public string LocalUrl
 		{
-			get { return localUrl; }
-			set
-			{
-				if (!string.Equals(value, localUrl, System.StringComparison.OrdinalIgnoreCase))
-				{
-					localUrl = value;
-					OnPropertyChanged("LocalUrl");
-				}
-			}
+			get;
+			set;
 		}
 
 		public string Name
 		{
-			get { return name; }
-			set
-			{
-				if (!string.Equals(value, name, System.StringComparison.OrdinalIgnoreCase))
-				{
-					name = value;
-					OnPropertyChanged("Name");
-				}
-			}
+			get;
+			set;
 		}
 
 		public int UrlDepth
 		{
-			get { return urlDepth; }
-			set
-			{
-				if (urlDepth != value)
-				{
-					urlDepth = value;
-					OnPropertyChanged("UrlDepth");
-				}
-			}
+			get;
+			set;
 		}
 
 		public string Description
 		{
-			get { return description; }
-			set
-			{
-
-				if (!string.Equals(value, description, System.StringComparison.OrdinalIgnoreCase))
-				{
-					description = value;
-
-					OnPropertyChanged("Description");
-				}
-			}
+			get;
+			set;
 		}
 
 		#endregion PROPERTIES
-
-		#region FUNCTION
-
-		void OnPropertyChanged(string name)
-		{
-			if (null != PropertyChanged)
-			{
-				PropertyChanged(this, new PropertyChangedEventArgs(name));
-			}
-		}
-
-		#endregion FUNCTION
 
 		#region PUBLIC
 
@@ -129,13 +74,6 @@ namespace Casamia.Model
 			return path.Replace(url, localUrl);
 		}
 
-		public override string ToString()
-		{
-			return name;
-		}
-
 		#endregion PUBLIC
-
-		public event PropertyChangedEventHandler PropertyChanged;
 	}
 }

@@ -23,6 +23,7 @@
 		<Style TargetType="TextBox">
 			<Setter Property="VerticalAlignment" Value="Center"></Setter>
 		</Style>
+
 	</Window.Resources>
 	<ScrollViewer Padding="10" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
 		<Grid>
@@ -30,13 +31,23 @@
 				<RowDefinition Height="40"/>
 				<RowDefinition Height="Auto"/>
 			</Grid.RowDefinitions>
-			<ComboBox
-				Name="workspaceCombo"
-				SelectedIndex="0"
-				ItemsSource="{Binding Source={x:Static core:WorkSpaceManager.Instance }, Path=WorkSpaces }" 
-				HorizontalAlignment="Right" 
-				VerticalAlignment="Center" 
-				/>
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="0.6*" ></ColumnDefinition>
+					<ColumnDefinition Width="0.4*"></ColumnDefinition>
+				</Grid.ColumnDefinitions>
+				<ComboBox ItemsSource="{Binding Path=WorkSpaces}" SelectedItem="{Binding Path=CurrentWorkSpace}" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Path=Name}" ToolTip="{Binding Path=Description}"></TextBlock>
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+				<StackPanel Grid.Column="1" Orientation="Horizontal" FlowDirection="RightToLeft">
+					<Button Content="Remove" Command="{Binding Path=RemoveWorkSpaceCommand}"/>
+					<Button Content="Add" Command="{Binding Path=AddWorkSpaceCommand}"/>
+				</StackPanel>
+			</Grid>
 			<Grid Grid.Row="1">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto"/>
@@ -58,7 +69,7 @@
 					Grid.Column="0" />
 			<TextBox  Grid.Row="1"
 					Grid.Column="1"
-					Text="{Binding ElementName=workspaceCombo, Path=SelectedItem.Name}" 
+					Text="{Binding Path=CurrentWorkSpace.Name}" 
 					/>
 
 			<TextBlock
@@ -68,7 +79,7 @@
 			<TextBox
 					Grid.Row="2"
 					Grid.Column="1"
-					Text="{Binding ElementName=workspaceCombo, Path=SelectedItem.Description}" />
+					Text="{Binding Path=CurrentWorkSpace.Description}" />
 
 			<TextBlock 
 					Text="SVN路径"
@@ -77,49 +88,30 @@
 			<TextBox  
 					Grid.Row="3"
 					Grid.Column="1"
-					Text="{Binding ElementName=workspaceCombo, Path=SelectedItem.Url}" 
+					Text="{Binding Path=CurrentWorkSpace.Url}" 
 					/>
 
 			<TextBlock 
 					Text="本地路径"
 					Grid.Row="4"
 					Grid.Column="0"/>
-			<TextBox 
-					Grid.Row="4"
-					Grid.Column="1"
-					Text="{Binding ElementName=workspaceCombo, Path=SelectedItem.LocalUrl}" />
+			<TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Path=CurrentWorkSpace.LocalUrl}" />
 
 
-			<TextBlock 
-					Grid.Row="5"
-					Grid.Column="0"
-					Text="SVN项目深度" ToolTip="如UnityDesign在SVN中第三级子目录才是Unity目录"
-					/>
-			<TextBox 
-					Grid.Row="5"
-					Grid.Column="1"
-					Text="{Binding ElementName=workspaceCombo, Path=SelectedItem.UrlDepth}" />
-
-			<TextBlock 
-					Grid.Row="6"
-					Grid.Column="0"
-					Text="添加任务"
-					/>
-			<vw:TaskEditor  
+			<TextBlock Grid.Row="5" Grid.Column="0" Text="SVN项目深度" ToolTip="如UnityDesign在SVN中第三级子目录才是Unity目录" Cursor="Help"/>
+			<TextBox Grid.Row="5" Grid.Column="1" Text="{Binding  Path=CurrentWorkSpace.UrlDepth}" />
+			<TextBlock Grid.Row="6" Grid.Column="0" Text="添加任务" />
+			<vw:TaskEditor
 					Grid.Row="6"
 					Grid.Column="1"
-					DataContext="{Binding ElementName=workspaceCombo, Path=SelectedItem.CreateProjectTask}" />
+					DataContext="{Binding Path=CurrentWorkSpace.CreateProjectTask}" />
 
-			<TextBlock 
-					Grid.Row="7"
-					Grid.Column="0"
-					Text="导入任务"
-					/>
+			<TextBlock Grid.Row="7" Grid.Column="0" Text="导入任务" />
 			<vw:TaskEditor  
 					Grid.Row="7"
 					Grid.Column="1"
-					DataContext="{Binding ElementName=workspaceCombo, Path=SelectedItem.ImportProjectTask}" />
-		</Grid>
+					DataContext="{Binding Path=CurrentWorkSpace.ImportProjectTask}" />
+			</Grid>
 		</Grid>
 	</ScrollViewer>
 </Window>

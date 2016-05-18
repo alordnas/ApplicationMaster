@@ -715,7 +715,9 @@ namespace Casamia
 
 		private void preference_MenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			new WorkspaceWindow().ShowDialog();
+			var window = new WorkspaceWindow();
+			window.DataContext = new WorkSpaceWindowViewModel();
+			window.ShowDialog();
 		}
 
 		private void executors_MenuItem_Click(object sender, RoutedEventArgs e)

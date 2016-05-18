@@ -3075,6 +3075,8 @@
         <Setter Property="FontSize" Value="12" />
         <Setter Property="Padding" Value="3" />
         <Setter Property="Template" Value="{DynamicResource ButtonTemplate}" />
+		<Setter Property="VerticalAlignment" Value="Center"></Setter>
+		<Setter Property="HorizontalAlignment" Value="Center"></Setter>
     </Style>
 
     <Style x:Key="{x:Static ToolBar.CheckBoxStyleKey}" TargetType="{x:Type CheckBox}">

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 
+using Casamia.Logging;
 using Casamia.Model;
+
+using Newtonsoft.Json;
 
 namespace Casamia.Core
 {
@@ -14,7 +16,7 @@ namespace Casamia.Core
 
 		private static WorkSpaceManager instance;
 
-		private ObservableCollection<WorkSpace> workSpaces;
+		private List<WorkSpace> workSpaces;
 		private static WorkSpace current;
 		private string configPath;
 		private bool isLocal = true;
@@ -90,28 +92,24 @@ namespace Casamia.Core
 				if (current != value)
 				{
 					current = value;
-					int lastIdx = workSpaces.IndexOf(current);
-					if (lastIdx > 0 && lastIdx < workSpaces.Count)
-					{
-						// the first one is loaded default ,
-						workSpaces.Move(lastIdx, 0);
-						Save();
-					}
+
+					// the first one is loaded default ,
+					//workSpaces.r(lastIdx, 0);
+					workSpaces.Remove(current);
+					workSpaces.Insert(0, current);
+					Save();
+					
 					FireChanged("WorkSpace");
 					FireChanged("WorkingPath");
 				}
 			}
 		}
 
-		public ObservableCollection<WorkSpace> WorkSpaces
+		public WorkSpace[] WorkSpaces
 		{
 			get
 			{
-				return workSpaces;
-			}
-			set
-			{
-				workSpaces = value;
+				return workSpaces.ToArray();
 			}
 		}
 
@@ -131,7 +129,7 @@ namespace Casamia.Core
 
 		public void Save()
 		{
-			string jsonStr = Newtonsoft.Json.JsonConvert.SerializeObject(workSpaces);
+			string jsonStr = Newtonsoft.Json.JsonConvert.SerializeObject(workSpaces.ToArray());
 			File.WriteAllText(configPath, jsonStr);
 		}
 
@@ -155,6 +153,14 @@ namespace Casamia.Core
 			}
 		}
 
+		public void Remove(WorkSpace workSpace)
+		{
+			if(null != workSpace && workSpaces.Contains(workSpace))
+			{
+				workSpaces.Remove(workSpace);
+			}
+		}
+
 		#endregion PUBLIC
 
 		#region FUNCTION
@@ -168,18 +174,18 @@ namespace Casamia.Core
 					string jsonStr = File.ReadAllText(configPath);
 					if (!string.IsNullOrEmpty(jsonStr))
 					{
-						workSpaces = Newtonsoft.Json.JsonConvert.DeserializeObject<ObservableCollection<WorkSpace>>(jsonStr);
+						workSpaces = new List<Model.WorkSpace>(JsonConvert.DeserializeObject<WorkSpace[]>(jsonStr));
 					}
 				}
 			}
 			catch (Exception ex)
 			{
-				Logging.LogManager.Instance.LogError("Fail to deserialize {0} :{1}", configPath, ex.Message);
+				LogManager.Instance.LogError("Fail to deserialize {0} :{1}", configPath, ex.Message);
 			}
 
 			if (null == workSpaces)
 			{
-				workSpaces = new ObservableCollection<WorkSpace>();
+				workSpaces = new List<WorkSpace>();
 			}
 		}
 
