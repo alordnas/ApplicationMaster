@@ -133,15 +133,11 @@ namespace Casamia.Core
 			File.WriteAllText(configPath, jsonStr);
 		}
 
-		public void SetCurrent(string name)
+		public void SetCurrent(WorkSpace workspace)
 		{
-			for (int length = workSpaces.Count, i = 0; i < length; i++)
+			if(workSpaces.Contains(workspace))
 			{
-				if (string.Equals(name, workSpaces[i].Name))
-				{
-					Current = workSpaces[i];
-					break;
-				}
+				Current = workspace;
 			}
 		}
 

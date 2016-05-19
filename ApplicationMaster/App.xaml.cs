@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
 using System.Runtime.ExceptionServices;
 using System.Windows;
 using System.Windows.Threading;
+
+using Casamia.ViewModel;
 
 namespace Casamia
 {
@@ -28,6 +26,26 @@ namespace Casamia
 
 			this.Dispatcher.UnhandledExceptionFilter +=
 				new DispatcherUnhandledExceptionFilterEventHandler(DispFilter);
+		}
+
+		protected override void OnStartup(StartupEventArgs e)
+		{
+			base.OnStartup(e);
+			MainWindow window = new MainWindow();
+			var viewModel = new MainWindowViewModel();
+			// When the ViewModel asks to be closed, 
+			// close the window.
+			EventHandler handler = null;
+			handler = delegate
+			{
+				viewModel.RequestClose -= handler;
+				window.Close();
+			};
+			viewModel.RequestClose += handler;
+
+			window.DataContext = viewModel;
+
+			window.Show();
 		}
 
 		static void FirstChance(object sender, FirstChanceExceptionEventArgs e)

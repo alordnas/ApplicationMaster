@@ -104,7 +104,6 @@ namespace Casamia.Core
             if (!workMaps.ContainsKey(anTask))
             {
                 workMaps.Add(anTask, worker);
-                MyLog.Append(anTask);
             }
             else
             {

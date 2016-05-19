@@ -98,6 +98,14 @@ namespace Casamia.ViewModel
 			}
 		}
 
+		public string Path
+		{
+			get
+			{
+				return Casamia.Core.WorkSpaceManager.Instance.IsLocal ? WorkSpace.LocalUrl : WorkSpace.Url;
+			}
+		}
+
 		public int UrlDepth
 		{
 			get { return _workSpace.UrlDepth; }

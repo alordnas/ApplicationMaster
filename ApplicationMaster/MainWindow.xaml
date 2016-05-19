@@ -5,88 +5,88 @@
 		xmlns:data ="clr-namespace:Casamia.Model"
 		xmlns:core ="clr-namespace:Casamia.Core"
 		xmlns:casamiaConvert="clr-namespace:Casamia.Converter"
-		Title="{Binding Source={x:Static core:WorkSpaceManager.Instance} , Mode=OneWay, Path=WorkSpace, StringFormat=WorkSpace - \{0\}}"
 		WindowStyle="ThreeDBorderWindow" 
 		WindowStartupLocation="CenterScreen"
-		KeyDown="Window_KeyDown"
-		KeyUp="Window_KeyUp" 
-		Icon="Images/Logo.ico">
+		Title="{Binding Source={x:Static core:WorkSpaceManager.Instance} , Mode=OneWay, Path=WorkSpace, StringFormat=WorkSpace - \{0\}}"
+		Icon="Images/Logo.ico"
+		>
 
 	<Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="MainformResource.xaml"></ResourceDictionary>
-            </ResourceDictionary.MergedDictionaries>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="MainformResource.xaml"></ResourceDictionary>
+			</ResourceDictionary.MergedDictionaries>
 
-            <MenuItem x:Key="createProject_MenuItem" Header="创建新项目"  x:Name="creatProject_MenuItem" Click="createUnity_MenuItem_Click">
-                <MenuItem.Icon>
-                    <Image Width="20" Height="20"/>
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem x:Key="svnUpdata_MenuItem" Header="Svn 更新"  >
-                <MenuItem.Icon>
-                    <Image Width="20" Height="20" Source="Images/ParentFolder.png" />
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem x:Key="openExplorer_MenuItem" x:Name ="openExplorer_MenuItem"  Header="在浏览器中打开" Click="openExplorer_MenuItem_Click" >
-                <MenuItem.Icon>
-                    <Image Width="20" Height="20" Source="Images/folder.jpg" />
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem x:Key="expand_MenuItem" Header="展开" Click="expand_MenuItem_Click" >
-                <MenuItem.Icon>
-                    <Image Width="20" Height="20" />
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem x:Key="shrink_MenuItem" Header="收起" Click="shrink_MenuItem_Click" >
-                <MenuItem.Icon>
-                    <Image Width="20" Height="20" />
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem x:Key="checkout_MenuItem"  x:Name="checkoutSelected_MenuItem" Click="checkoutSelected_MenuItem_Click" >
-            </MenuItem>
+			<MenuItem x:Key="createProject_MenuItem" Header="创建新项目"  x:Name="creatProject_MenuItem" Click="createUnity_MenuItem_Click">
+				<MenuItem.Icon>
+					<Image Width="20" Height="20"/>
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem x:Key="svnUpdata_MenuItem" Header="Svn 更新"  >
+				<MenuItem.Icon>
+					<Image Width="20" Height="20" Source="Images/ParentFolder.png" />
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem x:Key="openExplorer_MenuItem" x:Name ="openExplorer_MenuItem"  Header="在浏览器中打开" Click="openExplorer_MenuItem_Click" >
+				<MenuItem.Icon>
+					<Image Width="20" Height="20" Source="Images/folder.jpg" />
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem x:Key="expand_MenuItem" Header="展开" Click="expand_MenuItem_Click" >
+				<MenuItem.Icon>
+					<Image Width="20" Height="20" />
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem x:Key="shrink_MenuItem" Header="收起" Click="shrink_MenuItem_Click" >
+				<MenuItem.Icon>
+					<Image Width="20" Height="20" />
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem x:Key="checkout_MenuItem"  x:Name="checkoutSelected_MenuItem" Click="checkoutSelected_MenuItem_Click" >
+			</MenuItem>
 
 
-            <Style TargetType="DataGridRow">
-                <Style.Triggers>
-                    <!--Trigger for Log dataGrid.-->
-                    <DataTrigger Binding="{Binding Level}" Value="Error">
-                        <Setter Property="Foreground" Value="Red" />
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding Level}" Value="Warning">
-                        <Setter Property="Foreground" Value="Yellow" />
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding Level}" Value="Infomation">
-                        <Setter Property="Foreground" Value="Black" />
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding Level}" Value="Verbos">
-                        <Setter Property="Foreground" Value="LightGray" />
-                    </DataTrigger>
+			<Style TargetType="DataGridRow">
+				<Style.Triggers>
+					<!--Trigger for Log dataGrid.-->
+					<DataTrigger Binding="{Binding Level}" Value="Error">
+						<Setter Property="Foreground" Value="Red" />
+					</DataTrigger>
+					<DataTrigger Binding="{Binding Level}" Value="Warning">
+						<Setter Property="Foreground" Value="Yellow" />
+					</DataTrigger>
+					<DataTrigger Binding="{Binding Level}" Value="Infomation">
+						<Setter Property="Foreground" Value="Black" />
+					</DataTrigger>
+					<DataTrigger Binding="{Binding Level}" Value="Verbos">
+						<Setter Property="Foreground" Value="LightGray" />
+					</DataTrigger>
 
-                    <!--Trigger for TaskStatus-->
-                    <DataTrigger Binding="{Binding Status}" Value="Running">
-                        <Setter Property="Foreground" Value="Orange" />
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding Status}" Value="Error">
-                        <Setter Property="Foreground" Value="Red" />
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding Status}" Value="Timeout">
-                        <Setter Property="Foreground" Value="Yellow" />
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding Status}" Value="Completed">
-                        <Setter Property="Foreground" Value="Green" />
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding Status}" Value="Cancel">
-                        <Setter Property="Foreground" Value="LightGray" />
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
+					<!--Trigger for TaskStatus-->
+					<DataTrigger Binding="{Binding Status}" Value="Running">
+						<Setter Property="Foreground" Value="Orange" />
+					</DataTrigger>
+					<DataTrigger Binding="{Binding Status}" Value="Error">
+						<Setter Property="Foreground" Value="Red" />
+					</DataTrigger>
+					<DataTrigger Binding="{Binding Status}" Value="Timeout">
+						<Setter Property="Foreground" Value="Yellow" />
+					</DataTrigger>
+					<DataTrigger Binding="{Binding Status}" Value="Completed">
+						<Setter Property="Foreground" Value="Green" />
+					</DataTrigger>
+					<DataTrigger Binding="{Binding Status}" Value="Cancel">
+						<Setter Property="Foreground" Value="LightGray" />
+					</DataTrigger>
+				</Style.Triggers>
+			</Style>
 
-            <casamiaConvert:EnumDescriptionConverter x:Key="enumDescriptionConverter" />
-            <casamiaConvert:ProgressConverter x:Key="progressConverter" />
-        </ResourceDictionary>
-
+			<casamiaConvert:EnumDescriptionConverter x:Key="enumDescriptionConverter" />
+			<casamiaConvert:ProgressConverter x:Key="progressConverter" />
+			<casamiaConvert:DebugConverter x:Key="debugConverter" />
+		</ResourceDictionary>
 	</Window.Resources>
+
 	<Grid >
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" MinHeight="20"/>
@@ -95,19 +95,24 @@
 		</Grid.RowDefinitions>
 
 		<Menu Grid.Row="0" >
-			<MenuItem x:Name="dir_MenuItem" Header="工作集">
-				<MenuItem.ItemsSource>
+			<MenuItem x:Name="dir_MenuItem" Header="工作集" ItemsSource="{Binding Path=WorkSpaceCollectionViewModel.WorkSpaces }">
+				<!--<MenuItem.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Path=Name}"></TextBlock>
+					</DataTemplate>
+				</MenuItem.ItemTemplate>-->
+				<!--<MenuItem.ItemsSource>
 					<CompositeCollection>
 						<MenuItem x:Name="preference_MenuItem" Header="设定"  Click="preference_MenuItem_Click"/>
 						<Separator></Separator>
-						<CollectionContainer Collection="{Binding Source={x:Static core:WorkSpaceManager.Instance }, Mode=OneWay, Path=WorkSpaces}"></CollectionContainer>
-						
+						<CollectionContainer Collection="{Binding Path=WorkSpaceCollectionViewModel.WorkSpaces, Converter={StaticResource debugConverter}}" />
 					</CompositeCollection>
-				</MenuItem.ItemsSource>
+				</MenuItem.ItemsSource>-->
 				<MenuItem.ItemContainerStyle>
 					<Style TargetType="MenuItem">
-						<Setter Property="MenuItem.Header" Value="{Binding Name}"/>
-						<EventSetter Event="Click" Handler="OnWorkspaceClick"></EventSetter>
+						<Setter Property="MenuItem.Header" Value="{Binding Path=Name, Converter={StaticResource debugConverter}}"/>
+						<Setter Property="Command" Value="{Binding Path=SwitchWorkSpaceCommand}" />
+						<!--<EventSetter Event="Click" Handler="OnWorkspaceClick"></EventSetter>-->
 					</Style>
 				</MenuItem.ItemContainerStyle>
 			</MenuItem>
@@ -136,54 +141,44 @@
 				<MenuItem x:Name="checkout_MenuItem" Header="检出选中"  Click="checkout_MenuItem_Click"/>
 			</MenuItem>
 
-			<MenuItem x:Name="task_MenuItem" Header="任务">
-				<MenuItem.ItemsSource>
+			<MenuItem x:Name="task_MenuItem" Header="任务" ItemsSource="{Binding Path=TaskCollectionViewModel.ProtoTasks}">
+				<!--<MenuItem.ItemsSource>
 					<CompositeCollection>
 						<MenuItem x:Name="taskManager_MenuItem" Header="管理..." Click="taskManager_MenuItem_Click"/>
-						<CollectionContainer Collection="{Binding Source={x:Static core:TaskManager.ProtoTasks }, Mode=OneWay}">
-							
-						</CollectionContainer>
+						<CollectionContainer Collection="{Binding Path=TaskCollectionViewModel.ProtoTasks}" />
 					</CompositeCollection>
-				</MenuItem.ItemsSource>
+				</MenuItem.ItemsSource>-->
 				<MenuItem.ItemContainerStyle>
 					<Style TargetType="MenuItem">
-						<Setter Property="MenuItem.Header" Value="{Binding}"/>
-						<Setter Property="DisplayMemberPath" Value="Name"></Setter>
-						<EventSetter Event="Click" Handler="OnProtoTaskClick"></EventSetter>
+						<Setter Property="MenuItem.Header" Value="{Binding Path=Name}"/>
+						<!--<EventSetter Event="Click" Handler="OnProtoTaskClick"></EventSetter>-->
+						<Setter Property="Command" Value="{Binding Path=ExecuteProtoTaskCommmand}" />
+						<Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}"></Setter>
 					</Style>
 				</MenuItem.ItemContainerStyle>
 			</MenuItem>
-			<MenuItem Header="帮助">
-				<MenuItem Header="帮助手册"  />
-			</MenuItem>
 		</Menu>
 
-		<Border Grid.Row="1">
-			<Grid>
+		<Grid Grid.Row="1">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="0.5*"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="0.6*"/>
+			</Grid.ColumnDefinitions>
+			<!--Tree view-->
+			<Grid >
 				<Grid.RowDefinitions>
-					<RowDefinition Height="1*"/>
-					<RowDefinition Height="Auto" MinHeight="35"/>
+					<RowDefinition Height="28"/>
+					<RowDefinition />
 				</Grid.RowDefinitions>
-				<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2,0"  >
+
+				<Grid HorizontalAlignment="Stretch">
 					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="0.5*"/>
-						<ColumnDefinition Width="Auto"/>
-						<ColumnDefinition Width="0.6*"/>
+						<ColumnDefinition Width="1*"/>
 					</Grid.ColumnDefinitions>
-					<!--Tree view-->
-					<Grid >
-						<Grid.RowDefinitions>
-							<RowDefinition Height="28"/>
-							<RowDefinition />
-						</Grid.RowDefinitions>
-						<Border >
-							<Grid HorizontalAlignment="Stretch">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="1*"/>
-								</Grid.ColumnDefinitions>
-								<TextBox x:Name = "dir_TextBox"  Grid.Column="0" Text="{Binding Source={x:Static core:WorkSpaceManager.Instance} , Mode=OneWay, Path=WorkingPath}"  FontSize="15" Background="Transparent"
+					<TextBox x:Name = "dir_TextBox"  Grid.Column="0" Text="{Binding Path=CurrentWorkSpace.Path, Mode=OneWay}"  FontSize="15" Background="Transparent"
 								  IsEnabled="False"/>
-								<ProgressBar Grid.Column="0" 
+					<ProgressBar Grid.Column="0" 
 											 Value="{Binding Percent}" 
 											 Orientation="Horizontal" 
 											 IsIndeterminate="False"   
@@ -191,23 +186,21 @@
 											 HorizontalAlignment="Stretch" 
 											 VerticalAlignment="Stretch" 
 											 Visibility="Hidden"/>
-							</Grid>
-						</Border>
+				</Grid>
 
-						<Border Grid.Row="1" Grid.Column="0"  BorderThickness ="5,0,5,5">
-							<TreeView x:Name="dir_TreeView"  
+				<Border Grid.Row="1" Grid.Column="0"  BorderThickness ="5,0,5,5">
+					<TreeView x:Name="dir_TreeView"  
 									  AllowDrop="True" 
 									  DragEnter="dir_TreeView_DragEnter" 
 									  MouseRightButtonDown="dir_TreeView_MouseRightButtonDown">
-								<TreeView.ItemTemplate>
-									<HierarchicalDataTemplate DataType="{x:Type data:TreeNode}" 
+						<TreeView.ItemTemplate>
+							<HierarchicalDataTemplate DataType="{x:Type data:TreeNode}" 
 															  ItemsSource="{Binding Path = children}">
-										<StackPanel x:Name="treeItem_StackPanel" 
+								<StackPanel x:Name="treeItem_StackPanel" 
 													Margin="-2,0,0,0" 
 													Orientation="Horizontal" 
-													Height="15" 
-													MouseRightButtonDown="treeItem_StackPanel_MouseRightButtonDown">
-											<CheckBox ToolTip="{Binding filePath}" 
+													Height="15" MouseRightButtonDown="treeItem_StackPanel_MouseRightButtonDown">
+									<CheckBox ToolTip="{Binding filePath}" 
 													  FontSize="14"
 													  FontFamily="微软雅黑" 
 													  Tag="{Binding children}" 
@@ -215,287 +208,176 @@
 													  PreviewMouseDown="CheckBox_PreviewMouseDown"
 													  Checked="CheckBox_Checked" 
 													  Unchecked="CheckBox_Unchecked" >
-												<StackPanel x:Name ="item_StackPanel" 
+										<StackPanel x:Name ="item_StackPanel" 
 															Orientation="Horizontal" 
 															MouseLeftButtonDown="item_StackPanel_MouseLeftButtonDown">
-													<Image VerticalAlignment="Center" 
+											<Image VerticalAlignment="Center" 
 														   Height="20" 
 														   Width="20"
 														   Source="{Binding icon}"/>
-													<TextBlock x:Name="fileName_TextBlock" Text="{Binding fileName}" Margin="0,-2,0,-2" ></TextBlock>
-												</StackPanel>
-											</CheckBox>
+											<TextBlock x:Name="fileName_TextBlock" Text="{Binding fileName}" Margin="0,-2,0,-2" ></TextBlock>
 										</StackPanel>
-									</HierarchicalDataTemplate>
-								</TreeView.ItemTemplate>
-							</TreeView>
-						</Border>
-					</Grid>
-					<GridSplitter Grid.Column="1" Width="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+									</CheckBox>
+								</StackPanel>
+							</HierarchicalDataTemplate>
+						</TreeView.ItemTemplate>
+					</TreeView>
+				</Border>
+			</Grid>
+			<GridSplitter Grid.Column="1" Width="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+			</GridSplitter>
+
+			<Grid Grid.Column="2">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="0.75*"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="0.25*"/>
+				</Grid.RowDefinitions>
+
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="1*" />
+						<RowDefinition Height="30" />
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto"/>
+					</Grid.RowDefinitions>
+
+					<ComboBox ItemsSource="{Binding Path=WorkSpaceCollectionViewModel.WorkSpaces}" SelectedItem="{Binding Path=WorkSpaceCollectionViewModel.CurrentWorkSpace}" Grid.Row="4">
+						<ComboBox.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding Path=Name}" ToolTip="{Binding Path=Description}"></TextBlock>
+							</DataTemplate>
+						</ComboBox.ItemTemplate>
+					</ComboBox>
+
+					<GroupBox Header="任务"   BorderThickness="2" Grid.Row="0">
+						<DataGrid x:Name="task_DataGrid" Margin="5" ItemsSource="{Binding Path=ActiveTasks}" AutoGenerateColumns="False" 
+												  CanUserAddRows="False" SelectedItem="{Binding Path=SelectedActiveTask}">
+							<DataGrid.Columns>
+								<DataGridTextColumn Header="任务名" Width="100" Binding="{Binding Name}"/>
+								<DataGridTextColumn Header="完成度" Width="50" Binding="{Binding  Path=CommandViewModelCollection, Converter={StaticResource progressConverter }}"/>
+								<DataGridTextColumn Header="开始时间" Width="70" Binding="{Binding StartTime ,Mode=OneWay,  StringFormat=\{0:HH:mm:ss\}}"/>
+								<DataGridTextColumn Header="耗时" Width="70" Binding="{Binding Duration ,Mode=OneWay,  StringFormat=\{0:hh\\:mm\\:ss\}}"/>
+								<DataGridTextColumn Header="状态" Width="70" Binding="{Binding Status}"/>
+								<DataGridTextColumn Header="描述" Width="*" Binding="{Binding Description}"/>
+							</DataGrid.Columns>
+						</DataGrid>
+					</GroupBox>
+
+					<StackPanel Grid.Row="1" Orientation="Horizontal" FlowDirection="RightToLeft">
+						<Button x:Name="stopTask_Button" Width="50" Margin="5,3" HorizontalAlignment="Right" IsEnabled="False" Content="终止" Click="stopTask_Button_Click"/>
+						<Button x:Name="redoTask_Button" Width="50" Margin="5,3" HorizontalAlignment="Right" IsEnabled="False" Content="重做" Click="redoTask_Button_Click"/>
+						<Button x:Name="parallel_Button" Width="60" Margin="5,3" HorizontalAlignment="Right" IsEnabled="False" Content="立即开始" Click="parallel_Button_Click"/>
+					</StackPanel>
+
+					<GridSplitter Grid.Row="2" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 					</GridSplitter>
 
-					<Border Grid.Column="2"  BorderThickness="5" >
-						<Grid>
-							<Grid.RowDefinitions>
-								<RowDefinition Height="0.75*"/>
-								<RowDefinition Height="Auto"/>
-								<RowDefinition Height="0.25*"/>
-							</Grid.RowDefinitions>
-
-
-							<TabControl >
-								<!--<ScrollViewer>-->
-								<TabItem Header="当前" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
-									<Grid>
-										<Grid.RowDefinitions>
-											<RowDefinition Height="1*" />
-											<RowDefinition Height="30" />
-											<RowDefinition Height="Auto"/>
-											<RowDefinition Height="Auto"/>
-										</Grid.RowDefinitions>
-
-										<GroupBox Header="任务"   BorderThickness="2">
-											<DataGrid x:Name="task_DataGrid" Margin="5" ItemsSource="{Binding}" AutoGenerateColumns="False" 
-												  CanUserAddRows="False" IsReadOnly="True" SelectedCellsChanged="taskDataGrid_SelectedCellsChanged">
-												<DataGrid.Columns>
-													<DataGridTextColumn Header="序号" Width="50" Binding="{Binding ID}"/>
-													<DataGridTextColumn Header="任务名" Width="100" Binding="{Binding Name}"/>
-													<DataGridTextColumn Header="完成度" Width="50" Binding="{Binding  Path=Commands, Converter={StaticResource progressConverter }}"/>
-													<DataGridTextColumn Header="开始时间" Width="70" Binding="{Binding StartTime ,Mode=OneWay,  StringFormat=\{0:HH:mm:ss\}}"/>
-													<DataGridTextColumn Header="耗时" Width="70" Binding="{Binding TimeCost ,Mode=OneWay,  StringFormat=\{0:hh\\:mm\\:ss\}}"/>
-													<DataGridTextColumn Header="状态" Width="70" Binding="{Binding Status}"/>
-													<DataGridTextColumn Header="描述" Width="*" Binding="{Binding Description}"/>
-												</DataGrid.Columns>
-											</DataGrid>
-										</GroupBox>
-
-										<StackPanel Grid.Row="1" Orientation="Horizontal" FlowDirection="RightToLeft">
-											<Button x:Name="stopTask_Button" Width="50" Margin="5,3" HorizontalAlignment="Right" IsEnabled="False" Content="终止" Click="stopTask_Button_Click"/>
-											<Button x:Name="redoTask_Button" Width="50" Margin="5,3" HorizontalAlignment="Right" IsEnabled="False" Content="重做" Click="redoTask_Button_Click"/>
-											<Button x:Name="parallel_Button" Width="60" Margin="5,3" HorizontalAlignment="Right" IsEnabled="False" Content="立即开始" Click="parallel_Button_Click"/>
-										</StackPanel>
-
-										<GridSplitter Grid.Row="2" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-										</GridSplitter>
-
-										<GroupBox Grid.Row="3" Header="细节"   BorderThickness="2">
-											<DataGrid x:Name="commandDataGrid" Margin="5"  ItemsSource="{Binding}" AutoGenerateColumns="False" 
+					<GroupBox Grid.Row="3" Header="细节"   BorderThickness="2">
+						<DataGrid x:Name="commandDataGrid" Margin="5"  ItemsSource="{Binding Path=SelectedActiveTask.CommandViewModelCollection}" AutoGenerateColumns="False" 
 												  CanUserAddRows="False">
-
-												<DataGrid.Columns>
-													<DataGridTextColumn Header="序号" Width="50" Binding="{Binding ID}"/>
-													<DataGridTextColumn Header="程序" Width="50" Binding="{Binding Exe}"/>
-													<DataGridTextColumn Header="参数" Width="100" Binding="{Binding Argument}" IsReadOnly="False"/>
-													<DataGridTextColumn Header="开始时间" Width="70" Binding="{Binding StartTime ,Mode=OneWay, StringFormat=\{0:HH:mm:ss\}}"/>
-													<DataGridTextColumn Header="耗时" Width="70" Binding="{Binding TimeCost, Mode=OneWay, StringFormat=\{0:hh\\:mm\\:ss\}}"/>
-													<DataGridTextColumn Header="超时" Width="70" Binding="{Binding Timeout,Mode=OneWay, StringFormat=\{0:hh\\:mm\\:ss\}}"/>
-													<DataGridTemplateColumn Width="80" >
-														<DataGridTemplateColumn.HeaderTemplate>
-															<DataTemplate>
-																<TextBlock Text="状态" />
-															</DataTemplate>
-														</DataGridTemplateColumn.HeaderTemplate>
-														<DataGridTemplateColumn.CellTemplate>
-															<DataTemplate>
-																<TextBlock Text="{Binding Status}" VerticalAlignment="Center"/>
-															</DataTemplate>
-														</DataGridTemplateColumn.CellTemplate>
-													</DataGridTemplateColumn>
-													<DataGridTemplateColumn Width="*" IsReadOnly="False" >
-														<DataGridTemplateColumn.HeaderTemplate>
-															<DataTemplate>
-																<TextBlock Text="结果" />
-															</DataTemplate>
-														</DataGridTemplateColumn.HeaderTemplate>
-														<DataGridTemplateColumn.CellTemplate>
-															<DataTemplate>
-																<TextBlock Text="{Binding Output}">
-																	<TextBlock.ToolTip>
-																		<TextBlock Text="{Binding Output}"></TextBlock>
-																	</TextBlock.ToolTip>
+							<DataGrid.Columns>
+								<DataGridTextColumn Header="命令" Width="50" Binding="{Binding Description}"/>
+								<DataGridTextColumn Header="参数" Width="100" Binding="{Binding Argument}" IsReadOnly="False"/>
+								<DataGridTextColumn Header="开始时间" Width="70" Binding="{Binding StartTime ,Mode=OneWay, StringFormat=\{0:HH:mm:ss\}}"/>
+								<DataGridTextColumn Header="耗时" Width="70" Binding="{Binding Duration, Mode=OneWay, StringFormat=\{0:hh\\:mm\\:ss\}}"/>
+								<DataGridTextColumn Header="超时" Width="70" Binding="{Binding Timeout,Mode=OneWay, StringFormat=\{0:hh\\:mm\\:ss\}}"/>
+								<DataGridTemplateColumn Width="80" >
+									<DataGridTemplateColumn.HeaderTemplate>
+										<DataTemplate>
+											<TextBlock Text="状态" />
+										</DataTemplate>
+									</DataGridTemplateColumn.HeaderTemplate>
+									<DataGridTemplateColumn.CellTemplate>
+										<DataTemplate>
+											<TextBlock Text="{Binding Status}" VerticalAlignment="Center"/>
+										</DataTemplate>
+									</DataGridTemplateColumn.CellTemplate>
+								</DataGridTemplateColumn>
+								<DataGridTemplateColumn Width="*" IsReadOnly="False" >
+									<DataGridTemplateColumn.HeaderTemplate>
+										<DataTemplate>
+											<TextBlock Text="结果" />
+										</DataTemplate>
+									</DataGridTemplateColumn.HeaderTemplate>
+									<DataGridTemplateColumn.CellTemplate>
+										<DataTemplate>
+											<TextBlock Text="{Binding Output}">
+												<TextBlock.ToolTip>
+													<TextBlock Text="{Binding Output}"></TextBlock>
+												</TextBlock.ToolTip>
 																</TextBlock>
-															</DataTemplate>
-														</DataGridTemplateColumn.CellTemplate>
-													</DataGridTemplateColumn>
-													<DataGridTemplateColumn Width="*" IsReadOnly="False" >
-														<DataGridTemplateColumn.HeaderTemplate>
-															<DataTemplate>
-																<TextBlock Text="错误" />
-															</DataTemplate>
-														</DataGridTemplateColumn.HeaderTemplate>
-														<DataGridTemplateColumn.CellTemplate>
-															<DataTemplate>
-																<TextBlock Text="{Binding Error}">
-																	<TextBlock.ToolTip>
-																		<TextBlock Text="{Binding Error}"></TextBlock>
-																	</TextBlock.ToolTip>
+										</DataTemplate>
+									</DataGridTemplateColumn.CellTemplate>
+								</DataGridTemplateColumn>
+								<DataGridTemplateColumn Width="*" IsReadOnly="False" >
+									<DataGridTemplateColumn.HeaderTemplate>
+										<DataTemplate>
+											<TextBlock Text="错误" />
+										</DataTemplate>
+									</DataGridTemplateColumn.HeaderTemplate>
+									<DataGridTemplateColumn.CellTemplate>
+										<DataTemplate>
+											<TextBlock Text="{Binding Error}">
+												<TextBlock.ToolTip>
+													<TextBlock Text="{Binding Error}"></TextBlock>
+												</TextBlock.ToolTip>
 																</TextBlock>
-															</DataTemplate>
-														</DataGridTemplateColumn.CellTemplate>
-													</DataGridTemplateColumn>
+										</DataTemplate>
+									</DataGridTemplateColumn.CellTemplate>
+								</DataGridTemplateColumn>
 
-												</DataGrid.Columns>
+							</DataGrid.Columns>
 
-											</DataGrid>
-										</GroupBox>
-									</Grid>
-								</TabItem>
-								<TabItem Header="日志" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
-									<Grid>
-										<Grid.RowDefinitions>
-											<RowDefinition Height="0.6*" />
-											<RowDefinition Height="Auto"/>
-											<RowDefinition Height="0.4*"/>
-										</Grid.RowDefinitions>
-
-										<ComboBox x:Name="log_ComboBox" HorizontalAlignment="Right" VerticalAlignment="Top" Width="120" Margin="0,-27,0,0" Height="20" 
-												  ItemsSource="{Binding}" SelectionChanged="log_ComboBox_SelectionChanged"/>
-
-										<GroupBox  Header="{Binding ElementName=log_ComboBox,Path=Text}"   BorderThickness="2">
-											<DataGrid x:Name="taskLog_DataGrid" Margin="5" ItemsSource="{Binding}" AutoGenerateColumns="False" 
-												  CanUserAddRows="False" IsReadOnly="True" SelectedCellsChanged="taskLog_DataGrid_SelectedCellsChanged">
-												<DataGrid.Columns>
-													<DataGridTextColumn Header="序号" Width="50" Binding="{Binding ID}"/>
-													<DataGridTextColumn Header="任务名" Width="100" Binding="{Binding TaskName}"/>
-													<DataGridTextColumn Header="完成度" Width="50" Binding="{Binding Schedule}"/>
-													<DataGridTextColumn Header="开始时间" Width="70" Binding="{Binding StartTime}"/>
-													<DataGridTextColumn Header="耗时（ms）" Width="70" Binding="{Binding TimeCost}"/>
-													<DataGridTemplateColumn Width="80" >
-														<DataGridTemplateColumn.HeaderTemplate>
-															<DataTemplate>
-																<TextBlock Text="状态" />
-															</DataTemplate>
-														</DataGridTemplateColumn.HeaderTemplate>
-														<DataGridTemplateColumn.CellTemplate>
-															<DataTemplate>
-																<TextBlock Text="{Binding Status}" />
-															</DataTemplate>
-														</DataGridTemplateColumn.CellTemplate>
-													</DataGridTemplateColumn>
-
-													<DataGridTextColumn Header="描述" Width="*" Binding="{Binding Description}"/>
-												</DataGrid.Columns>
-											</DataGrid>
-										</GroupBox>
-
-										<GridSplitter Grid.Row="1" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-										</GridSplitter>
-
-										<GroupBox Grid.Row="2" Header="细节"   BorderThickness="2">
-											<DataGrid x:Name="subTaskLog_DataGrid" Margin="5"  ItemsSource="{Binding}" AutoGenerateColumns="False" 
-												  CanUserAddRows="False" IsReadOnly="True">
-
-												<DataGrid.Columns>
-													<DataGridTextColumn Header="序号" Width="50" Binding="{Binding ID}"/>
-													<DataGridTextColumn Header="程序" Width="50" Binding="{Binding Exe}"/>
-													<DataGridTextColumn Header="参数" Width="100" Binding="{Binding Argument}"/>
-													<DataGridTextColumn Header="开始时间" Width="70" Binding="{Binding StartTime}"/>
-													<DataGridTextColumn Header="耗时（ms）" Width="70" Binding="{Binding TimeCost}"/>
-													<DataGridTextColumn Header="限制（ms）" Width="70" Binding="{Binding Timeout}"/>
-
-													<DataGridTemplateColumn Width="80">
-														<DataGridTemplateColumn.HeaderTemplate>
-															<DataTemplate>
-																<TextBlock Text="状态" />
-															</DataTemplate>
-														</DataGridTemplateColumn.HeaderTemplate>
-														<DataGridTemplateColumn.CellTemplate>
-															<DataTemplate>
-																<TextBlock Text="{Binding Status}"/>
-															</DataTemplate>
-														</DataGridTemplateColumn.CellTemplate>
-													</DataGridTemplateColumn>
-													<DataGridTemplateColumn Width="*" >
-														<DataGridTemplateColumn.HeaderTemplate>
-															<DataTemplate>
-																<TextBlock Text="结果" />
-															</DataTemplate>
-														</DataGridTemplateColumn.HeaderTemplate>
-														<DataGridTemplateColumn.CellTemplate>
-															<DataTemplate>
-																<TextBlock Text="{Binding Output}" />
-															</DataTemplate>
-														</DataGridTemplateColumn.CellTemplate>
-													</DataGridTemplateColumn>
-													<DataGridTemplateColumn Width="*" >
-														<DataGridTemplateColumn.HeaderTemplate>
-															<DataTemplate>
-																<TextBlock Text="错误" />
-															</DataTemplate>
-														</DataGridTemplateColumn.HeaderTemplate>
-														<DataGridTemplateColumn.CellTemplate>
-															<DataTemplate>
-																<TextBlock Text="{Binding Error}" />
-															</DataTemplate>
-														</DataGridTemplateColumn.CellTemplate>
-													</DataGridTemplateColumn>
-												</DataGrid.Columns>
-
-											</DataGrid>
-										</GroupBox>
-									</Grid>
-								</TabItem>
-							</TabControl>
-
-							<GridSplitter Grid.Row="1" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-							</GridSplitter>
-
-							<GroupBox Grid.Row="2" Header="显示"   BorderThickness="2" Margin="5,5,0,5">
-
-								<Border  BorderThickness="1" Margin="5" CornerRadius="0">
-									<Grid>
-										<Grid.ColumnDefinitions>
-											<ColumnDefinition Width="Auto" MinWidth="100"/>
-											<ColumnDefinition Width="2*"/>
-										</Grid.ColumnDefinitions>
-										<DockPanel x:Name="DisplayOptionArea" Grid.Column="0">
-											<Button Content="Clear" VerticalAlignment="Top" Click="Button_Click" Height="20" DockPanel.Dock="Top" Width="70" />
-											<ListBox Name="filterListBox" ItemsSource="{Binding}" SelectionMode="Multiple" SelectionChanged="lb_SelectionChanged" Width="auto" Height="auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
-										</DockPanel>
-										<DataGrid x:Name="LogGrid" Grid.Column="1"  ItemsSource="{Binding}" AutoGenerateColumns="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
-											<DataGrid.Columns>
-												<DataGridTextColumn Binding="{Binding Date, StringFormat=\{0:HH:mm:ss\}}"  Header="时间" IsReadOnly="True"/>
-												<DataGridTemplateColumn>
-													<DataGridTemplateColumn.HeaderTemplate>
-														<DataTemplate>
-															<TextBlock Text="消息" />
-														</DataTemplate>
-													</DataGridTemplateColumn.HeaderTemplate>
-													<DataGridTemplateColumn.CellTemplate>
-														<DataTemplate>
-															<TextBlock Text="{Binding Message}">
-																<TextBlock.ToolTip>
-																	<TextBlock Text="{Binding Message}"></TextBlock>
-																</TextBlock.ToolTip>
-																</TextBlock>
-														</DataTemplate>
-													</DataGridTemplateColumn.CellTemplate>
-												</DataGridTemplateColumn>
-												<DataGridTextColumn Binding="{Binding Level}" Header="级别" IsReadOnly="True" Visibility="Hidden"/>
-											</DataGrid.Columns>
-										</DataGrid>
-									</Grid>
-								</Border>
-							</GroupBox>
-						</Grid>
-					</Border>
+						</DataGrid>
+					</GroupBox>
 				</Grid>
 
-				<Border  Grid.Row="1"  Margin="2,0"  BorderThickness="2" >
-					<Grid x:Name="quickExec_Grid">
-						<TextBox x:Name="quickExec_Textbox"  
-								 HorizontalAlignment="Stretch" 
-								 VerticalAlignment="Bottom"
-								 Height="25"
-								 FontSize="14"
-								 FontFamily="Trebuchet MS" 
-								 Margin="1,0,1,8" >
-						</TextBox>
-					</Grid>
-				</Border>
+				<GridSplitter Grid.Row="1" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+				</GridSplitter>
 
+				<GroupBox Grid.Row="2" Header="显示"   BorderThickness="2" Margin="5,5,0,5">
+
+					<Border  BorderThickness="1" Margin="5" CornerRadius="0">
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" MinWidth="100"/>
+								<ColumnDefinition Width="2*"/>
+							</Grid.ColumnDefinitions>
+							<DockPanel x:Name="DisplayOptionArea" Grid.Column="0">
+								<Button Content="Clear" VerticalAlignment="Top" Click="Button_Click" Height="20" DockPanel.Dock="Top" Width="70" />
+								<ListBox Name="filterListBox" ItemsSource="{Binding}" SelectionMode="Multiple" SelectionChanged="lb_SelectionChanged" Width="auto" Height="auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+							</DockPanel>
+							<DataGrid x:Name="LogGrid" Grid.Column="1"  ItemsSource="{Binding}" AutoGenerateColumns="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+								<DataGrid.Columns>
+									<DataGridTextColumn Binding="{Binding Date, StringFormat=\{0:HH:mm:ss\}}"  Header="时间" IsReadOnly="True"/>
+									<DataGridTemplateColumn>
+										<DataGridTemplateColumn.HeaderTemplate>
+											<DataTemplate>
+												<TextBlock Text="消息" />
+											</DataTemplate>
+										</DataGridTemplateColumn.HeaderTemplate>
+										<DataGridTemplateColumn.CellTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding Message}">
+													<TextBlock.ToolTip>
+														<TextBlock Text="{Binding Message}"></TextBlock>
+													</TextBlock.ToolTip>
+																</TextBlock>
+											</DataTemplate>
+										</DataGridTemplateColumn.CellTemplate>
+									</DataGridTemplateColumn>
+									<DataGridTextColumn Binding="{Binding Level}" Header="级别" IsReadOnly="True" Visibility="Hidden"/>
+								</DataGrid.Columns>
+							</DataGrid>
+						</Grid>
+					</Border>
+				</GroupBox>
 			</Grid>
-		</Border>
+
+
+		</Grid>
 		<Grid Grid.Row="2" >
 			<TextBlock x:Name="status_TextBlock" Text="{Binding}" Foreground="White" Margin="12,0">
 			</TextBlock>

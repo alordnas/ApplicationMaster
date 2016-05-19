@@ -9,7 +9,7 @@ using Casamia.Model;
 
 namespace Casamia.ViewModel
 {
-	public class WorkSpaceWindowViewModel : ViewModelBase
+	public class WorkSpaceCollectionViewModel : ViewModelBase
 	{
 		#region Variable
 
@@ -44,9 +44,9 @@ namespace Casamia.ViewModel
 		{
 			get
 			{
-				if (null == currentWorkSpaceViewModel && workSpaces.Count > 0) 
+				if (null == currentWorkSpaceViewModel && WorkSpaces.Count > 0) 
 				{
-					currentWorkSpaceViewModel = workSpaces[0];
+					currentWorkSpaceViewModel = WorkSpaces[0];
 				}
 				return currentWorkSpaceViewModel;
 			}
@@ -82,7 +82,7 @@ namespace Casamia.ViewModel
 						WorkSpaceManager.Instance.Add(workSpace);
 						WorkSpaceViewModel workSpaceViewModel = new WorkSpaceViewModel(workSpace);
 						CurrentWorkSpace = workSpaceViewModel;
-						workSpaces.Add(workSpaceViewModel);
+						WorkSpaces.Add(workSpaceViewModel);
 					});
 				}
 				return addWorkSpaceCommand;
@@ -98,10 +98,10 @@ namespace Casamia.ViewModel
 					removeWorkSpaceCommand = new RelayCommand((p) =>
 					{
 						WorkSpaceManager.Instance.Remove(currentWorkSpaceViewModel.WorkSpace);
-						workSpaces.Remove(currentWorkSpaceViewModel);
-						if(workSpaces.Count>0)
+						WorkSpaces.Remove(currentWorkSpaceViewModel);
+						if (WorkSpaces.Count > 0)
 						{
-							CurrentWorkSpace = workSpaces[0];
+							CurrentWorkSpace = WorkSpaces[0];
 						}
 					},
 					(p) => null != currentWorkSpaceViewModel

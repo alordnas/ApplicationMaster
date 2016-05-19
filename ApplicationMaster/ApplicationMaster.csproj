@@ -91,6 +91,7 @@
     </ApplicationDefinition>
     <Content Include="workspace.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Compile Include="CommandEditor.xaml.cs">
       <DependentUpon>CommandEditor.xaml</DependentUpon>
@@ -123,7 +124,6 @@
     <Compile Include="Model\WorkSpace.cs" />
     <Compile Include="MyFacility\MyConsole.cs" />
     <Compile Include="MyFacility\MyHotkeys.cs" />
-    <Compile Include="MyFacility\MyLog.cs" />
     <Compile Include="Core\Creator.cs" />
     <Compile Include="Core\TaskWorker.cs">
       <SubType>Component</SubType>
@@ -141,10 +141,10 @@
     <Compile Include="ViewModel\AnTaskViewModel.cs" />
     <Compile Include="ViewModel\CommandViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
-    <Compile Include="ViewModel\TaskManageViewModel.cs" />
+    <Compile Include="ViewModel\TaskCollectionViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\WorkSpaceViewModel.cs" />
-    <Compile Include="ViewModel\WorkSpaceWindowViewModel.cs" />
+    <Compile Include="ViewModel\WorkSpaceCollectionViewModel.cs" />
     <Compile Include="WorkspaceWindow.xaml.cs">
       <DependentUpon>WorkspaceWindow.xaml</DependentUpon>
     </Compile>
@@ -162,7 +162,6 @@
     <Compile Include="DataSource\TreeNode.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="Watcher.cs" />
-    <Compile Include="Win32.cs" />
     <Page Include="CommandEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

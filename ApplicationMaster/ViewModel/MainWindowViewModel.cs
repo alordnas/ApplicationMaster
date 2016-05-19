@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using System.Windows.Input;
 using Casamia.Core;
 using Casamia.Model;
 
@@ -13,9 +11,12 @@ namespace Casamia.ViewModel
 		#region Variable
 
 		private ObservableCollection<AnTaskViewModel> activeTasks;
-		private ObservableCollection<AnTaskViewModel> protoTasks;
-		private ObservableCollection<WorkSpaceViewModel> workSpaces;
 		private AnTaskViewModel selectedActiveTask;
+		private TaskCollectionViewModel taskCollectionViewModel;
+		private WorkSpaceCollectionViewModel workSpaceCollectionViewModel;
+
+		private RelayCommand _executeProtoTaskCommand;
+		private RelayCommand _switchWorkSpaceCommand;
 
 		#endregion // Variable
 
@@ -39,6 +40,30 @@ namespace Casamia.ViewModel
 
 		#region Custom Properties
 
+		public WorkSpaceCollectionViewModel WorkSpaceCollectionViewModel
+		{
+			get
+			{
+				if (null == workSpaceCollectionViewModel)
+				{
+					workSpaceCollectionViewModel = new WorkSpaceCollectionViewModel();
+				}
+				return workSpaceCollectionViewModel;
+			}
+		}
+
+		public TaskCollectionViewModel TaskCollectionViewModel
+		{
+			get
+			{
+				if(null == taskCollectionViewModel)
+				{
+					taskCollectionViewModel = new TaskCollectionViewModel();
+				}
+				return taskCollectionViewModel;
+			}
+		}
+
 		public AnTaskViewModel SelectedActiveTask
 		{
 			get
@@ -49,34 +74,13 @@ namespace Casamia.ViewModel
 				}
 				return selectedActiveTask;
 			}
-		}
-
-		public ObservableCollection<WorkSpaceViewModel> WorkSpaces
-		{
-			get
+			set
 			{
-				if(null == workSpaces)
+				if (selectedActiveTask != value)
 				{
-					workSpaces = new ObservableCollection<WorkSpaceViewModel>();
+					selectedActiveTask = value;
+					OnPropertyChanged("SelectedActiveTask");
 				}
-				return workSpaces;
-			}
-		}
-
-		public ObservableCollection<AnTaskViewModel> ProtoTasks
-		{
-			get
-			{
-				if (null == protoTasks)
-				{
-					protoTasks = new ObservableCollection<AnTaskViewModel>();
-					AnTask[] tasks = TaskManager.ProtoTasks;
-					foreach (var anTask in tasks)
-					{
-						protoTasks.Add(new AnTaskViewModel(anTask));
-					}
-				}
-				return protoTasks;
 			}
 		}
 
@@ -94,5 +98,76 @@ namespace Casamia.ViewModel
 
 		#endregion // Custom Properties
 
+		#region Presentation
+
+		public ICommand SwitchWorkSpaceCommand
+		{
+			get
+			{
+				if(null == _switchWorkSpaceCommand)
+				{
+					_switchWorkSpaceCommand = new RelayCommand(
+						(p)=>
+						{
+							System.Console.WriteLine(p);
+						},
+						(p) => false
+						);
+				}
+				return _switchWorkSpaceCommand;
+			}
+		}
+
+		public ICommand ExecuteProtoTaskCommmand
+		{
+			get
+			{
+				if (null == _executeProtoTaskCommand)
+				{
+					_executeProtoTaskCommand = new RelayCommand(
+						(p) =>
+						{
+							System.Diagnostics.Debug.Print(p.ToString());
+						},
+						(p) => false
+						);
+				}
+				return _executeProtoTaskCommand;
+			}
+		}
+
+		#endregion // Presentation
+
+		#region Properties
+
+		public override string DisplayName
+		{
+			get
+			{
+				return "this is the main";
+			}
+			protected set
+			{
+				base.DisplayName = value;
+			}
+		}
+
+		#endregion // Properties
+
+		#region RequestClose [event]
+
+		/// <summary>
+		/// Raised when this workspace should be removed from the UI.
+		/// </summary>
+		public event EventHandler RequestClose;
+
+		void OnRequestClose()
+		{
+			EventHandler handler = this.RequestClose;
+			if (handler != null)
+				handler(this, EventArgs.Empty);
+		}
+
+		#endregion // RequestClose [event]
 	}
 }

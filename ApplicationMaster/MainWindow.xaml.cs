@@ -25,15 +25,11 @@ namespace Casamia
 	public partial class MainWindow : Window
 	{
 		public readonly int cornerWidth = 8;
-		public Point mousePoint = new Point();
 		public readonly int customBorderThickness = 7;
 
 		private delegate void BuildTreeDelegate(TreeNode childTree);
-		private ObservableCollection<AnTask> activeTask = new ObservableCollection<AnTask>();
 
 		List<string> commands = new List<string>();
-		private ObservableCollection<AnTask> activeTasks = new ObservableCollection<AnTask>();
-
 		public TreeNode selectedNode = null;
 
 		public MainWindow()
@@ -43,20 +39,11 @@ namespace Casamia
 				InitializeComponent();
 
 				LogManager.Instance.SetLogger(new MyConsole(LogGrid));
-				LogManager.Instance.AllowLevel = Log.level.Error | Log.level.Infomation | Log.level.Waring;
-
-				this.SourceInitialized += MainWindow_SourceInitialized;
-				filterListBox.ItemsSource = Enum.GetValues(typeof(Casamia.Logging.Log.level));
-				MyLog.Initialize();
-
-				task_DataGrid.ItemsSource = activeTasks;
-				TaskManager.ActivateTask += (AnTask anTask) =>
-				{
-					this.Dispatcher.BeginInvoke(new Action(() =>
-					{
-						activeTasks.Add(anTask);
-					}));
-				};
+				LogManager.Instance.AllowLevel =
+					Log.level.Error 
+					| Log.level.Infomation 
+					| Log.level.Waring;
+				filterListBox.ItemsSource = Enum.GetValues(typeof(Log.level));
 				RefreshWholeTree();
 			}
 			catch (Exception e)
@@ -297,79 +284,8 @@ namespace Casamia
 
 		}
 
-
-		void MainWindow_SourceInitialized(object sender, EventArgs e)
-		{
-			HwndSource source = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
-			if (source == null)
-				// Should never be null  
-				throw new Exception("Cannot get HwndSource instance.");
-
-			source.AddHook(new HwndSourceHook(this.WndProc));
-		}
-		private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
-		{
-			switch (msg)
-			{
-				case Win32.WM_GETMINMAXINFO: // WM_GETMINMAXINFO message  
-					Win32.WmGetMinMaxInfo(hwnd, lParam, this);
-					handled = true;
-					break;
-				case Win32.WM_NCHITTEST: // WM_NCHITTEST message  
-					IntPtr intPtr = Win32.WmNCHitTest(lParam, ref handled, this);
-					return intPtr;
-			}
-			return IntPtr.Zero;
-		}
-
 		#endregion
 
-		private void Window_KeyDown(object sender, KeyEventArgs e)
-		{
-			if (e.Key == Key.Enter)
-			{
-				if (!string.IsNullOrEmpty(quickExec_Textbox.Text))
-				{
-					commands.Add(quickExec_Textbox.Text);
-
-					string[] projectPaths = TreeHelper.GetTreeNodePaths(TreeHelper.GetSelectedProjects(TreeNode.Root));
-
-					CommonTask.RunCommand(quickExec_Textbox.Text, projectPaths);
-				}
-			}
-
-			if ((e.KeyboardDevice.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
-			{
-				MyHotkeys.OnCtrlKeyDown(e.Key);
-			}
-
-		}
-		private void Window_KeyUp(object sender, KeyEventArgs e)
-		{
-			if (e.Key == Key.Up)
-			{
-				if (!string.IsNullOrEmpty(quickExec_Textbox.Text))
-				{
-					int index = commands.IndexOf(quickExec_Textbox.Text);
-					if (0 < index)
-					{
-						quickExec_Textbox.Text = commands[index - 1];
-					}
-				}
-			}
-			if (e.Key == Key.Down)
-			{
-				if (!string.IsNullOrEmpty(quickExec_Textbox.Text))
-				{
-					int index = commands.IndexOf(quickExec_Textbox.Text);
-
-					if (0 <= index && index < commands.Count - 1)
-					{
-						quickExec_Textbox.Text = commands[index + 1];
-					}
-				}
-			}
-		}
 
 		private void openDir_MenuItem_Click(object sender, RoutedEventArgs e)
 		{
@@ -451,12 +367,7 @@ namespace Casamia
 				RefreshWholeTree();
 			}
 		}
-
-		private void log_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			MyLog.ChangeLogText(log_ComboBox.SelectedValue.ToString());
-		}
-
+		
 		private ContextMenu GetContextMenu_Level_Svn()
 		{
 			ContextMenu parent = new ContextMenu();
@@ -617,15 +528,19 @@ namespace Casamia
 			MenuItem button = sender as MenuItem;
 			if (null != button)
 			{
-				WorkSpaceManager.Instance.SetCurrent(button.Header as string);
+				WorkSpaceViewModel workSpaceViewModel = button.Header as WorkSpaceViewModel;
+				if (null != workSpaceViewModel)
+				{
+					WorkSpaceManager.Instance.SetCurrent(workSpaceViewModel.WorkSpace);
 
-				if (WorkSpaceManager.Instance.IsLocal)
-				{
-					RefreshWholeTree();
-				}
-				else
-				{
-					SvnMenu.OpenSvn();
+					if (WorkSpaceManager.Instance.IsLocal)
+					{
+						RefreshWholeTree();
+					}
+					else
+					{
+						SvnMenu.OpenSvn();
+					}
 				}
 			}
 		}
@@ -715,9 +630,13 @@ namespace Casamia
 
 		private void preference_MenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			var window = new WorkspaceWindow();
-			window.DataContext = new WorkSpaceWindowViewModel();
-			window.ShowDialog();
+			MainWindowViewModel mainWindowViewModel = this.DataContext as MainWindowViewModel;
+			if (null != mainWindowViewModel)
+			{
+				WorkspaceWindow window = new WorkspaceWindow();
+				window.DataContext = mainWindowViewModel.WorkSpaceCollectionViewModel;
+				window.ShowDialog();
+			}
 		}
 
 		private void executors_MenuItem_Click(object sender, RoutedEventArgs e)
@@ -727,10 +646,13 @@ namespace Casamia
 
 		private void taskManager_MenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			TaskManageWindow window = new TaskManageWindow();
-
-			window.DataContext = new Casamia.ViewModel.TaskManageViewModel();
-			window.ShowDialog();
+			MainWindowViewModel mainWindowViewModel = this.DataContext as MainWindowViewModel;
+			if(null != mainWindowViewModel)
+			{
+				TaskManageWindow window = new TaskManageWindow();
+				window.DataContext = mainWindowViewModel.TaskCollectionViewModel;
+				window.ShowDialog();
+			}
 		}
 
 		private void checkout_MenuItem_Click(object sender, RoutedEventArgs e)
@@ -772,32 +694,6 @@ namespace Casamia
 				stopTask_Button.IsEnabled = false;
 				redoTask_Button.IsEnabled = false;
 				parallel_Button.IsEnabled = false;
-			}
-		}
-
-
-		private void taskLog_DataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
-		{
-			DataGrid taskDataGrid = sender as DataGrid;
-
-			var selectedCells = taskDataGrid.SelectedCells;
-
-			if (selectedCells != null && 0 < selectedCells.Count)
-			{
-				if (selectedCells[0].Item != null && selectedCells[0].Item is AnTask)
-				{
-					AnTask item = selectedCells[0].Item as AnTask;
-
-					subTaskLog_DataGrid.ItemsSource = item.Commands;
-				}
-				else
-				{
-					subTaskLog_DataGrid.DataContext = null;
-				}
-			}
-			else
-			{
-				subTaskLog_DataGrid.DataContext = null;
 			}
 		}
 
