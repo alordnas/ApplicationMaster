@@ -52,9 +52,10 @@ namespace Casamia.ViewModel
 			}
 			set
 			{
-				if(value!= currentWorkSpaceViewModel)
+				if (value != currentWorkSpaceViewModel && null != value)
 				{
 					currentWorkSpaceViewModel = value;
+					WorkSpaceManager.Instance.SetCurrent(currentWorkSpaceViewModel.WorkSpace);
 					OnPropertyChanged("CurrentWorkSpace");
 				}
 			}

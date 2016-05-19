@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace Casamia.Core
 {
-	public class WorkSpaceManager : INotifyPropertyChanged
+	public class WorkSpaceManager
 	{
 		#region VARIABLE
 
@@ -25,8 +25,6 @@ namespace Casamia.Core
 		#endregion VARIABLE
 
 		#region PROPERTIES
-
-		public event PropertyChangedEventHandler PropertyChanged;
 
 		public static WorkSpaceManager Instance
 		{
@@ -47,8 +45,6 @@ namespace Casamia.Core
 				if (isLocal != value)
 				{
 					isLocal = value;
-					FireChanged("WorkingPath");
-					FireChanged("WorkSpace");
 				}
 			}
 		}
@@ -58,14 +54,6 @@ namespace Casamia.Core
 			get
 			{
 				return IsLocal ? Current.LocalUrl : Current.Url;
-			}
-		}
-
-		public string WorkSpace
-		{
-			get
-			{
-				return string.Format("{0} - {1}", Current.Name, isLocal ? "Local" : "SVN");
 			}
 		}
 
@@ -98,9 +86,6 @@ namespace Casamia.Core
 					workSpaces.Remove(current);
 					workSpaces.Insert(0, current);
 					Save();
-					
-					FireChanged("WorkSpace");
-					FireChanged("WorkingPath");
 				}
 			}
 		}
@@ -182,14 +167,6 @@ namespace Casamia.Core
 			if (null == workSpaces)
 			{
 				workSpaces = new List<WorkSpace>();
-			}
-		}
-
-		void FireChanged(string name)
-		{
-			if (null != PropertyChanged)
-			{
-				PropertyChanged(this, new PropertyChangedEventArgs(name));
 			}
 		}
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Casamia.Core;
@@ -107,11 +108,18 @@ namespace Casamia.ViewModel
 				if(null == _switchWorkSpaceCommand)
 				{
 					_switchWorkSpaceCommand = new RelayCommand(
-						(p)=>
+						(p) =>
 						{
-							System.Console.WriteLine(p);
+							WorkSpaceViewModel workSpace = p as WorkSpaceViewModel;
+							if (null != workSpace && WorkSpaceCollectionViewModel.CurrentWorkSpace != workSpace)
+							{
+								WorkSpaceCollectionViewModel.CurrentWorkSpace = workSpace;
+							}
 						},
-						(p) => false
+						(p) =>
+						{
+							return WorkSpaceCollectionViewModel.WorkSpaces.Count > 0;
+						}
 						);
 				}
 				return _switchWorkSpaceCommand;
@@ -127,9 +135,15 @@ namespace Casamia.ViewModel
 					_executeProtoTaskCommand = new RelayCommand(
 						(p) =>
 						{
-							System.Diagnostics.Debug.Print(p.ToString());
-						},
-						(p) => false
+							AnTaskViewModel taskViewModel = p as AnTaskViewModel;
+							if (null != taskViewModel)
+							{
+								string[] projectPaths = null;
+								List<TreeNode> nodes = TreeHelper.GetSelectedProjects(TreeNode.Root);
+								projectPaths = TreeHelper.GetTreeNodePaths(nodes);
+								CommonTask.RunTask(taskViewModel.Task, projectPaths);
+							}
+						}
 						);
 				}
 				return _executeProtoTaskCommand;

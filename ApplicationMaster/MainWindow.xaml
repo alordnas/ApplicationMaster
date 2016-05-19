@@ -16,7 +16,7 @@
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="MainformResource.xaml"></ResourceDictionary>
 			</ResourceDictionary.MergedDictionaries>
-
+			
 			<MenuItem x:Key="createProject_MenuItem" Header="创建新项目"  x:Name="creatProject_MenuItem" Click="createUnity_MenuItem_Click">
 				<MenuItem.Icon>
 					<Image Width="20" Height="20"/>
@@ -84,9 +84,13 @@
 			<casamiaConvert:EnumDescriptionConverter x:Key="enumDescriptionConverter" />
 			<casamiaConvert:ProgressConverter x:Key="progressConverter" />
 			<casamiaConvert:DebugConverter x:Key="debugConverter" />
+			
+			
 		</ResourceDictionary>
+		
 	</Window.Resources>
 
+	
 	<Grid >
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" MinHeight="20"/>
@@ -95,30 +99,20 @@
 		</Grid.RowDefinitions>
 
 		<Menu Grid.Row="0" >
-			<MenuItem x:Name="dir_MenuItem" Header="工作集" ItemsSource="{Binding Path=WorkSpaceCollectionViewModel.WorkSpaces }">
-				<!--<MenuItem.ItemTemplate>
-					<DataTemplate>
-						<TextBlock Text="{Binding Path=Name}"></TextBlock>
-					</DataTemplate>
-				</MenuItem.ItemTemplate>-->
-				<!--<MenuItem.ItemsSource>
-					<CompositeCollection>
-						<MenuItem x:Name="preference_MenuItem" Header="设定"  Click="preference_MenuItem_Click"/>
-						<Separator></Separator>
-						<CollectionContainer Collection="{Binding Path=WorkSpaceCollectionViewModel.WorkSpaces, Converter={StaticResource debugConverter}}" />
-					</CompositeCollection>
-				</MenuItem.ItemsSource>-->
+			<MenuItem Header="工作集" ItemsSource="{Binding Path=WorkSpaceCollectionViewModel.WorkSpaces }">
 				<MenuItem.ItemContainerStyle>
 					<Style TargetType="MenuItem">
-						<Setter Property="MenuItem.Header" Value="{Binding Path=Name, Converter={StaticResource debugConverter}}"/>
-						<Setter Property="Command" Value="{Binding Path=SwitchWorkSpaceCommand}" />
-						<!--<EventSetter Event="Click" Handler="OnWorkspaceClick"></EventSetter>-->
+						<Setter Property="MenuItem.Header" Value="{Binding Path=Name}"/>
+						<Setter Property="Command" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=MenuItem}, Path=DataContext.SwitchWorkSpaceCommand}" />
+						<Setter Property="CommandParameter" Value="{Binding}" />
 					</Style>
 				</MenuItem.ItemContainerStyle>
 			</MenuItem>
 			<MenuItem x:Name="edit_MenuItem" Header="编辑" >
 				<MenuItem  x:Name="openDir_MenuItem" Header ="更改..."  Click="openDir_MenuItem_Click"/>
-				<MenuItem Header="程序设定"  Click="executors_MenuItem_Click"/>
+				<MenuItem Header="程序编辑"  Click="executors_MenuItem_Click"/>
+				<MenuItem Header="工作集编辑"  Click="preference_MenuItem_Click"/>
+				<MenuItem Header="任务编辑" Click="taskManager_MenuItem_Click"/>
 				<Separator></Separator>
 				<MenuItem x:Name="selectAll_MenuItem" Header="全选(Ctrl + A)"  Click="selectAll_MenuItem_Click"/>
 				<MenuItem x:Name="selectNone_MenuItem" Header="撤选(Ctrl + N)"  Click="selectNone_MenuItem_Click"/>
@@ -141,19 +135,12 @@
 				<MenuItem x:Name="checkout_MenuItem" Header="检出选中"  Click="checkout_MenuItem_Click"/>
 			</MenuItem>
 
-			<MenuItem x:Name="task_MenuItem" Header="任务" ItemsSource="{Binding Path=TaskCollectionViewModel.ProtoTasks}">
-				<!--<MenuItem.ItemsSource>
-					<CompositeCollection>
-						<MenuItem x:Name="taskManager_MenuItem" Header="管理..." Click="taskManager_MenuItem_Click"/>
-						<CollectionContainer Collection="{Binding Path=TaskCollectionViewModel.ProtoTasks}" />
-					</CompositeCollection>
-				</MenuItem.ItemsSource>-->
+			<MenuItem Header="任务" ItemsSource="{Binding Path=TaskCollectionViewModel.ProtoTasks}">
 				<MenuItem.ItemContainerStyle>
 					<Style TargetType="MenuItem">
 						<Setter Property="MenuItem.Header" Value="{Binding Path=Name}"/>
-						<!--<EventSetter Event="Click" Handler="OnProtoTaskClick"></EventSetter>-->
-						<Setter Property="Command" Value="{Binding Path=ExecuteProtoTaskCommmand}" />
-						<Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}"></Setter>
+						<Setter Property="Command" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=MenuItem}, Path=DataContext.ExecuteProtoTaskCommmand}" />
+						<Setter Property="CommandParameter" Value="{Binding}" />
 					</Style>
 				</MenuItem.ItemContainerStyle>
 			</MenuItem>
@@ -208,13 +195,8 @@
 													  PreviewMouseDown="CheckBox_PreviewMouseDown"
 													  Checked="CheckBox_Checked" 
 													  Unchecked="CheckBox_Unchecked" >
-										<StackPanel x:Name ="item_StackPanel" 
-															Orientation="Horizontal" 
-															MouseLeftButtonDown="item_StackPanel_MouseLeftButtonDown">
-											<Image VerticalAlignment="Center" 
-														   Height="20" 
-														   Width="20"
-														   Source="{Binding icon}"/>
+										<StackPanel x:Name ="item_StackPanel" Orientation="Horizontal" MouseLeftButtonDown="item_StackPanel_MouseLeftButtonDown">
+											<Image VerticalAlignment="Center" Height="20" Width="20" Source="{Binding icon}"/>
 											<TextBlock x:Name="fileName_TextBlock" Text="{Binding fileName}" Margin="0,-2,0,-2" ></TextBlock>
 										</StackPanel>
 									</CheckBox>
