@@ -111,7 +111,7 @@ namespace Casamia.ViewModel
 			set
 			{
 				if (executor != value
-					&& (null == executor || !string.Equals(executor.PlaceHolder, _command.Executor)))
+					&& (null == executor || !string.Equals(executor.PlaceHolder, value.PlaceHolder)))
 				{
 					executor = value;
 					_command.Executor = executor.PlaceHolder;
