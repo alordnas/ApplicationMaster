@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
 using Casamia.Model;
+using Casamia.ViewModel;
 
 namespace Casamia.Converter
 {
@@ -13,14 +15,14 @@ namespace Casamia.Converter
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
 
-			Command[] commands = value as Command[];
-			if (null == commands || commands.Length == 0)
+			ObservableCollection<CommandViewModel> commands = value as ObservableCollection<CommandViewModel>;
+			if (null == commands || commands.Count == 0)
 			{
 				return "Error";
 			}
 			else
 			{
-				int length = commands.Length - 1;
+				int length = commands.Count - 1;
 				for (; 0 <= length; length--)
 				{
 					if (commands[length].Status != CommandStatus.Waiting)
@@ -28,7 +30,7 @@ namespace Casamia.Converter
 						break;
 					}
 				}
-				return string.Format("{0}/{1}", length + 1, commands.Length);
+				return string.Format("{0}/{1}", length + 1, commands.Count);
 			}
 		}
 

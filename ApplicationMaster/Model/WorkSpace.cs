@@ -2,19 +2,8 @@
 
 namespace Casamia.Model
 {
-	public class WorkSpace 
+	public class WorkSpace
 	{
-		#region VARIABLE
-
-		private string url;
-		private string localUrl;
-		private string name;
-		private int urlDepth;
-		private string ext;
-		private string description;
-		
-		#endregion VARIABLE
-
 		#region PROPERTIES
 
 		public AnTask CreateProjectTask
@@ -66,12 +55,12 @@ namespace Casamia.Model
 		public string ToUrlPath(string path)
 		{
 			path = path.Replace('\\', '/');
-			return path.Replace(localUrl.Replace('\\', '/'), url);
+			return path.Replace(LocalUrl.Replace('\\', '/'), Url);
 		}
 
 		public string ToLocalPath(string path)
 		{
-			return path.Replace(url, localUrl);
+			return path.Replace(Url, LocalUrl);
 		}
 
 		#endregion PUBLIC

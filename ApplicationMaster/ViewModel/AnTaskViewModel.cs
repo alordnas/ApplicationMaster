@@ -246,7 +246,7 @@ namespace Casamia.ViewModel
 			}
 
 			int count = commands.Length;
-			for (int i = count - 1; i > 0; i--)
+			for (int i = count - 1; i >= 0; i--)
 			{
 				if (commands[i].Status != CommandStatus.Waiting)
 				{
@@ -273,6 +273,8 @@ namespace Casamia.ViewModel
 			{
 				status = newStatus;
 				OnPropertyChanged("Status");
+				duration = DateTime.Now - startTime;
+				OnPropertyChanged("Duration");
 			}
 		}
 

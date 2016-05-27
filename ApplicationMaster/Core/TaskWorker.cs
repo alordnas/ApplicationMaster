@@ -9,249 +9,249 @@ using Casamia.Logging;
 
 namespace Casamia.Core
 {
-    public class TaskWorker : BackgroundWorker
-    {
-        Queue<AnTask> groupTasks = new Queue<AnTask>();
+	public class TaskWorker : BackgroundWorker
+	{
+		Queue<AnTask> groupTasks = new Queue<AnTask>();
 
-        List<AnTask> disabled = new List<AnTask>();
+		List<AnTask> disabled = new List<AnTask>();
 
-        public Action OnCompleteAll;
+		public Action OnCompleteAll;
 
-        public bool anyTask
-        {
-            get
-            {
-                return 0 < groupTasks.Count;
-            }
-        }
+		public bool anyTask
+		{
+			get
+			{
+				return 0 < groupTasks.Count;
+			}
+		}
 
-        private bool isActive
-        {
-            get
-            {
-                return !string.IsNullOrEmpty(_taskName);
-            }
-        }
+		private bool isActive
+		{
+			get
+			{
+				return !string.IsNullOrEmpty(_taskName);
+			}
+		}
 
-        private string _taskName;
+		private string _taskName;
 
-        public TaskWorker(string taskName)
-        {
-            _taskName = taskName;
-            WorkerReportsProgress = true;
-            WorkerSupportsCancellation = true;
-            DoWork += TaskWorker_DoWork;
-            RunWorkerCompleted += TaskWorker_RunWorkerCompleted;
-            ProgressChanged += TaskWorker_ProgressChanged;
-        }
+		public TaskWorker(string taskName)
+		{
+			_taskName = taskName;
+			WorkerReportsProgress = true;
+			WorkerSupportsCancellation = true;
+			DoWork += TaskWorker_DoWork;
+			RunWorkerCompleted += TaskWorker_RunWorkerCompleted;
+			ProgressChanged += TaskWorker_ProgressChanged;
+		}
 
-        public void AddTasks(IEnumerable<AnTask> anTasks)
-        {
-            foreach (var anTask in anTasks)
-            {
-                AddTask(anTask);
-            }
-        }
+		public void AddTasks(IEnumerable<AnTask> anTasks)
+		{
+			foreach (var anTask in anTasks)
+			{
+				AddTask(anTask);
+			}
+		}
 
-        AnTask activeTask;
+		AnTask activeTask;
 
-        public void AddTask(AnTask anTask)
-        {
-            if (anTask != null)
-            {
-                groupTasks.Enqueue(anTask);
+		public void AddTask(AnTask anTask)
+		{
+			if (anTask != null)
+			{
+				groupTasks.Enqueue(anTask);
 
-                if (isActive)
-                {
-                    anTask.Name = _taskName;
-                    TaskManager.AddActiveTask(anTask, this);
-                }
-            }
-        }
+				if (isActive)
+				{
+					anTask.Name = _taskName;
+					TaskManager.AddActiveTask(anTask, this);
+				}
+			}
+		}
 
-        public void RemoveTask(AnTask anTask)
-        {
-            disabled.Add(anTask);
-        }
-
-
-        public void Run()
-        {
-
-            RunWorkerAsync();
-        }
+		public void RemoveTask(AnTask anTask)
+		{
+			disabled.Add(anTask);
+		}
 
 
-        private void TaskWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            LoopTasks();
-        }
+		public void Run()
+		{
 
-        private void TaskWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (OnCompleteAll != null)
-            {
-                OnCompleteAll();
-            }
-        }
+			RunWorkerAsync();
+		}
 
 
-        void TaskWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            Debug.Print("{0} {1} {2}", sender, e.ProgressPercentage, e.UserState);
+		private void TaskWorker_DoWork(object sender, DoWorkEventArgs e)
+		{
+			LoopTasks();
+		}
 
-            if (e.UserState is Command)
-            {
-                Command subTask = e.UserState as Command;
-
-                if (e.ProgressPercentage == -1)
-                {
-                    subTask.Status = CommandStatus.Running;
-                }
-                else if (string.IsNullOrEmpty(subTask.ErrorLog))
-                {
-                    if (e.ProgressPercentage == 0)
-                    {
-                        subTask.Status = CommandStatus.Timeout;
-                    }
-                    else if (e.ProgressPercentage == 1)
-                    {
-                        subTask.Status = CommandStatus.Completed;
-                    }
-                    else if (e.ProgressPercentage == 2)
-                    {
-                        subTask.Status = CommandStatus.Cancel;
-                    }
-                }
-                else
-                {
-                    subTask.Status = CommandStatus.Error;
-
-                }
-            }
-        }
+		private void TaskWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			if (OnCompleteAll != null)
+			{
+				OnCompleteAll();
+			}
+		}
 
 
-        private void LoopTasks()
-        {
-            while (0 < groupTasks.Count)
-            {
-                activeTask = groupTasks.Dequeue();
+		void TaskWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+		{
+			Debug.Print("{0} {1} {2}", sender, e.ProgressPercentage, e.UserState);
 
-                if (disabled.Contains(activeTask))
-                    continue;
+			if (e.UserState is Command)
+			{
+				Command subTask = e.UserState as Command;
 
-                for (int i = 0, length = activeTask.Commands.Length; i < length; i++)
-                {
-                    int commandIdx = i;
-                    Command command = activeTask.Commands[commandIdx];
-                    if (command.Status == CommandStatus.Waiting)
-                    {
-                        command.StatusChanged +=
-                            (object sender, Model.EventArgs.CommandStatusEventArgs e) =>
-                            {
-                                LogManager.Instance.LogInfomation(
-                                    "#{0} #{1} changed .{2}->{3}",
-                                    activeTask.Name,
-                                    commandIdx,
-                                    e.OldStatus,
-                                    e.NewStatus
-                                    );
-                            };
-                        command.CommandFeedbackReceived +=
-                            (object sender, Model.EventArgs.CommandEventArgs e) =>
-                            {
-                                LogManager.Instance.LogDebug(
-                                    "{0} #{1}[{3}] : {2}",
-                                    activeTask.Name,
-                                    commandIdx,
-                                    e.Message,
-                                    e.Status
-                                    );
-                            };
-                        command.ErrorOccur +=
-                            (object sender, Model.EventArgs.CommandEventArgs e) =>
-                            {
-                                LogManager.Instance.LogError(
-                                    "{0} #{1}[{3}] : {2}",
-                                    activeTask.Name,
-                                    commandIdx,
-                                    e.Message,
-                                    e.Status
-                                    );
-                            };
+				if (e.ProgressPercentage == -1)
+				{
+					subTask.Status = CommandStatus.Running;
+				}
+				else if (string.IsNullOrEmpty(subTask.ErrorLog))
+				{
+					if (e.ProgressPercentage == 0)
+					{
+						subTask.Status = CommandStatus.Timeout;
+					}
+					else if (e.ProgressPercentage == 1)
+					{
+						subTask.Status = CommandStatus.Completed;
+					}
+					else if (e.ProgressPercentage == 2)
+					{
+						subTask.Status = CommandStatus.Cancel;
+					}
+				}
+				else
+				{
+					subTask.Status = CommandStatus.Error;
 
-                        ReportProgress(-1, command);
+				}
+			}
+		}
 
-                        bool isTimeout = RunProcess(command);
 
-                        ReportProgress(isTimeout ? 0 : 1, command);
+		private void LoopTasks()
+		{
+			while (0 < groupTasks.Count)
+			{
+				activeTask = groupTasks.Dequeue();
 
-                        if (!string.IsNullOrEmpty(command.ErrorLog))
-                            break;
-                    }
-                    else
-                    {
-                        ReportProgress(2, command);
-                    }
-                }
-                System.Threading.Thread.Sleep(500);
-            }
-        }
+				if (disabled.Contains(activeTask))
+					continue;
 
-        private bool RunProcess(Command command)
-        {
-            Executor executor = ExecutorManager.Instance.GetByPlaceHolder(command.Executor);
-            if (null == executor)
-            {
-                // TODO : logerror
-                return false;
-            }
-            StringBuilder outputDataBuilder = new StringBuilder();
-            Process process = new Process();
-            process.StartInfo.FileName =
-            process.StartInfo.Arguments = command.Argument;
-            process.StartInfo.UseShellExecute = false;
-            process.StartInfo.CreateNoWindow = true;
-            process.StartInfo.RedirectStandardOutput = true;
-            process.StartInfo.RedirectStandardError = true;
-            process.StartInfo.UseShellExecute = false;
-            process.OutputDataReceived +=
-                (object sender, DataReceivedEventArgs e) =>
-                {
-                    if (!string.IsNullOrEmpty(e.Data))
-                    {
-                        command.Output(e.Data);
-                    }
-                };
-            process.ErrorDataReceived +=
-                (object sender, DataReceivedEventArgs e) =>
-                {
-                    if (!string.IsNullOrEmpty(e.Data))
-                    {
-                        command.ErrorLog = e.Data;
-                    }
-                };
+				for (int i = 0, length = activeTask.Commands.Length; i < length; i++)
+				{
+					int commandIdx = i;
+					Command command = activeTask.Commands[commandIdx];
+					if (command.Status == CommandStatus.Waiting)
+					{
+						command.StatusChanged +=
+							(object sender, Model.EventArgs.CommandStatusEventArgs e) =>
+							{
+								LogManager.Instance.LogInfomation(
+									"#{0} #{1} changed .{2}->{3}",
+									activeTask.Name,
+									commandIdx,
+									e.OldStatus,
+									e.NewStatus
+									);
+							};
+						command.CommandFeedbackReceived +=
+							(object sender, Model.EventArgs.CommandEventArgs e) =>
+							{
+								LogManager.Instance.LogDebug(
+									"{0} #{1}[{3}] : {2}",
+									activeTask.Name,
+									commandIdx,
+									e.Message,
+									e.Status
+									);
+							};
+						command.ErrorOccur +=
+							(object sender, Model.EventArgs.CommandEventArgs e) =>
+							{
+								LogManager.Instance.LogError(
+									"{0} #{1}[{3}] : {2}",
+									activeTask.Name,
+									commandIdx,
+									e.Message,
+									e.Status
+									);
+							};
 
-            process.Start();
-            Logging.LogManager.Instance.LogDebug("{0} {1}", command.Executor, command.Argument);
-            process.BeginErrorReadLine();
-            process.BeginOutputReadLine();
+						ReportProgress(-1, command);
 
-            bool isTimeout = false;
-            double actualTimeout = double.MaxValue;
-            //强制等待结束
-            if (command.Timeout.TotalMilliseconds < double.Epsilon)
-            {
-                process.WaitForExit();
-            }
-            else
-            {
-                actualTimeout = Math.Min(command.Timeout.TotalMilliseconds, int.MaxValue);
-                isTimeout = !process.WaitForExit((int)actualTimeout);
-            }
+						bool isTimeout = RunProcess(command);
 
-            return isTimeout;
-        }
-    }
+						ReportProgress(isTimeout ? 0 : 1, command);
+
+						if (!string.IsNullOrEmpty(command.ErrorLog))
+							break;
+					}
+					else
+					{
+						ReportProgress(2, command);
+					}
+				}
+				System.Threading.Thread.Sleep(500);
+			}
+		}
+
+		private bool RunProcess(Command command)
+		{
+			Executor executor = ExecutorManager.Instance.GetByPlaceHolder(command.Executor);
+			if (null == executor)
+			{
+				// TODO : logerror
+				return false;
+			}
+			StringBuilder outputDataBuilder = new StringBuilder();
+			Process process = new Process();
+			process.StartInfo.FileName = executor.Path;
+			process.StartInfo.Arguments = command.Argument;
+			process.StartInfo.UseShellExecute = false;
+			process.StartInfo.CreateNoWindow = true;
+			process.StartInfo.RedirectStandardOutput = true;
+			process.StartInfo.RedirectStandardError = true;
+			process.StartInfo.UseShellExecute = false;
+			process.OutputDataReceived +=
+				(object sender, DataReceivedEventArgs e) =>
+				{
+					if (!string.IsNullOrEmpty(e.Data))
+					{
+						command.Output(e.Data);
+					}
+				};
+			process.ErrorDataReceived +=
+				(object sender, DataReceivedEventArgs e) =>
+				{
+					if (!string.IsNullOrEmpty(e.Data))
+					{
+						command.ErrorLog = e.Data;
+					}
+				};
+
+			process.Start();
+			Logging.LogManager.Instance.LogDebug("{0} {1}", command.Executor, command.Argument);
+			process.BeginErrorReadLine();
+			process.BeginOutputReadLine();
+
+			bool isTimeout = false;
+			double actualTimeout = double.MaxValue;
+			//强制等待结束
+			if (command.Timeout.TotalMilliseconds < double.Epsilon)
+			{
+				process.WaitForExit();
+			}
+			else
+			{
+				actualTimeout = Math.Min(command.Timeout.TotalMilliseconds, int.MaxValue);
+				isTimeout = !process.WaitForExit((int)actualTimeout);
+			}
+
+			return isTimeout;
+		}
+	}
 }
